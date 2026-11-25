@@ -1,78 +1,46 @@
 package aspack
 
 import (
+	"bytes"
 	"io"
 	"os"
+	"path/filepath"
 	"testing"
 )
 
-func TestASPack_Detect(t *testing.T) {
-	type args struct {
-		path string
-	}
-	tests := []struct {
-		name string
-		a    ASPack
-		args args
-		want int
+func TestASPackLayoutAdapters(t *testing.T) {
+	packer := ASPack{}
+	for _, test := range []struct {
+		profile string
+		version int
 	}{
-		{
-			name: "Test ASPack 2.1",
-			a:    ASPack{},
-			args: args{path: "testdata/aspack_test.exe"},
-			want: ASPACK_VER_21, // aspack_test.exe is packed with ASPack 2.1
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.a.Detect(tt.args.path); got != tt.want {
-				t.Errorf("ASPack.Detect() = %v, want %v", got, tt.want)
+		{"2.1", ASPACK_VER_21}, {"2.12", ASPACK_VER_212}, {"other-0x41f", ASPACK_VER_OTHER}, {"2.42", ASPACK_VER_242},
+	} {
+		t.Run(test.profile, func(t *testing.T) {
+			for _, variant := range []string{"basic", "shifted-entry", "reordered-sections", "preserve-imports", "no-imports"} {
+				base := filepath.Join("../testdata/pe-versions", "aspack-"+test.profile+"-"+variant)
+				if got := packer.Detect(base + ".bin"); got != test.version {
+					t.Fatalf("%s version: got %d, want %d", variant, got, test.version)
+				}
+				reader, err := packer.Unpack(base + ".bin")
+				if err != nil {
+					t.Fatal(err)
+				}
+				got, err := io.ReadAll(io.NewSectionReader(reader, 0, 1<<20))
+				if err != nil {
+					t.Fatal(err)
+				}
+				want, err := os.ReadFile(base + ".recovered")
+				if err != nil {
+					t.Fatal(err)
+				}
+				if !bytes.Equal(got, want) {
+					t.Fatalf("%s SDK result differs from golden", variant)
+				}
 			}
 		})
 	}
-}
-
-func TestASPack_Unpack(t *testing.T) {
-	testFile := "testdata/aspack_test.exe"
-
-	// Check if test file exists
-	if _, err := os.Stat(testFile); os.IsNotExist(err) {
-		t.Fatalf("Required regression sample is missing: %s", testFile)
-		return
-	}
-
-	// Test detection first
-	packer := ASPack{}
-	version := packer.Detect(testFile)
-	if version == ASPACK_VER_NONE {
-		t.Fatal("Failed to detect ASPack in test file")
-	}
-	t.Logf("Detected ASPack version: %d", version)
-
-	// Test unpacking
-	reader, err := packer.Unpack(testFile)
-	if err != nil {
-		t.Fatalf("ASPack.Unpack() error = %v", err)
-	}
-	if reader == nil {
-		t.Fatal("ASPack.Unpack() returned nil reader")
-	}
-
-	// Verify we can read from the unpacked data
-	buf := make([]byte, 1024)
-	n, err := reader.ReadAt(buf, 0)
-	if err != nil && err != io.EOF {
-		t.Fatalf("Failed to read from unpacked data: %v", err)
-	}
-	if n == 0 {
-		t.Error("Unpacked data is empty")
-	} else {
-		t.Logf("Successfully read %d bytes from unpacked data", n)
-	}
-
-	// Check if it's a file and close it
-	if f, ok := reader.(*os.File); ok {
-		defer f.Close()
-		t.Logf("Unpacked file: %s", f.Name())
+	if packer.Detect("testdata/aspack_test.exe") != ASPACK_VER_21 {
+		t.Fatal("existing 2.1 fixture regressed")
 	}
 }

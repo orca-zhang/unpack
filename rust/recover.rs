@@ -72,8 +72,10 @@ fn recover_aspack_blocks(
     version: u32,
     max_size: usize,
 ) -> Result<()> {
-    let layout=crate::aspack::layout(version)?;
-    let Some(table)=layout.blocks else { return Ok(()); };
+    let layout = crate::aspack::layout(version)?;
+    let Some(table) = layout.blocks else {
+        return Ok(());
+    };
     let section = pe
         .sections
         .iter()
@@ -86,8 +88,13 @@ fn recover_aspack_blocks(
     if count == 0 {
         return Ok(());
     }
-    if count>1000 { return Err(Error::unsupported(format!("ASPack {}: unsupported block table count", layout.name))); }
-    crate::pe::bytes(code, table+4, count*16)?;
+    if count > 1000 {
+        return Err(Error::unsupported(format!(
+            "ASPack {}: unsupported block table count",
+            layout.name
+        )));
+    }
+    crate::pe::bytes(code, table + 4, count * 16)?;
     let mut decoded_total = 0usize;
     for i in 0..count {
         let p = table + 4 + i * 16;
@@ -102,10 +109,14 @@ fn recover_aspack_blocks(
             .checked_add(unpacked_size)
             .filter(|v| *v <= max_size)
             .ok_or_else(|| Error::limit("ASPack total decompression exceeds limit"))?;
-        let target=pe.section_at(destination).ok_or_else(|| Error::invalid("ASPack block destination outside sections"))?;
-        let delta=destination-target.rva;
-        if delta>=target.size || unpacked_size> (target.size-delta) as usize {
-            return Err(Error::invalid("ASPack block exceeds file-backed destination section"));
+        let target = pe
+            .section_at(destination)
+            .ok_or_else(|| Error::invalid("ASPack block destination outside sections"))?;
+        let delta = destination - target.rva;
+        if delta >= target.size || unpacked_size > (target.size - delta) as usize {
+            return Err(Error::invalid(
+                "ASPack block exceeds file-backed destination section",
+            ));
         }
         let source = source.checked_sub(section.rva).unwrap_or(source) as usize;
         let input = crate::pe::bytes(compressed, source, size)?;

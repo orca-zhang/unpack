@@ -1,0 +1,174 @@
+{
+  "repository": "https://github.com/avast/retdec-regression-tests",
+  "commit": "8d8087f906c3d38c0cce8fcfb15acf3228c5e532",
+  "license": "MIT; see LICENSE",
+  "scope": "Real packer outputs used for recognition and conservative rejection, not full unpacking. MPRESS variants exercise code/data placement and LZMA/LZMAT differences.",
+  "original": {
+    "path": "mpress-1.05-code-after-data.original",
+    "sha256": "a04b7a79efdbf129810b2a910f3481809ff569de3d2c3d3154eb3521127b21d3",
+    "source_path": "tools/unpacker/mpress/unpacking/mpress_105_code_after_data-unpacked",
+    "entry_point": 12288
+  },
+  "samples": [
+    {
+      "input": "aspack-2.12.bin",
+      "family": "ASPack",
+      "vendor_version": "2.12",
+      "compatibility_id": 2,
+      "sha256": "5d55a77d5ad0c988af41018bb26112ef997c0c76363ed616e3be0528447cc5a5",
+      "source_path": "tools/fileinfo/detection/packers/aspack/ASP212_C_big.Exp_tbl_comp.ex",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/fileinfo/detection/packers/aspack/ASP212_C_big.Exp_tbl_comp.ex",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "fsg-1.33.bin",
+      "family": "FSG",
+      "vendor_version": "1.33",
+      "compatibility_id": 1,
+      "sha256": "90adab0e326f481488e92ce5f9bc00efc33e2ec1e66e44b0f30958daafcfa840",
+      "source_path": "tools/fileinfo/detection/packers/fsg/fact_rec_fsg133.ex",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/fileinfo/detection/packers/fsg/fact_rec_fsg133.ex",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-1.05-code-after-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "1.05",
+      "compatibility_id": 1,
+      "sha256": "801bb1fe7e24cec318737d0f7b0a548a0119445393d0d346c500f794e4d5d700",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_105_code_after_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_105_code_after_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-1.05-code-before-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "1.05",
+      "compatibility_id": 1,
+      "sha256": "d03b77e314bf153585cbb283efb3528be9f42a41ab47b6cc61ae7da8a789d866",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_105_code_before_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_105_code_before_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-1.05-code-in-between-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "1.05",
+      "compatibility_id": 1,
+      "sha256": "c522305007f58ceaa91313c83614184852dde81fdd7a67f3317e962c8a1e4ea4",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_105_code_in_between_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_105_code_in_between_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-1.27-code-after-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "1.27",
+      "compatibility_id": 1,
+      "sha256": "2f9f9c083a7a5e792182363d7744a5e46fdbe6a852aa28f63eb710bbe01bff5c",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_127_code_after_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_127_code_after_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-1.27-code-before-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "1.27",
+      "compatibility_id": 1,
+      "sha256": "2113a5ef7d91925cc691ebbb61c2e91578ca8dffbb9af05dc6a7446b2d82dfe6",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_127_code_before_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_127_code_before_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-1.27-code-in-between-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "1.27",
+      "compatibility_id": 1,
+      "sha256": "23c6918e2bd2a3181419a880fa8a3c9fb3ad278a2f975a98fb41d5b5b970b52b",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_127_code_in_between_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_127_code_in_between_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-2.05-code-after-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "2.05",
+      "compatibility_id": 1,
+      "sha256": "6a5515991be68d3fe3294074f877f89662fb55d70f7622bb155934a36c342684",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_205_code_after_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_205_code_after_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-2.05-code-before-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "2.05",
+      "compatibility_id": 1,
+      "sha256": "96aa15e8cd6878165dc095d947bcea5010c46e016e856598d3e91d8de42787c2",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_205_code_before_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_205_code_before_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-2.05-code-in-between-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "2.05",
+      "compatibility_id": 1,
+      "sha256": "b8a7f27926c86da8019c3529dee6c29cf4f2ac161acb0d75b0ec9a07fd67d097",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_205_code_in_between_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_205_code_in_between_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-2.19-code-after-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "2.19",
+      "compatibility_id": 1,
+      "sha256": "b1e9915920af6ce48dfd208ed2ab00a1e152b45f0ed876d6e9c8466b1d31056f",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_219_code_after_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_219_code_after_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-2.19-code-before-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "2.19",
+      "compatibility_id": 1,
+      "sha256": "098bc61c715960e543735377be146da31e8c58a51173f5e375610cd8dd47895b",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_219_code_before_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_219_code_before_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-2.19-code-in-between-data.bin",
+      "family": "MPRESS",
+      "vendor_version": "2.19",
+      "compatibility_id": 1,
+      "sha256": "110b8e3b53630b3165f58ac6f52055121e6ab7e7a2395e568bcb8e6dc84658fa",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_219_code_in_between_data",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_219_code_in_between_data",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-2.19-msvc-lzma.bin",
+      "family": "MPRESS",
+      "vendor_version": "2.19",
+      "compatibility_id": 1,
+      "sha256": "e0ea1a1be9d02691787d3e13bfcb6fafd3568210513e63ae95da404b921a039a",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_219_msvc_lzma",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_219_msvc_lzma",
+      "recovery_error": "unsupported"
+    },
+    {
+      "input": "mpress-2.19-msvc-lzmat.bin",
+      "family": "MPRESS",
+      "vendor_version": "2.19",
+      "compatibility_id": 1,
+      "sha256": "74035ea80cafe5574c9b0f79c98a8e32513f3c41815c35ab194a7031b3232249",
+      "source_path": "tools/unpacker/mpress/unpacking/mpress_219_msvc_lzmat",
+      "source_url": "https://github.com/avast/retdec-regression-tests/blob/8d8087f906c3d38c0cce8fcfb15acf3228c5e532/tools/unpacker/mpress/unpacking/mpress_219_msvc_lzmat",
+      "recovery_error": "unsupported"
+    }
+  ]
+}

@@ -34,15 +34,22 @@ jobs:
       - name: Install UPX (Windows)
         if: runner.os == 'Windows'
         run: choco install upx -y --no-progress
+      - name: Configure Windows native SDK toolchain
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          rustup target add x86_64-pc-windows-gnu
+          "C:\msys64\mingw64\bin" >> $env:GITHUB_PATH
+          "CC=gcc" >> $env:GITHUB_ENV
+          "CGO_ENABLED=1" >> $env:GITHUB_ENV
       - run: upx --version
       - run: cargo fmt --all -- --check
       - run: cargo clippy --locked --all-targets -- -D warnings
       - run: cargo build --locked
-      - run: python scripts/generate_charts.py --check --engine target/debug/unpack-rs
+      - run: python scripts/generate_charts.py --check --engine target/debug/unpack
       - run: cargo test --locked --all-targets
+      - run: python scripts/build_go_sdk.py
       - run: go test -race ./...
       - run: go vet ./...
-      - name: Build Go without cgo
-        env:
-          CGO_ENABLED: '0'
-        run: go build -o bin/unpack ./cmd/unpack
+      - run: go build -o bin/go-sdk-example ./examples/go
+      - run: python -m unittest discover -s scripts -p 'test_*.py'

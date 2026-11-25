@@ -250,3 +250,30 @@ fn owned_input_reuses_its_allocation_for_unpacked_files() {
     assert_eq!(result.data.as_ptr(), address);
     assert!(result.history.is_empty());
 }
+
+#[test]
+fn recovery_rejects_jumps_into_stub_and_known_packed_storage() {
+    for packed_storage in [false, true] {
+        let mut input = synthetic(".MPRESS2", "");
+        let pe = Pe::parse(&input).unwrap();
+        if packed_storage {
+            let code = &pe.sections[0];
+            input[code.header..code.header + 8].copy_from_slice(b".MPRESS1");
+        } else {
+            let stub = pe.offset(pe.entry).unwrap();
+            put32(&mut input, stub + 1, 27).unwrap(); // E9 targets the same stub section.
+        }
+        assert_eq!(
+            unpack(
+                &input,
+                &Options {
+                    allow_recovery: true,
+                    ..Options::default()
+                }
+            )
+            .unwrap_err()
+            .code,
+            "unsupported"
+        );
+    }
+}

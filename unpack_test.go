@@ -66,47 +66,6 @@ func TestGoSDKRealUPX(t *testing.T) {
 	}
 }
 
-func TestGoSDKAllFormatsAndRecovery(t *testing.T) {
-	registry(t, builtins)
-	for _, test := range []struct {
-		name, section, marker string
-		recover               bool
-	}{
-		{"ASPack", ".aspack", "", true}, {"FSG", ".packed", "FSG!", true}, {"WinUpack", ".upx0", "", true},
-		{"Petite", ".petite", "", true}, {"PESpin", ".pespin", "", true}, {"Armadillo", ".EPACK", "", true},
-		{"Themida", ".themida", "", true}, {"PECompact", ".pec", "", true}, {"NSPack", ".nsp0", "", true}, {"MPRESS", ".MPRESS1", "", true},
-		{"VMProtect", ".vmp0", "", false}, {"Enigma", ".enigma1", "", false}, {"MEW", "MEW", "", false}, {"PELock", ".pelock", "", false}, {"PEBundle", ".pebundl", "", false}, {"Yoda", ".yP", "", false},
-	} {
-		t.Run(test.name, func(t *testing.T) {
-			data, err := testfixture.PE(test.section, test.marker)
-			if err != nil {
-				t.Fatal(err)
-			}
-			path := filepath.Join(t.TempDir(), "synthetic.exe")
-			if err := os.WriteFile(path, data, 0600); err != nil {
-				t.Fatal(err)
-			}
-			up, _ := DetectFormat(path)
-			if up == nil || up.Name() != test.name {
-				t.Fatal("incorrect detector")
-			}
-			_, err = UnpackWithOptions(context.Background(), path, Options{MaxDepth: 10})
-			var coreErr *Error
-			if !errors.As(err, &coreErr) || coreErr.Code != "unsupported" {
-				t.Fatalf("strict mode: %v", err)
-			}
-			result, err := UnpackAll(path)
-			if test.recover {
-				if err != nil || len(result.Warnings) != 1 || result.History[0].Support != "recovery" {
-					t.Fatalf("recovery: %v %v", result, err)
-				}
-			} else if err == nil {
-				t.Fatal("detect-only format reported unpack success")
-			}
-		})
-	}
-}
-
 func TestGoSDKRegistrationAndLimits(t *testing.T) {
 	registry(t, nil)
 	input := sample("pe32.packed")
@@ -144,88 +103,47 @@ func TestGoSDKRegistrationAlias(t *testing.T) {
 	}
 }
 
-func TestGoSDKMissingEngineAndIOErrors(t *testing.T) {
+func TestGoSDKWithoutCLI(t *testing.T) {
 	registry(t, builtins)
+	t.Setenv("UNPACK_RUST_BIN", filepath.Join(t.TempDir(), "nonexistent-cli"))
+	t.Setenv("PATH", t.TempDir())
 	if _, err := UnpackAll("missing.exe"); err == nil {
 		t.Fatal("missing input accepted")
 	}
-	t.Setenv("UNPACK_RUST_BIN", filepath.Join(t.TempDir(), "missing-engine"))
-	if _, err := Inspect(sample("pe32.packed")); err == nil {
-		t.Fatal("missing engine accepted")
-	}
-	if up, version := DetectFormat(sample("pe32.packed")); up != nil || version != 0 {
-		t.Fatal("legacy detection should return no match on failure")
-	}
-	if _, err := UnpackAll(sample("pe32.packed")); err == nil {
-		t.Fatal("unpack hid missing engine")
-	}
-}
-
-type envelope struct{ stall bool }
-
-func (e envelope) Name() string { return "Envelope" }
-func (e envelope) Detect(path string) int {
-	b, _ := os.ReadFile(path)
-	if bytes.HasPrefix(b, []byte("WRAP")) {
-		return 1
-	}
-	return 0
-}
-func (e envelope) Unpack(path string) (io.ReaderAt, error) {
-	b, err := os.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-	if !e.stall {
-		b = b[4:]
-	}
-	return bytes.NewReader(b), nil
-}
-
-func TestGoCustomPluginsAndMixedLayers(t *testing.T) {
-	registry(t, []string{"UPX"})
-	RegisterFormat("Envelope", envelope{})
-	packed, _ := os.ReadFile(sample("pe32.packed"))
-	path := filepath.Join(t.TempDir(), "nested.exe")
-	if err := os.WriteFile(path, append([]byte("WRAPWRAP"), packed...), 0600); err != nil {
-		t.Fatal(err)
-	}
+	path := filepath.Join(testfixture.Root(), "testdata/aplib/tokens.ap32")
 	result, err := UnpackAll(path)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(result.History) != 3 || result.History[2].PackerName != "UPX" {
-		t.Fatalf("history: %+v", result.History)
-	}
-	golden, _ := os.ReadFile(sample("pe32.unpacked"))
-	if !bytes.Equal(contents(t, result.ReaderAt), golden) {
-		t.Fatal("mixed layer output")
-	}
-	result, err = Unpack(path, 1)
+	expected, err := os.ReadFile(filepath.Join(testfixture.Root(), "testdata/aplib/tokens.unpacked"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(result.History) != 1 || !bytes.HasPrefix(contents(t, result.ReaderAt), []byte("WRAP")) {
-		t.Fatal("depth ignored")
+	if !bytes.Equal(contents(t, result.ReaderAt), expected) {
+		t.Fatal("embedded Rust returned different bytes")
 	}
-	RegisterFormat("Envelope", envelope{stall: true})
-	if _, err := Unpack(path, 0); err == nil {
-		t.Fatal("unchanged output allowed infinite recursion")
+	info, err := Inspect(path)
+	if err != nil || info == nil || info.Name != "AP32" {
+		t.Fatalf("native detection: %v %v", info, err)
 	}
 }
 
-func TestGoCustomPluginsWithoutEngine(t *testing.T) {
+type removedPlugin struct{}
+
+func (removedPlugin) Name() string                       { panic("Go plugin executed") }
+func (removedPlugin) Detect(string) int                  { panic("Go detector executed") }
+func (removedPlugin) Unpack(string) (io.ReaderAt, error) { panic("Go unpacker executed") }
+
+func TestGoImplementationsAreRejected(t *testing.T) {
 	registry(t, nil)
-	RegisterFormat("Envelope", envelope{})
-	t.Setenv("UNPACK_RUST_BIN", filepath.Join(t.TempDir(), "no-engine"))
-	path := filepath.Join(t.TempDir(), "wrapped")
-	os.WriteFile(path, []byte("WRAPpayload"), 0600)
-	result, err := Unpack(path, 0)
-	if err != nil {
-		t.Fatal(err)
+	RegisterFormat("removed", removedPlugin{})
+	_, err := UnpackAll(sample("pe32.packed"))
+	var coreErr *Error
+	if !errors.As(err, &coreErr) || coreErr.Code != "unsupported" {
+		t.Fatalf("Go plugin accepted: %v", err)
 	}
-	if string(contents(t, result.ReaderAt)) != "payload" {
-		t.Fatal("custom-only API regressed")
+	if up, _ := DetectFormat(sample("pe32.packed")); up != nil {
+		t.Fatal("Go detector accepted")
 	}
 }
 
@@ -325,55 +243,6 @@ func TestGoSDKPayloads(t *testing.T) {
 	}
 }
 
-type recordedEnvelope struct {
-	envelope
-	paths *[]string
-}
-
-func (e recordedEnvelope) Unpack(path string) (io.ReaderAt, error) {
-	*e.paths = append(*e.paths, path)
-	return e.envelope.Unpack(path)
-}
-
-func TestCustomScratchReuseAndEngineErrors(t *testing.T) {
-	registry(t, nil)
-	paths := []string{}
-	RegisterFormat("Envelope", recordedEnvelope{paths: &paths})
-	path := filepath.Join(t.TempDir(), "wrapped")
-	os.WriteFile(path, []byte("WRAPWRAPWRAPpayload"), 0600)
-	result, err := Unpack(path, 0)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if string(contents(t, result.ReaderAt)) != "payload" || len(paths) != 3 || paths[1] != paths[2] {
-		t.Fatalf("scratch file not reused: %v", paths)
-	}
-	if _, err := os.Stat(paths[1]); !os.IsNotExist(err) {
-		t.Fatal("scratch directory leaked")
-	}
-	RegisterFormat("UPX", RustUnpacker{Format: "UPX"})
-	t.Setenv("UNPACK_RUST_BIN", filepath.Join(t.TempDir(), "missing-engine"))
-	if _, err := UnpackAll(sample("pe32.packed")); err == nil {
-		t.Fatal("custom registry hid Rust engine error")
-	}
-}
-
-func TestCustomPathEnforcesNativePayloadLimit(t *testing.T) {
-	registry(t, []string{"GZIP"})
-	RegisterFormat("Envelope", envelope{})
-	input, err := os.ReadFile(filepath.Join(testfixture.Root(), "testdata/payloads/pe32-gzip.packed"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	path := filepath.Join(t.TempDir(), "wrapped")
-	os.WriteFile(path, append([]byte("WRAP"), input...), 0600)
-	_, err = UnpackWithOptions(context.Background(), path, Options{MaxDepth: 10, MaxSize: 1024})
-	var coreErr *Error
-	if !errors.As(err, &coreErr) || coreErr.Code != "limit" {
-		t.Fatalf("native output limit bypassed: %v", err)
-	}
-}
-
 func TestExplicitFormatWithoutRegistration(t *testing.T) {
 	registry(t, nil)
 	path := filepath.Join(testfixture.Root(), "testdata/payloads/text-lzma.packed")
@@ -387,5 +256,117 @@ func TestExplicitFormatWithoutRegistration(t *testing.T) {
 	_, err = UnpackWithOptions(context.Background(), path, Options{Format: "unknown"})
 	if err == nil {
 		t.Fatal("unknown format accepted")
+	}
+}
+
+func TestGoSDKVersionMatrix(t *testing.T) {
+	registry(t, builtins)
+	data, err := os.ReadFile("testdata/pe-versions/manifest.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var manifest struct {
+		Cases []struct {
+			Name, Family, Input string
+			Version             int
+			Detected            bool
+			DetectError         *string `json:"detect_error"`
+			RecoveryError       *string `json:"recovery_error"`
+			Output              string
+		}
+	}
+	if err := json.Unmarshal(data, &manifest); err != nil {
+		t.Fatal(err)
+	}
+	if len(manifest.Cases) != 105 {
+		t.Fatal("version cases missing")
+	}
+	for _, c := range manifest.Cases {
+		t.Run(c.Name, func(t *testing.T) {
+			input := filepath.Join("testdata/pe-versions", c.Input)
+			info, err := Inspect(input)
+			check := func(err error, code string) {
+				t.Helper()
+				var coreErr *Error
+				if !errors.As(err, &coreErr) || coreErr.Code != code {
+					t.Fatalf("want %s, got %v", code, err)
+				}
+			}
+			if c.DetectError != nil {
+				check(err, *c.DetectError)
+			} else {
+				if err != nil {
+					t.Fatal(err)
+				}
+				if (info != nil) != c.Detected {
+					t.Fatalf("detection: %v", info)
+				}
+				if info != nil && (info.Name != c.Family || info.Version != c.Version) {
+					t.Fatalf("version: %+v", info)
+				}
+			}
+			result, err := UnpackAll(input)
+			if c.RecoveryError != nil {
+				check(err, *c.RecoveryError)
+				return
+			}
+			if err != nil {
+				t.Fatal(err)
+			}
+			golden := input
+			if c.Output != "" {
+				golden = filepath.Join("testdata/pe-versions", c.Output)
+			}
+			want, err := os.ReadFile(golden)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if !bytes.Equal(contents(t, result.ReaderAt), want) {
+				t.Fatal("native SDK differs from golden")
+			}
+			if c.Detected {
+				if len(result.History) != 1 || result.History[0].Version != c.Version || len(result.Warnings) != 1 {
+					t.Fatalf("metadata: %+v", result)
+				}
+				_, err = UnpackWithOptions(context.Background(), input, Options{})
+				check(err, "unsupported")
+			} else if len(result.History) != 0 {
+				t.Fatal("undetected input changed")
+			}
+		})
+	}
+}
+
+func TestGoSDKRealPackerVersionErrors(t *testing.T) {
+	registry(t, builtins)
+	data, err := os.ReadFile("testdata/retdec/manifest.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var manifest struct {
+		Samples []struct {
+			Input, Family string
+			ID            int `json:"compatibility_id"`
+		}
+	}
+	if err := json.Unmarshal(data, &manifest); err != nil {
+		t.Fatal(err)
+	}
+	if len(manifest.Samples) != 16 {
+		t.Fatal("real version samples missing")
+	}
+	for _, s := range manifest.Samples {
+		t.Run(s.Input, func(t *testing.T) {
+			path := filepath.Join("testdata/retdec", s.Input)
+			up, version := DetectFormat(path)
+			if up == nil || up.Name() != s.Family || version != s.ID {
+				t.Fatal("real version not recognized")
+			}
+			_, err := UnpackAll(path)
+			var coreErr *Error
+			if !errors.As(err, &coreErr) || coreErr.Code != "unsupported" {
+				t.Fatalf("unverified recovery accepted: %v", err)
+			}
+		})
 	}
 }

@@ -9,9 +9,10 @@ repository = "https://github.com/orca-zhang/unpack"
 
 [lib]
 path = "rust/lib.rs"
+crate-type = ["rlib", "staticlib"]
 
 [[bin]]
-name = "unpack-rs"
+name = "unpack"
 path = "rust/main.rs"
 
 [dependencies]

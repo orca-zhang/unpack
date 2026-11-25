@@ -5,7 +5,7 @@
 [项目首页](../README_zh.md) · [完整格式与版本表](../README_zh.md#formats) · [English](../README.md)
 
 当前实现新增 GZIP、ZLIB、XZ、LZMA-Alone 载荷解码，扩展 UPX 的 ELF32、ARM64 ELF、
-x86-64 Mach-O 样本，并优化 AP32 校验和与 Go 插件处理。
+x86-64 Mach-O 样本，并优化 AP32 校验和。Go 仅保留 SDK，通过 cgo 静态链接 Rust 核心。
 图表来自实际格式表、样本文件和本机测量，原始数据保存在本目录。
 性能对比的柱长采用对数缩放，数值与倍率保留实测值；格式分布和样本大小仍按比例绘制。
 
@@ -18,7 +18,7 @@ x86-64 Mach-O 样本，并优化 AP32 校验和与 Go 插件处理。
 | [样本大小](charts/upx-fixtures-zh.svg) | 8 个真实 UPX 变体；不作为通用压缩率结论 | [UPX 清单](../testdata/upx/manifest.json)与样本文件 |
 | [AP32 / CRC 耗时](charts/ap32-decode-zh.svg) | 对数柱长，标注为真实数值，越低越好 | [优化前](benchmarks/codecs-before.json) / [优化后](benchmarks/codecs-after.json) |
 | [识别耗时](charts/native-detection-zh.svg) | 同时展示未命中路径改善和短路径的轻微回退 | [基线](benchmarks/baseline.json) / [优化后](benchmarks/optimized.json) |
-| [SDK 分配量](charts/sdk-allocations-zh.svg) | 仅响应解码阶段分配，不是 SDK 总内存 | [rpc.txt](benchmarks/rpc.txt) |
+| [SDK 分配量](charts/sdk-allocations-zh.svg) | 旧 RPC 架构的历史分配数据，不代表当前 SDK | [rpc.txt](benchmarks/rpc.txt) |
 
 ## 实际能力
 
@@ -43,24 +43,22 @@ GZIP、ZLIB、XZ 校验其格式中的完整性字段；LZMA-Alone 本身没有�
 sequenceDiagram
     participant App as Go 应用
     participant SDK as Go SDK
-    participant CLI as Rust CLI
     participant Core as Rust 核心
     participant UPX as 官方 UPX
     App->>SDK: UnpackAll(gzip-xz-upx.packed)
-    SDK->>CLI: 协议 2 JSON 请求
-    CLI->>Core: 移交输入 Vec
+    SDK->>Core: cgo 调用静态链接的 Rust 核心
     Core->>Core: 原生 GZIP 解码与校验
     Core->>Core: 原生 XZ 解码与校验
     Core->>UPX: 私有临时文件中的 UPX 数据
     UPX-->>Core: 解包后的 PE
-    Core-->>CLI: 数据与三层历史
-    CLI-->>SDK: JSON 头 + 换行 + 原始二进制
+    Core-->>SDK: 元数据与 Rust 持有的输出
+    SDK->>SDK: 复制结果到 Go，释放 Rust 缓冲区
     SDK-->>App: ReaderAt 与层级历史
 ```
 
-内置流程在内存中传递数据；Go 自定义插件路径改为复用一个私有临时文件，避免每层保留一份磁盘数据。
-混合插件路径复用检测结果，去掉重复查询，向内置解码器传递上下文和大小限制，并传播引擎错误。
-本地 debug/release 同时存在时选择较新的构建，避免旧程序遮蔽当前实现。
+SDK 的文件读取、检测、递归、解码和恢复都在 Rust 中完成，结果复制到 Go 一次。
+Go 自定义解包实现和 Go CLI 已移除，内置驱动保留为 SDK 适配器。
+运行时无需 Rust 可执行程序；UPX 解包仍使用官方外部程序。
 
 ## 样本与实际覆盖
 
@@ -77,6 +75,12 @@ ARM64 Mach-O 候选被上游解码器拒绝，因此未列为已验证往返支�
 另有 5 组经独立解码器核对的 AP32/raw aPLib 向量，以及 20 个 Python 标准编解码器生成并往返校验的
 载荷案例，包含空流、多成员、多流、XZ BCJ/delta/SHA-256、已知长度 LZMA、容器到 UPX 的真实数据链。
 测试会拒绝畸形输入、截断、尾随数据、错误校验和、非法字典大小和过量输出。所有测试只解码，不运行样本。
+
+PE 版本矩阵新增 105 个合成用例（ASPack 四种布局 81 例），覆盖偏移、节顺序、导入表、
+截断、歧义和块边界；另有来自 MIT 许可 RetDec 语料的 16 个真实样本，覆盖 ASPack 2.12、
+FSG 1.33、MPRESS 1.05/1.27/2.05/2.19 与 LZMA/LZMAT。真实样本用于验证识别及拒绝
+不可靠恢复：MPRESS 桩内跳转和压缩节内目标不得作为原始入口点。
+ASPack 2.42/OTHER 目前只有合成布局覆盖。静态恢复不等于完整解压。
 
 样本较小且数据重复度高，压缩比不能外推到真实软件。AP32 测试编码器主要发出 literal，
 不参与压缩比比较。来源与重建方法见 [样本说明](../testdata/README.md)。
@@ -112,33 +116,40 @@ ARM64 Mach-O 候选被上游解码器拒绝，因此未列为已验证往返支�
 机器、命令和输入哈希见 [environment.json](benchmarks/environment.json)。历史基线是在替换签名搜索前
 采集的快照，普通重测不覆盖它，不应拿另一台机器的当前测量直接比较。柱长使用对数缩放，数值与比值仍按原始测量值计算。
 
-## Go SDK 结果传输
+## Go SDK 静态链接与历史测量
 
-![SDK 解码分配](charts/sdk-allocations-zh.svg)
+SDK 通过 cgo 链接 `libunpack.a`。Rust 请求分发代码与 CLI 共用，结果由 Rust 持有，
+Go 复制一次后释放；运行时不查找 Rust CLI，也不启动 Rust 子进程。
+构建需要 Rust、C 编译器、cgo 和 `python3 scripts/build_go_sdk.py`，平台说明见
+[SDK 文档](REFERENCE_zh.md#go-sdk)。上下文取消会通知 Rust；UPX 被终止、回收，
+原生编解码器在层边界检查取消。
 
-协议 1 将结果编码成 base64；协议 2 只解析 JSON 元数据行，复用接收到的二进制数据作为 `ReaderAt`。
-Rust 仍接受协议 1，当前 Go SDK 需配套支持协议 2 的 Rust 引擎。
+![旧 RPC SDK 历史分配](charts/sdk-allocations-zh.svg)
 
-| Payload | base64 解码分配 | 二进制帧解码分配 |
+下表与图表保留旧 RPC 协议 1/2 的历史比较；**不代表当前静态链接 SDK 的内存或速度**。
+它只测量“已有响应缓冲区 → 解码结果”，不含接收缓冲区、文件 I/O、启动、管道或 Rust 解包。
+
+| Payload | 旧 base64 解码分配 | 旧二进制帧解码分配 |
 | --- | ---: | ---: |
 | 64 KiB | 74,056 B/op | 336 B/op |
 | 4 MiB | 约 4.01 MiB/op | 336 B/op |
 
-这只测量“已有响应缓冲区 → 解码结果”，不含接收缓冲区本身、启动、管道和 Rust 解包，
-因此 336 B/op 不是 SDK 总内存，解码时间也不是完整 payload 的 I/O 吞吐量。
-原始记录见 [rpc.txt](benchmarks/rpc.txt)，每例重复 5 次。
+历史记录：[rpc.txt](benchmarks/rpc.txt)。当前结果见 [native-sdk.txt](benchmarks/native-sdk.txt)。
+当前 SDK 基准使用 `BenchmarkNativeSDK`，
+使用 64 KiB / 4 MiB 未加壳零填充文件，包含热缓存文件读取、Rust 调用和输出复制；
+不测压缩解码。Go 的 B/op 不包含 Rust 分配器内存，无法直接与旧解码微基准比较。
+重测写入 `native-sdk.txt`，历史 RPC 记录保留。
 
-Rust 的 `unpack_owned` / `unpack_format_owned` 去掉初始整文件复制；文件读取按已知大小预留容量。
-未加壳输入的测试通过指针比较证明直接沿用原有 allocation。Go 混合原生/自定义路径也直接使用
-内置解码器返回的缓冲区，避免再复制一次结果。
+Rust 的 `unpack_owned` / `unpack_format_owned` 继续消费原输入 allocation；
+未加壳输入的指针比较测试验证没有初始整文件复制。
 
 ## 重建和验证
 
 ```sh
 python3 scripts/benchmark.py
 cargo build --release --locked
-python3 scripts/generate_charts.py --engine target/release/unpack-rs
-python3 scripts/generate_charts.py --check --engine target/release/unpack-rs
+python3 scripts/generate_charts.py --engine target/release/unpack
+python3 scripts/generate_charts.py --check --engine target/release/unpack
 ```
 
 图表生成只用 Python 标准库。`formats.json` 由实际 Rust 程序导出，CI 检查格式列表和图表是否过期；

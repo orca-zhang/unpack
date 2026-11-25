@@ -1,0 +1,16 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/orca-zhang/unpack
+cpu: Apple M4 Pro
+BenchmarkNativeSDK/64KiB-12         	    4628	     24229 ns/op	2704.87 MB/s	   66958 B/op	      23 allocs/op
+BenchmarkNativeSDK/64KiB-12         	    5469	     22888 ns/op	2863.36 MB/s	   66956 B/op	      23 allocs/op
+BenchmarkNativeSDK/64KiB-12         	    4564	     23215 ns/op	2823.02 MB/s	   66955 B/op	      23 allocs/op
+BenchmarkNativeSDK/64KiB-12         	    4966	     22728 ns/op	2883.53 MB/s	   66941 B/op	      23 allocs/op
+BenchmarkNativeSDK/64KiB-12         	    4940	     22947 ns/op	2856.01 MB/s	   66956 B/op	      23 allocs/op
+BenchmarkNativeSDK/4096KiB-12       	     489	    243066 ns/op	17255.85 MB/s	 4197036 B/op	      27 allocs/op
+BenchmarkNativeSDK/4096KiB-12       	     489	    240200 ns/op	17461.75 MB/s	 4197059 B/op	      27 allocs/op
+BenchmarkNativeSDK/4096KiB-12       	     469	    248747 ns/op	16861.70 MB/s	 4197087 B/op	      27 allocs/op
+BenchmarkNativeSDK/4096KiB-12       	     477	    248744 ns/op	16861.90 MB/s	 4197067 B/op	      28 allocs/op
+BenchmarkNativeSDK/4096KiB-12       	     454	    274201 ns/op	15296.46 MB/s	 4197120 B/op	      28 allocs/op
+PASS
+ok  	github.com/orca-zhang/unpack	1.763s

@@ -85,25 +85,22 @@ cargo build --release --locked
 cargo install --path . --locked
 ```
 
-Go SDK 运行时依次寻找 `UNPACK_RUST_BIN`、PATH 中的 `unpack-rs`、当前源码目录下
-`target/release` 或 `target/debug` 的程序；两个构建同时存在时选择较新的程序，避免使用过期版本。不会自动编译或下载。
-可通过 `UNPACK_UPX` 指定官方 UPX 的路径。这两个变量均为可执行文件路径，不是 shell 命令。
-无需 cgo，也没有新增 Go 模块依赖。部署时需一并提供 Rust 程序，单独 `go get` 已不足以
-获得完整运行环境。
+Go SDK 通过 cgo 静态链接 Rust 核心。构建时需要 Rust、Python 3 和 C 编译器，部署时无需
+Rust CLI 或 Rust 动态库。`UNPACK_UPX` 可指定官方 UPX 程序路径。
 
 <a id="cli"></a>
 
 ## 命令行
 
 ```sh
-unpack-rs detect --json testdata/upx/pe32.packed
-unpack-rs unpack -o output.exe testdata/upx/pe32.packed
-unpack-rs unpack -o decoded.exe testdata/aplib/upx.ap32
-unpack-rs unpack -o decoded.exe testdata/payloads/gzip-xz-upx.packed
-unpack-rs unpack --format LZMA -o payload.bin testdata/payloads/text-lzma.packed
-unpack-rs unpack --depth 5 --max-size 268435456 input.exe
-unpack-rs unpack --recover -o recovered.exe aspack/testdata/aspack_test.exe
-unpack-rs formats
+unpack detect --json testdata/upx/pe32.packed
+unpack unpack -o output.exe testdata/upx/pe32.packed
+unpack unpack -o decoded.exe testdata/aplib/upx.ap32
+unpack unpack -o decoded.exe testdata/payloads/gzip-xz-upx.packed
+unpack unpack --format LZMA -o payload.bin testdata/payloads/text-lzma.packed
+unpack unpack --depth 5 --max-size 268435456 input.exe
+unpack unpack --recover -o recovered.exe aspack/testdata/aspack_test.exe
+unpack formats
 ```
 
 默认输出为 `<文件名>_unpacked.<扩展名>`。默认保留已有文件，只有 `--force` 才会替换输出，
@@ -122,7 +119,26 @@ Mach-O 样本生成使用上游 UPX 的实验选项 `--force-macos`；测试验�
 
 ## Go SDK
 
-原来的调用方式仍然可编译：
+内置驱动保留原调用方式。
+
+先在可写的仓库副本中构建静态库，再编译 Go：
+
+```sh
+python3 scripts/build_go_sdk.py  # 或 go generate .
+go build ./examples/go
+```
+
+在其他 Go 项目中，使用已生成静态库的仓库副本：
+
+```sh
+go mod edit -replace github.com/orca-zhang/unpack=/absolute/path/to/unpack
+```
+
+构建目标包括 macOS amd64/arm64、Linux GNU amd64/arm64、Windows amd64。
+Windows 使用 MinGW GCC 和 `x86_64-pc-windows-gnu` Rust 目标。脚本读取 `GOOS`/`GOARCH`；
+交叉编译还需安装相应 Rust target 和 C 交叉编译器，并启用 `CGO_ENABLED=1`。
+静态库由脚本生成且不提交 Git，单独 `go get` 不足以完成构建。Rust 修改后需重建静态库；
+脚本会清理 Go 编译缓存，确保链接新库。Go 命令行与自定义 Go 解包实现已移除。
 
 ```go
 package main
@@ -148,7 +164,7 @@ func main() {
 或导入 `github.com/orca-zhang/unpack/ap32` 单独注册原生 AP32 解码。
 `DetectFormat` 仅检查已注册格式，保留出错时返回未识别的旧签名。
 新增 `Inspect(path)` 能返回错误、识别依据和能力字段，不受驱动注册范围限制。
-自定义 Go 驱动优先于内置驱动，并按注册名称排序。
+`RegisterFormat` 只选择实现 `RustFormat()` 的 Rust SDK 适配器；旧 Go 检测/解包回调会返回 `unsupported`，不会执行。
 
 需要上下文取消、明确限制和严格模式时：
 
@@ -161,13 +177,11 @@ result, err := unpack.UnpackWithOptions(ctx, path, unpack.Options{
 ```
 
 Rust 业务错误为 `*unpack.Error`，错误码包括 `invalid_input`、`unsupported`、`limit`、
-`backend`、`io`。引擎不存在或协议故障返回普通 Go 错误。
-内置多层操作只启动一次 Rust 进程，通过协议 2 的“JSON 元数据行 + 原始二进制”传递结果。
-Go 直接复用接收缓冲区，省去 base64 编解码及其数据分配。Rust 仍支持旧协议 1，供旧客户端使用；
-当前 Go SDK 需配套支持协议 2 的 Rust 引擎。Go 请求还有两分钟超时，进程启动和管道 I/O
-仍有成本，这不是进程内绑定。
-自定义 Go 插件复用一个私有临时文件衔接层级；混合路径复用识别元数据、传播引擎错误，
-并将上下文与大小限制传给内置解码器。插件自身的运行时间与资源仍由插件负责。
+`backend`、`io`、`cancelled`、`internal`。C ABI 持有元数据和结果，Go 复制结果一次后释放 Rust
+内存，Rust panic 在 ABI 边界捕获。SDK 不再查找 CLI、启动 Rust 子进程或通过 base64 传输。
+CLI 仍保留 RPC 协议 1/2，供其他现有客户端使用。
+Go 请求有两分钟超时；取消上下文会及时返回，并通知 Rust 终止、回收 UPX 进程。
+原生编解码器在层边界检查取消，已开始的单层解码可能在 Go 返回后继续完成。
 
 无需注册驱动即可显式解码一层 LZMA-Alone：
 
@@ -214,6 +228,7 @@ go run ./examples/go testdata/upx/elf64.packed
 cargo build --locked
 cargo test --locked --all-targets
 cargo clippy --locked --all-targets -- -D warnings
+python3 scripts/build_go_sdk.py
 go test -race ./...
 go vet ./...
 ```
@@ -226,10 +241,17 @@ UPX 样本已增至 8 个变体，新增 ELF32、ARM64 ELF、x86-64 Mach-O。
 新增 5 组经独立解码器核对的 AP32/raw aPLib 向量，覆盖各类编码、偏移边界、嵌套容器，
 以及真实的 AP32 → UPX 数据链。
 合成 PE 桩覆盖全部格式识别、旧驱动静态恢复、畸形输入、资源限制、Go 注册机制、
-自定义插件和混合多层处理。合成样例不能证明真实商业壳能够完整脱壳。
+静态库调用、上下文取消，以及拒绝执行旧 Go 回调。合成样例不能证明真实商业壳能够完整脱壳。
 测试不再因为这些样本缺失而跳过。来源与重建方法见 [testdata/README.md](../testdata/README.md)。
 
-CI 配置覆盖 Linux、macOS、Windows，Go SDK 保留 `CGO_ENABLED=0` 构建能力。
+版本矩阵增加 **105 个合成用例**，其中 ASPack 四种布局共 **81 例**，覆盖入口偏移、节顺序、
+导入表、截断/歧义标记、文件映射边界和旧块流。另有 **16 个真实 RetDec 样本**：
+ASPack 2.12、FSG 1.33、MPRESS 1.05/1.27/2.05/2.19，覆盖代码/数据排列与 LZMA/LZMAT 差异。
+真实样本要求正确识别并拒绝无法验证的恢复；上游原始文件用于证明跳到压缩节不是原始入口。
+ASPack 2.42/OTHER 目前只有合成布局覆盖。来源提交、许可和哈希见样本清单。
+
+CI 配置覆盖 Linux、macOS、Windows 的静态库链接与测试。`CGO_ENABLED=0` 可编译错误占位实现，
+实际 SDK 操作需要 cgo 和 Rust 静态库。
 
 ## 重建图表
 

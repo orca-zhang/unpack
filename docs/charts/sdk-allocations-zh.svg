@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="425" viewBox="0 0 900 425" role="img" aria-labelledby="title desc" lang="zh-CN">
-<title id="title">Go SDK：响应解码分配量</title>
-<desc id="desc">每例测量 5 次；二进制响应复用数据缓冲区，仅保留少量元数据分配。</desc>
+<title id="title">历史 RPC SDK：响应解码分配量</title>
+<desc id="desc">旧子进程 SDK 的历史测量，不代表当前静态链接 SDK。</desc>
 <g font-family="Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, &quot;Noto Sans CJK SC&quot;, sans-serif">
-<rect x="0.5" y="0.5" width="899.000" height="424" rx="16" fill="#f5f9f7" /><rect x="0.5" y="0.5" width="899" height="424" rx="16" fill="none" stroke="#dce6e1" /><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70" /><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">Go SDK：响应解码分配量</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">每例测量 5 次；二进制响应复用数据缓冲区，仅保留少量元数据分配。</text><path d="M28 80H872" stroke="#dce6e1" /><text x="28" y="110" font-size="16" fill="#0f172a" text-anchor="start">64 KiB 载荷：响应解码分配量</text>
+<rect x="0.5" y="0.5" width="899.000" height="424" rx="16" fill="#f5f9f7" /><rect x="0.5" y="0.5" width="899" height="424" rx="16" fill="none" stroke="#dce6e1" /><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70" /><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">历史 RPC SDK：响应解码分配量</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">旧子进程 SDK 的历史测量，不代表当前静态链接 SDK。</text><path d="M28 80H872" stroke="#dce6e1" /><text x="28" y="110" font-size="16" fill="#0f172a" text-anchor="start">64 KiB 载荷：响应解码分配量</text>
 <text x="28" y="146" font-size="12" fill="#526966" text-anchor="start">Base64</text>
 <rect x="100" y="130" width="560.000" height="23" rx="5" fill="#a9bab7" />
 <text x="685" y="146" font-size="13" fill="#526966" text-anchor="start">74,056 字节/次</text>

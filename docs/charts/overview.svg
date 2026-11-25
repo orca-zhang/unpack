@@ -29,7 +29,7 @@
 <rect x="332" y="313" width="236.000" height="6" rx="3" fill="#edf3ef"/>
 <rect x="332" y="313" width="137.307" height="6" rx="3" fill="#157d70"/>
 <rect x="600" y="100" width="272.000" height="265" rx="12" fill="#ffffff"/>
-<text x="618" y="127" font-size="11" fill="#526966" text-anchor="start">03 / SDK ALLOCATION</text>
+<text x="618" y="127" font-size="11" fill="#526966" text-anchor="start">03 / HISTORICAL RPC</text>
 <text x="618" y="157" font-size="16" fill="#152e2b" text-anchor="start">4 MiB response decode</text>
 <text x="618" y="204" font-size="34" fill="#157d70" text-anchor="start">99.992%</text>
 <text x="618" y="226" font-size="12" fill="#526966" text-anchor="start">less allocated</text>
@@ -43,4 +43,4 @@
 <rect x="618" y="313" width="90.061" height="6" rx="3" fill="#157d70"/>
 <text x="28" y="395" font-size="12" fill="#526966" text-anchor="start">Apple M4 Pro / release Rust + Go benchmarks / median of five batches / lower is better.</text>
 <text x="28" y="416" font-size="12" fill="#526966" text-anchor="start">Logarithmic bar lengths; labels show measured values. Excludes I/O, startup and end-to-end unpacking.</text>
-<text x="28" y="437" font-size="12" fill="#526966" text-anchor="start">SDK values measure response-decode allocations only; the existing payload buffer is excluded.</text></g></svg>
+<text x="28" y="437" font-size="12" fill="#526966" text-anchor="start">RPC allocation values are historical; the current cgo SDK copies Rust output into Go once.</text></g></svg>

@@ -1,53 +1,46 @@
 package fsg
 
 import (
-	"encoding/binary"
-	"github.com/orca-zhang/unpack/internal/testfixture"
+	"bytes"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"testing"
 )
 
-func TestFSGSyntheticRecovery(t *testing.T) {
-	data, err := testfixture.PE(".packed", "FSG!")
-	if err != nil {
-		t.Fatal(err)
-	}
-	path := filepath.Join(t.TempDir(), "synthetic.exe")
-	if err := os.WriteFile(path, data, 0600); err != nil {
-		t.Fatal(err)
-	}
+func TestVersionAdapters(t *testing.T) {
 	packer := FSG{}
-	if packer.Name() != "FSG" || packer.Detect(path) != FSG_VER_1 {
-		t.Fatal("FSG detection failed")
+	for _, version := range []int{1, 2} {
+		for _, shift := range []int{0, 29} {
+			name := fmt.Sprintf("fsg-id%d-entry%d", version, shift)
+			t.Run(name, func(t *testing.T) {
+				base := filepath.Join("../testdata/pe-versions", name)
+				if packer.Name() != "FSG" || packer.Detect(base+".bin") != version {
+					t.Fatal("version detection failed")
+				}
+				reader, err := packer.Unpack(base + ".bin")
+				if err != nil {
+					t.Fatal(err)
+				}
+				got, err := io.ReadAll(io.NewSectionReader(reader, 0, 1<<20))
+				if err != nil {
+					t.Fatal(err)
+				}
+				want, err := os.ReadFile(base + ".recovered")
+				if err != nil {
+					t.Fatal(err)
+				}
+				if !bytes.Equal(got, want) {
+					t.Fatal("SDK output differs from golden")
+				}
+			})
+		}
 	}
-	reader, err := packer.Unpack(path)
-	if err != nil {
-		t.Fatal(err)
+	if packer.Detect("nonexistent.exe") != 0 {
+		t.Fatal("missing input detected")
 	}
-	output, err := io.ReadAll(io.NewSectionReader(reader, 0, 1<<20))
-	if err != nil {
-		t.Fatal(err)
-	}
-	p := int(binary.LittleEndian.Uint32(data[60:]))
-	before := binary.LittleEndian.Uint32(data[p+40:])
-	after := binary.LittleEndian.Uint32(output[p+40:])
-	original, err := os.ReadFile(filepath.Join(testfixture.Root(), "testdata/upx/pe32.original"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	want := binary.LittleEndian.Uint32(original[p+40:])
-	if before == after || after != want {
-		t.Fatalf("entry point: %x -> %x", before, after)
-	}
-}
-
-func TestFSGMissing(t *testing.T) {
-	if (FSG{}).Detect("nonexistent.exe") != FSG_VER_NONE {
-		t.Fatal("missing file detected")
-	}
-	if _, err := (FSG{}).Unpack("nonexistent.exe"); err == nil {
-		t.Fatal("missing file accepted")
+	if _, err := packer.Unpack("nonexistent.exe"); err == nil {
+		t.Fatal("missing input accepted")
 	}
 }

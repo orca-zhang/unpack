@@ -6,7 +6,7 @@ use std::{
 };
 
 fn binary() -> &'static str {
-    env!("CARGO_BIN_EXE_unpack-rs")
+    env!("CARGO_BIN_EXE_unpack")
 }
 fn root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))

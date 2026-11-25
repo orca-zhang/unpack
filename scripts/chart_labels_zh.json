@@ -26,24 +26,19 @@
     "Binary": "二进制",
     "Logarithmic bar lengths; labels show measured values. The existing response buffer is excluded.": "柱长采用对数缩放，标注为实测数值；不含已有响应缓冲区。",
     "This measures decode allocations only, not total memory, pipe throughput or end-to-end unpack speed.": "仅测响应解码分配量，不代表 SDK 总内存或完整解包速度。",
-    "Go SDK: response decoding allocations": "Go SDK：响应解码分配量",
-    "Five repeats per case. Small metadata allocations remain; base64 payload allocation is removed.": "每例测量 5 次；二进制响应复用数据缓冲区，仅保留少量元数据分配。",
     "01 / DETECTION": "01 / 格式识别",
     "No-match PE scan": "普通 PE 未命中扫描",
     "02 / NATIVE DECODE": "02 / 原生解码",
     "AP32 / 65 KiB": "AP32 / 65 KiB",
     "baseline / optimized latency": "优化前 / 优化后耗时",
-    "03 / SDK ALLOCATION": "03 / SDK 分配量",
     "4 MiB response decode": "4 MiB 响应解码",
     "less allocated": "响应解码分配量减少",
     "Apple M4 Pro / release Rust + Go benchmarks / median of five batches / lower is better.": "Apple M4 Pro / Rust release 与 Go 基准 / 5 批中位数 / 越低越好。",
     "Logarithmic bar lengths; labels show measured values. Excludes I/O, startup and end-to-end unpacking.": "柱长采用对数缩放，标注为实测数值；不含 I/O、进程启动与完整解包。",
-    "SDK values measure response-decode allocations only; the existing payload buffer is excluded.": "SDK 指标仅计响应解码分配量，不含已有数据缓冲区。",
     "Performance at a glance": "关键性能指标",
     "Historical baseline vs recorded optimization results. Sources: docs/benchmarks/.": "历史基线与优化结果对比；原始数据见 docs/benchmarks/。",
     "ENTRY POINTS": "调用入口",
     "Rust API / CLI": "Rust 库 / 命令行",
-    "JSON + binary RPC": "JSON + 二进制通信",
     "RUST CORE": "Rust 核心",
     "Detect + iterate": "识别与逐层处理",
     "Limits / layer history": "资源限制 / 层级历史",
@@ -60,7 +55,6 @@
     "Automatic mode repeats native / UPX layers; recovery stops after repair. Analyzed programs are never run.": "自动模式逐层解码；静态恢复后停止处理。全程不执行待分析的程序。",
     "LZMA-Alone needs explicit selection. UPX needs an installed executable; recovery does not promise runnable output.": "LZMA-Alone 需显式指定；UPX 需安装官方程序；静态恢复不保证程序可运行。",
     "How Unpack processes each layer": "Unpack 如何逐层处理文件",
-    "Native Rust API and CLI; the compatible Go SDK delegates built-ins over RPC protocol 2.": "Rust 库与命令行共享核心，Go SDK 通过通信协议调用内置能力。",
     "Unpack — see through every layer": "Unpack — 看清每一层",
     "Unpack 2.0, executable packer analysis with a Rust core and a compatible Go SDK. Twenty-two built-in formats and five native decoders. An exploded package illustrates GZIP, XZ, UPX and the resulting executable.": "Unpack 2.0 可执行文件壳分析工具，采用 Rust 核心与兼容 Go SDK。22 种内置格式，5 个原生解码器。分层图展示 GZIP、XZ、UPX 与解包结果。",
     "See through": "看清",
@@ -70,22 +64,70 @@
     "native decoders": "个原生解码器",
     "DETECT  /  DECODE  /  TRACE": "识别  /  解码  /  追踪",
     "FROM PACKED TO UNDERSTOOD": "逐层展开，看清内容",
-    "LAYER 00": "第 00 层"
+    "LAYER 00": "第 00 层",
+    "Historical RPC SDK: decoding allocations": "历史 RPC SDK：响应解码分配量",
+    "Former subprocess SDK; these measurements do not describe the current statically linked SDK.": "旧子进程 SDK 的历史测量，不代表当前静态链接 SDK。",
+    "03 / HISTORICAL RPC": "03 / 历史 RPC 数据",
+    "RPC allocation values are historical; the current cgo SDK copies Rust output into Go once.": "RPC 分配量为历史数据；当前 cgo SDK 会将 Rust 输出复制到 Go 一次。",
+    "cgo + Rust staticlib": "cgo + Rust 静态库",
+    "Rust API, CLI and statically linked Go SDK share the same core.": "Rust 库、命令行与静态链接的 Go SDK 共享同一核心。"
   },
   "patterns": [
-    ["^Format support: (\\d+) built-in formats$", "格式支持：\\1 种内置格式"],
-    ["^Full decode paths: (\\d+)$", "解码路径：\\1 种"],
-    ["^Static PE recovery: (\\d+)$", "静态 PE 恢复：\\1 种"],
-    ["^Detection only: (\\d+)$", "仅识别：\\1 种"],
-    ["^(\\d+) checked-in variants; golden output is produced by the official decoder\\.$", "\\1 种仓库样本；解包结果来自官方解码器。"],
-    ["^([\\d,.]+) KiB payload: allocations during response decode$", "\\1 KiB 载荷：响应解码分配量"],
-    ["^(\\d+) families / explicit opt-in$", "\\1 种壳 / 需显式启用"],
-    ["^(\\d+) families / unsupported on unpack$", "\\1 种壳 / 解包返回不支持"],
-    ["^([\\d,.]+)x ratio$", "耗时比 \\1 倍"],
-    ["^([\\d,.]+)x faster$", "耗时比 \\1 倍"],
-    ["^\\+([\\d.]+)% latency$", "耗时增加 \\1%"],
-    ["^([\\d,.]+)x$", "\\1 倍"],
-    ["^([\\d,.]+) us$", "\\1 μs"],
-    ["^([\\d,.]+) B/op$", "\\1 字节/次"]
+    [
+      "^Format support: (\\d+) built-in formats$",
+      "格式支持：\\1 种内置格式"
+    ],
+    [
+      "^Full decode paths: (\\d+)$",
+      "解码路径：\\1 种"
+    ],
+    [
+      "^Static PE recovery: (\\d+)$",
+      "静态 PE 恢复：\\1 种"
+    ],
+    [
+      "^Detection only: (\\d+)$",
+      "仅识别：\\1 种"
+    ],
+    [
+      "^(\\d+) checked-in variants; golden output is produced by the official decoder\\.$",
+      "\\1 种仓库样本；解包结果来自官方解码器。"
+    ],
+    [
+      "^([\\d,.]+) KiB payload: allocations during response decode$",
+      "\\1 KiB 载荷：响应解码分配量"
+    ],
+    [
+      "^(\\d+) families / explicit opt-in$",
+      "\\1 种壳 / 需显式启用"
+    ],
+    [
+      "^(\\d+) families / unsupported on unpack$",
+      "\\1 种壳 / 解包返回不支持"
+    ],
+    [
+      "^([\\d,.]+)x ratio$",
+      "耗时比 \\1 倍"
+    ],
+    [
+      "^([\\d,.]+)x faster$",
+      "耗时比 \\1 倍"
+    ],
+    [
+      "^\\+([\\d.]+)% latency$",
+      "耗时增加 \\1%"
+    ],
+    [
+      "^([\\d,.]+)x$",
+      "\\1 倍"
+    ],
+    [
+      "^([\\d,.]+) us$",
+      "\\1 μs"
+    ],
+    [
+      "^([\\d,.]+) B/op$",
+      "\\1 字节/次"
+    ]
   ]
 }

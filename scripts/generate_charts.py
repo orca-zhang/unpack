@@ -148,7 +148,7 @@ def rpc_chart():
             row = y + 20 + j * 34
             parts += [text(28, row + 16, name, 12), box(100, row, log_width(value, old[1], 560), 23, color), text(685, row + 16, f'{value:,.0f} B/op', 13)]
     parts += [text(28, 379, 'Logarithmic bar lengths; labels show measured values. The existing response buffer is excluded.', 12), text(28, 400, 'This measures decode allocations only, not total memory, pipe throughput or end-to-end unpack speed.', 12)]
-    return svg('Go SDK: response decoding allocations', 'Five repeats per case. Small metadata allocations remain; base64 payload allocation is removed.', 425, parts)
+    return svg('Historical RPC SDK: decoding allocations', 'Former subprocess SDK; these measurements do not describe the current statically linked SDK.', 425, parts)
 
 
 def overview_chart():
@@ -160,7 +160,7 @@ def overview_chart():
     panels = [
         ('01 / DETECTION', 'No-match PE scan', before['detect_plain_pe'] / 1000, after['detect_plain_pe'] / 1000, 'us', f"{before['detect_plain_pe'] / after['detect_plain_pe']:.1f}x", 'baseline / optimized latency'),
         ('02 / NATIVE DECODE', 'AP32 / 65 KiB', codecs_before['ap32_65kib'] / 1000, codecs_after['ap32_65kib'] / 1000, 'us', f"{codecs_before['ap32_65kib'] / codecs_after['ap32_65kib']:.1f}x", 'baseline / optimized latency'),
-        ('03 / SDK ALLOCATION', '4 MiB response decode', rpc[('base64', 4096)][1], rpc[('binary', 4096)][1], 'B/op', f"{(1 - rpc[('binary', 4096)][1] / rpc[('base64', 4096)][1]) * 100:.3f}%", 'less allocated'),
+        ('03 / HISTORICAL RPC', '4 MiB response decode', rpc[('base64', 4096)][1], rpc[('binary', 4096)][1], 'B/op', f"{(1 - rpc[('binary', 4096)][1] / rpc[('base64', 4096)][1]) * 100:.3f}%", 'less allocated'),
     ]
     parts = []
     for i, (eyebrow, label, old, new, unit, ratio, caption) in enumerate(panels):
@@ -170,7 +170,7 @@ def overview_chart():
             y = 256 + j * 48
             number = f'{value:,.2f}' if unit == 'us' else f'{value:,.0f}'
             parts += [text(x + 18, y, name, 11), text(x + 254, y, f'{number} {unit}', 12, '#152e2b', 'end'), box(x + 18, y + 9, 236, 6, '#edf3ef', 3), box(x + 18, y + 9, log_width(value, old, 236), 6, color, 3)]
-    parts += [text(28, 395, 'Apple M4 Pro / release Rust + Go benchmarks / median of five batches / lower is better.', 12), text(28, 416, 'Logarithmic bar lengths; labels show measured values. Excludes I/O, startup and end-to-end unpacking.', 12), text(28, 437, 'SDK values measure response-decode allocations only; the existing payload buffer is excluded.', 12)]
+    parts += [text(28, 395, 'Apple M4 Pro / release Rust + Go benchmarks / median of five batches / lower is better.', 12), text(28, 416, 'Logarithmic bar lengths; labels show measured values. Excludes I/O, startup and end-to-end unpacking.', 12), text(28, 437, 'RPC allocation values are historical; the current cgo SDK copies Rust output into Go once.', 12)]
     return svg('Performance at a glance', 'Historical baseline vs recorded optimization results. Sources: docs/benchmarks/.', 459, parts)
 
 
@@ -178,7 +178,7 @@ def workflow_chart(formats):
     counts = Counter(f['support'] for f in formats)
     parts = [
         '<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="none" stroke="#809891" stroke-width="1.5"/></marker></defs>',
-        box(28, 170, 150, 118, '#e5efea', 12), text(46, 197, 'ENTRY POINTS', 11), text(46, 225, 'Rust API / CLI', 17, '#152e2b'), text(46, 250, 'Go SDK', 17, '#152e2b'), text(46, 272, 'JSON + binary RPC', 11),
+        box(28, 170, 150, 118, '#e5efea', 12), text(46, 197, 'ENTRY POINTS', 11), text(46, 225, 'Rust API / CLI', 17, '#152e2b'), text(46, 250, 'Go SDK', 17, '#152e2b'), text(46, 272, 'cgo + Rust staticlib', 11),
         box(220, 170, 166, 118, '#152e2b', 12), text(238, 198, 'RUST CORE', 11, '#9ccdc0'), text(238, 229, 'Detect + iterate', 18, '#ffffff'), text(238, 255, 'Limits / layer history', 12, '#d2e5dc'), text(238, 275, 'Validate each result', 12, '#d2e5dc'),
         '<path d="M178 229H216M386 229H410M410 142V394" fill="none" stroke="#809891" stroke-width="1.5" marker-end="url(#arrow)"/>',
         box(730, 170, 142, 118, '#e5efea', 12), text(746, 198, 'RESULT', 11), text(746, 225, 'Bytes + history', 16, '#152e2b'), text(746, 251, 'Evidence / warnings', 11), text(746, 272, 'Typed errors', 11),
@@ -193,12 +193,12 @@ def workflow_chart(formats):
     for y, color, title, detail in lanes:
         parts += [f'<path d="M410 {y + 32}H434M684 {y + 32}H702" fill="none" stroke="#809891" stroke-width="1.5" marker-end="url(#arrow)"/>', box(438, y, 246, 64, color, 10), text(454, y + 25, title, 15, '#152e2b'), text(454, y + 46, detail, 11)]
     parts += [text(28, 468, 'Automatic mode repeats native / UPX layers; recovery stops after repair. Analyzed programs are never run.', 12), text(28, 490, 'LZMA-Alone needs explicit selection. UPX needs an installed executable; recovery does not promise runnable output.', 12)]
-    return svg('How Unpack processes each layer', 'Native Rust API and CLI; the compatible Go SDK delegates built-ins over RPC protocol 2.', 514, parts)
+    return svg('How Unpack processes each layer', 'Rust API, CLI and statically linked Go SDK share the same core.', 514, parts)
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--engine', help='Read live format metadata from this unpack-rs executable')
+    parser.add_argument('--engine', help='Read live format metadata from this unpack executable')
     parser.add_argument('--check', action='store_true', help='Fail if checked-in artifacts differ')
     args = parser.parse_args()
     formats_path = DOCS / 'formats.json'

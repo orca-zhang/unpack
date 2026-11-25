@@ -31,8 +31,8 @@ Unpack 用于识别可执行文件的壳、解码压缩载荷，并逐层记录�
 
 ```sh
 cargo install --path . --locked
-unpack-rs detect --json testdata/upx/pe32.packed
-unpack-rs unpack -o output.exe testdata/upx/pe32.packed
+unpack detect --json testdata/upx/pe32.packed
+unpack unpack -o output.exe testdata/upx/pe32.packed
 ```
 
 解包 UPX 文件还需安装[官方 UPX](https://upx.github.io/)。处理过程中不会执行待分析的程序。
@@ -74,6 +74,8 @@ unpack-rs unpack -o output.exe testdata/upx/pe32.packed
 
 “—”表示未验证具体发行版；签名和节名不代表厂商版本。[完整版本明细 →](docs/REFERENCE_zh.md#versions)
 
+ASPack 2.42/OTHER 目前仅有合成布局测试；真实旧壳样本还验证无法可靠恢复时会明确报错。
+
 <a id="performance"></a>
 
 ## 性能
@@ -83,9 +85,19 @@ unpack-rs unpack -o output.exe testdata/upx/pe32.packed
 数据来自 Apple M4 Pro 上的本机微基准，不含文件 I/O、进程启动和完整解包。
 [测量方法、详细图表与原始数据 →](docs/REPORT.md)
 
+分配量面板保留的是旧 RPC SDK 的历史数据；当前 cgo SDK 会将 Rust 输出复制到 Go 一次。
+
 ## Go SDK
 
-需要 Go 1.21.5+，并确保 `unpack-rs` 在 PATH 中，或用 `UNPACK_RUST_BIN` 指定路径。
+构建需要 Go 1.21.5+、cgo、C 编译器和 Rust。先构建嵌入 SDK 的 Rust 静态库：
+
+```sh
+python3 scripts/build_go_sdk.py  # 或 make sdk / go generate .
+go build ./examples/go
+```
+
+Rust 核心会编译进 Go 应用，运行时无需 `unpack` 程序。UPX 解包仍需官方 UPX。
+[构建与平台说明 →](docs/REFERENCE_zh.md#go-sdk)
 
 ```go
 package main
@@ -106,7 +118,7 @@ func main() {
 }
 ```
 
-旧 Go 接口默认允许静态恢复，CLI 默认关闭。严格模式、自定义驱动和其他选项见 [SDK 文档](docs/REFERENCE_zh.md#go-sdk)。
+旧 Go 接口默认允许静态恢复，CLI 默认关闭。严格模式、驱动注册和其他选项见 [SDK 文档](docs/REFERENCE_zh.md#go-sdk)。
 
 Rust 库用法见 [Rust 示例](examples/basic.rs)，完整 Go 示例见 [examples/go](examples/go/main.go)。
 

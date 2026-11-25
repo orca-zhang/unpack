@@ -163,9 +163,15 @@ impl Pe {
     pub fn valid_oep(&self, value: u32) -> bool {
         value != self.entry
             && self.section_at(value).is_some_and(|s| {
-                s.flags & 0x2000_0020 != 0
-                    || s.name.eq_ignore_ascii_case("code")
-                    || s.name == ".text"
+                // Static repair cannot establish an OEP inside the stub or known packed storage.
+                self.section_at(self.entry)
+                    .is_none_or(|stub| stub.header != s.header)
+                    && !crate::FORMATS
+                        .iter()
+                        .any(|format| format.sections.contains(&s.name.as_str()))
+                    && (s.flags & 0x2000_0020 != 0
+                        || s.name.eq_ignore_ascii_case("code")
+                        || s.name == ".text")
             })
             && self.offset(value).is_ok()
     }

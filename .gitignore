@@ -3,3 +3,5 @@
 *.profraw
 /testdata/generated/
 
+/native/*/libunpack.a
+__pycache__/

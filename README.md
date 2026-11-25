@@ -32,8 +32,8 @@ Requires Rust 1.85+. Run from the repository directory:
 
 ```sh
 cargo install --path . --locked
-unpack-rs detect --json testdata/upx/pe32.packed
-unpack-rs unpack -o output.exe testdata/upx/pe32.packed
+unpack detect --json testdata/upx/pe32.packed
+unpack unpack -o output.exe testdata/upx/pe32.packed
 ```
 
 UPX unpacking also requires [official UPX](https://upx.github.io/). Analyzed executables are never run.
@@ -75,7 +75,8 @@ and structure without guaranteeing runnable output. **Detect only** does not unp
 | Yoda | Detect only | Protector / Crypter |
 
 “—” means the exact vendor release is unverified. Signatures and section names are
-not vendor versions. [Full version details →](docs/REFERENCE.md#versions)
+not vendor versions. ASPack 2.42/OTHER have synthetic layout coverage; real legacy
+samples also verify conservative rejection of unsupported recovery. [Full version details →](docs/REFERENCE.md#versions)
 
 <a id="performance"></a>
 
@@ -84,11 +85,21 @@ not vendor versions. [Full version details →](docs/REFERENCE.md#versions)
 ![Detection latency, AP32 decoding and Go SDK allocations](docs/charts/overview.svg)
 
 Local Apple M4 Pro microbenchmarks; excludes file I/O, process startup and end-to-end unpacking.
+The allocation panel records the former RPC SDK; the current cgo SDK copies Rust output into Go once.
 [Methodology, detailed charts and raw data →](docs/REPORT.md)
 
 ## Go SDK
 
-Requires Go 1.21.5+ and `unpack-rs` on PATH, or set its path with `UNPACK_RUST_BIN`.
+Requires Go 1.21.5+, cgo, a C compiler and Rust at build time. Build the embedded Rust
+static library once before compiling the SDK:
+
+```sh
+python3 scripts/build_go_sdk.py  # or: make sdk / go generate .
+go build ./examples/go
+```
+
+The Go application contains the Rust core; no `unpack` executable is needed at runtime.
+UPX unpacking still requires official UPX. [Build and platform details →](docs/REFERENCE.md#go-sdk)
 
 ```go
 package main
@@ -110,7 +121,7 @@ func main() {
 ```
 
 Legacy Go calls allow static recovery by default; the CLI does not. See the
-[SDK reference](docs/REFERENCE.md#go-sdk) for strict mode, custom drivers and other options.
+[SDK reference](docs/REFERENCE.md#go-sdk) for strict mode, registration and other options.
 
 For more examples, see the [Rust example](examples/basic.rs) and [Go example](examples/go/main.go).
 

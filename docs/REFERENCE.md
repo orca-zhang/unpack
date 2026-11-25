@@ -92,27 +92,24 @@ cargo build --release --locked
 cargo install --path . --locked
 ```
 
-The Go SDK needs `unpack-rs` at runtime. It searches `UNPACK_RUST_BIN`, then PATH,
-then local `target/release` and `target/debug` directories. It never builds Rust or
-downloads programs automatically. Set `UNPACK_UPX` to choose an official UPX
-executable outside PATH. Both environment variables are executable paths, not
-shell commands. No cgo, static-library linker setup or Go module dependencies are
-required. When both local profiles exist, the newest binary is selected to avoid using a stale build.
+The Go SDK statically links the Rust library through cgo. It needs Rust, Python 3,
+and a C compiler when building; deployment does not need the Rust CLI or a Rust
+shared library. `UNPACK_UPX` optionally selects the official UPX executable.
 
 <a id="cli"></a>
 
 ## Rust CLI
 
 ```sh
-unpack-rs detect testdata/upx/pe32.packed
-unpack-rs detect --json testdata/upx/elf64.packed
-unpack-rs unpack -o output.exe testdata/upx/pe32.packed
-unpack-rs unpack -o decoded.exe testdata/aplib/upx.ap32
-unpack-rs unpack -o decoded.exe testdata/payloads/gzip-xz-upx.packed
-unpack-rs unpack --format LZMA -o payload.bin testdata/payloads/text-lzma.packed
-unpack-rs unpack --depth 5 --max-size 268435456 input.exe
-unpack-rs unpack --recover -o recovered.exe aspack/testdata/aspack_test.exe
-unpack-rs formats
+unpack detect testdata/upx/pe32.packed
+unpack detect --json testdata/upx/elf64.packed
+unpack unpack -o output.exe testdata/upx/pe32.packed
+unpack unpack -o decoded.exe testdata/aplib/upx.ap32
+unpack unpack -o decoded.exe testdata/payloads/gzip-xz-upx.packed
+unpack unpack --format LZMA -o payload.bin testdata/payloads/text-lzma.packed
+unpack unpack --depth 5 --max-size 268435456 input.exe
+unpack unpack --recover -o recovered.exe aspack/testdata/aspack_test.exe
+unpack formats
 ```
 
 The default output is `<stem>_unpacked.<extension>`. Existing files are preserved
@@ -135,8 +132,27 @@ ARM64 Mach-O is not listed as a verified round-trip case.
 
 ## Go SDK
 
-Existing imports and calls continue to compile. Deploy the matching Rust binary
-alongside the application or install it on PATH.
+Existing built-in imports and calls are retained. Build the static library before
+compiling Go, from a writable clone:
+
+```sh
+python3 scripts/build_go_sdk.py  # or go generate .
+go build ./examples/go
+```
+
+For another Go application, use the clone containing the generated archive:
+
+```sh
+go mod edit -replace github.com/orca-zhang/unpack=/absolute/path/to/unpack
+```
+
+Configured SDK build targets: macOS amd64/arm64, Linux GNU amd64/arm64, Windows amd64
+with MinGW GCC and Rust target `x86_64-pc-windows-gnu`. The script reads `GOOS` and
+`GOARCH`; cross compilation also needs the matching `rustup target add` and C
+cross compiler. Set `CGO_ENABLED=1`. Native archives are generated and ignored by Git;
+`go get` alone cannot build the SDK. Rebuild the archive after changing Rust; the
+script clears Go's build cache so the linker uses the new archive. The Go CLI and
+custom Go unpacker implementations have been removed.
 
 ```go
 package main
@@ -163,7 +179,8 @@ register only those formats. Import `drivers` to register all 22, or import
 `github.com/orca-zhang/unpack/ap32` for native AP32 support. `Inspect(path)`
 reports detection evidence and errors for all built-ins regardless of registration;
 legacy `DetectFormat` keeps its no-match-on-error signature and uses registered
-formats. Custom Go drivers retain priority in sorted registration-name order.
+formats. `RegisterFormat` selects Rust-backed adapters implementing `RustFormat()`;
+legacy custom Go detector/unpacker callbacks return `unsupported` and are never executed.
 
 For explicit limits, cancellation and strict unpacking:
 
@@ -176,16 +193,13 @@ result, err := unpack.UnpackWithOptions(ctx, path, unpack.Options{
 ```
 
 Rust errors are exposed as `*unpack.Error` with codes `invalid_input`, `unsupported`,
-`limit`, `backend`, or `io`. Engine discovery/transport failures are ordinary Go
-errors. A built-in recursive operation uses one Rust process with protocol 2:
-a JSON metadata line followed by raw binary output. The Go result reuses the
-received buffer, removing base64 encoding/decoding and its payload allocation.
-Protocol 1 remains available for older clients; the current Go SDK requires a
-matching protocol-2 Rust engine. Go adds a two-minute request timeout. Process
-startup and pipe I/O still have a cost; this is not an in-process binding.
-Custom plugins reuse a single private scratch file between layers. The mixed
-custom/native path reuses detection metadata, propagates engine errors and applies
-native size/context limits. Plugin code is responsible for its own runtime/resources.
+`limit`, `backend`, `io`, `cancelled` or `internal`. The C ABI owns metadata/output
+buffers until Go copies the output once and frees the Rust result. It catches Rust
+panics at the C boundary. There is no CLI discovery, subprocess or base64 transport
+in the SDK. The CLI retains RPC protocols 1/2 for existing external clients.
+Go adds a two-minute request timeout. Context cancellation returns promptly and
+signals Rust; UPX is killed and reaped. Native codec cancellation is cooperative
+at layer boundaries, so a running codec can finish after the Go call returns.
 
 For explicit one-layer LZMA decoding without registration:
 
@@ -237,6 +251,7 @@ go run ./examples/go testdata/upx/elf64.packed
 cargo build --locked
 cargo test --locked --all-targets
 cargo clippy --locked --all-targets -- -D warnings
+python3 scripts/build_go_sdk.py
 go test -race ./...
 go vet ./...
 ```
@@ -250,19 +265,27 @@ offset boundaries, nested containers and a real AP32 -> UPX chain. They were
 checked using an independent decoder; see the fixture provenance. Synthetic PE
 fixtures cover all 17 PE packer detectors, legacy static
 recovery, unsupported formats, malformed headers, limits, SDK registration,
-custom Go plugins and mixed layers. Synthetic stubs are not evidence that a real
+embedded native calls, cancellation and rejected Go plugin callbacks. Synthetic stubs are not evidence that a real
 commercial protector can be unpacked. These tests do not skip missing fixtures.
 See [testdata/README.md](../testdata/README.md) for provenance and regeneration.
 
-CI runs Rust and Go checks on Linux, macOS and Windows. Building the Go SDK with
-`CGO_ENABLED=0` remains supported. This is a version-2 runtime migration: `go get`
-alone no longer installs everything needed for built-in unpacking.
+The version matrix adds **105 synthetic cases**, including **81 ASPack cases** for
+2.1/2.12/OTHER/2.42 layouts. They cover shifted entry points, reordered sections,
+imports, truncated/ambiguous markers, file-backed bounds and legacy block streams.
+**16 real RetDec samples** add ASPack 2.12, FSG 1.33 and MPRESS 1.05/1.27/2.05/2.19
+(code before/after/between data; LZMA/LZMAT). These must be recognized and reject
+unverifiable recovery. A reference original proves a jump into compressed MPRESS
+storage is not the original entry point. ASPack 2.42/OTHER currently have synthetic
+layout coverage only. See the fixture manifest for source commits, licenses and hashes.
+
+CI builds and tests native SDK linkage on Linux, macOS and Windows. `CGO_ENABLED=0`
+can compile the SDK's error stub, but all operations require cgo and the archive.
 
 ## Rebuild the charts
 
 All seven charts have English and Chinese versions, share a vector style and are generated from checked-in measurements,
 fixture sizes and live format metadata. [The report](REPORT.md) includes the
-detailed detection, CRC/AP32, SDK allocation and fixture-size charts.
+detailed detection, CRC/AP32, SDK allocation and fixture-size charts. RPC allocation measurements are historical.
 
 ```sh
 make benchmark  # Re-measure the current implementation; preserves historical baseline

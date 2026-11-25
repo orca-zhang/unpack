@@ -251,7 +251,8 @@ pub fn detect_filtered(
                         .find(|s| f.sections.contains(&s.name.as_str()))
                     {
                         let version = if f.name == "ASPack" {
-                            crate::aspack::identify(pe.entry_code(data).unwrap_or(&[]))?.map_or(0, |layout| layout.id)
+                            crate::aspack::identify(pe.entry_code(data).unwrap_or(&[]))?
+                                .map_or(0, |layout| layout.id)
                         } else {
                             1
                         };

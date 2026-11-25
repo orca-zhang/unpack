@@ -1,9 +1,11 @@
 //! Rust core for executable packer detection, UPX unpacking and explicit legacy PE recovery.
+pub mod api;
 pub mod aplib;
 mod aspack;
 mod backend;
 pub mod compression;
 mod detect;
+mod ffi;
 pub mod macho;
 pub mod pe;
 mod recover;
@@ -17,6 +19,10 @@ use std::{
     hash::{Hash, Hasher},
     io::Read,
     path::Path,
+    sync::{
+        Arc,
+        atomic::{AtomicBool, Ordering},
+    },
     time::Duration,
 };
 
@@ -63,6 +69,8 @@ pub struct Options {
     pub allow_recovery: bool,
     pub backend_timeout: Duration,
     pub formats: Option<Vec<String>>,
+    /// Cooperative cancellation, checked between layers and while polling UPX.
+    pub cancellation: Option<Arc<AtomicBool>>,
 }
 impl Default for Options {
     fn default() -> Self {
@@ -72,7 +80,21 @@ impl Default for Options {
             allow_recovery: false,
             backend_timeout: Duration::from_secs(30),
             formats: None,
+            cancellation: None,
         }
+    }
+}
+
+impl Options {
+    pub(crate) fn check_cancelled(&self) -> Result<()> {
+        if self
+            .cancellation
+            .as_ref()
+            .is_some_and(|flag| flag.load(Ordering::Relaxed))
+        {
+            return Err(Error::new("cancelled", "operation cancelled"));
+        }
+        Ok(())
     }
 }
 
@@ -159,6 +181,7 @@ fn unpack_using(
     };
     let mut seen = HashSet::new();
     loop {
+        options.check_cancelled()?;
         if options.max_depth != 0 && result.history.len() >= options.max_depth {
             break;
         }
@@ -202,6 +225,7 @@ fn unpack_using(
                 )));
             }
         };
+        options.check_cancelled()?;
         if next.len() > options.max_size {
             return Err(Error::limit("output exceeds size limit"));
         }

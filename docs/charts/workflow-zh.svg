@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="514" viewBox="0 0 900 514" role="img" aria-labelledby="title desc" lang="zh-CN">
 <title id="title">Unpack 如何逐层处理文件</title>
-<desc id="desc">Rust 库与命令行共享核心，Go SDK 通过通信协议调用内置能力。</desc>
+<desc id="desc">Rust 库、命令行与静态链接的 Go SDK 共享同一核心。</desc>
 <g font-family="Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, &quot;Noto Sans CJK SC&quot;, sans-serif">
-<rect x="0.5" y="0.5" width="899.000" height="513" rx="16" fill="#f5f9f7" /><rect x="0.5" y="0.5" width="899" height="513" rx="16" fill="none" stroke="#dce6e1" /><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70" /><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">Unpack 如何逐层处理文件</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">Rust 库与命令行共享核心，Go SDK 通过通信协议调用内置能力。</text><path d="M28 80H872" stroke="#dce6e1" /><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="none" stroke="#809891" stroke-width="1.5" /></marker></defs>
+<rect x="0.5" y="0.5" width="899.000" height="513" rx="16" fill="#f5f9f7" /><rect x="0.5" y="0.5" width="899" height="513" rx="16" fill="none" stroke="#dce6e1" /><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70" /><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">Unpack 如何逐层处理文件</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">Rust 库、命令行与静态链接的 Go SDK 共享同一核心。</text><path d="M28 80H872" stroke="#dce6e1" /><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="none" stroke="#809891" stroke-width="1.5" /></marker></defs>
 <rect x="28" y="170" width="150.000" height="118" rx="12" fill="#e5efea" />
 <text x="46" y="197" font-size="11" fill="#526966" text-anchor="start">调用入口</text>
 <text x="46" y="225" font-size="17" fill="#152e2b" text-anchor="start">Rust 库 / 命令行</text>
 <text x="46" y="250" font-size="17" fill="#152e2b" text-anchor="start">Go SDK</text>
-<text x="46" y="272" font-size="11" fill="#526966" text-anchor="start">JSON + 二进制通信</text>
+<text x="46" y="272" font-size="11" fill="#526966" text-anchor="start">cgo + Rust 静态库</text>
 <rect x="220" y="170" width="166.000" height="118" rx="12" fill="#152e2b" />
 <text x="238" y="198" font-size="11" fill="#9ccdc0" text-anchor="start">Rust 核心</text>
 <text x="238" y="229" font-size="18" fill="#ffffff" text-anchor="start">识别与逐层处理</text>

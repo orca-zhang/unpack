@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="425" viewBox="0 0 900 425" role="img" aria-labelledby="title desc">
-<title id="title">Go SDK: response decoding allocations</title>
-<desc id="desc">Five repeats per case. Small metadata allocations remain; base64 payload allocation is removed.</desc>
+<title id="title">Historical RPC SDK: decoding allocations</title>
+<desc id="desc">Former subprocess SDK; these measurements do not describe the current statically linked SDK.</desc>
 <g font-family="Arial, Helvetica, sans-serif">
-<rect x="0.5" y="0.5" width="899.000" height="424" rx="16" fill="#f5f9f7"/><rect x="0.5" y="0.5" width="899" height="424" rx="16" fill="none" stroke="#dce6e1"/><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70"/><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">Go SDK: response decoding allocations</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">Five repeats per case. Small metadata allocations remain; base64 payload allocation is removed.</text><path d="M28 80H872" stroke="#dce6e1"/><text x="28" y="110" font-size="16" fill="#0f172a" text-anchor="start">64 KiB payload: allocations during response decode</text>
+<rect x="0.5" y="0.5" width="899.000" height="424" rx="16" fill="#f5f9f7"/><rect x="0.5" y="0.5" width="899" height="424" rx="16" fill="none" stroke="#dce6e1"/><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70"/><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">Historical RPC SDK: decoding allocations</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">Former subprocess SDK; these measurements do not describe the current statically linked SDK.</text><path d="M28 80H872" stroke="#dce6e1"/><text x="28" y="110" font-size="16" fill="#0f172a" text-anchor="start">64 KiB payload: allocations during response decode</text>
 <text x="28" y="146" font-size="12" fill="#526966" text-anchor="start">Base64</text>
 <rect x="100" y="130" width="560.000" height="23" rx="5" fill="#a9bab7"/>
 <text x="685" y="146" font-size="13" fill="#526966" text-anchor="start">74,056 B/op</text>

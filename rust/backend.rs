@@ -8,6 +8,7 @@ use std::{
 };
 
 pub fn upx(data: &[u8], options: &Options) -> Result<Vec<u8>> {
+    options.check_cancelled()?;
     let dir = tempfile::tempdir()?;
     let input = dir.path().join("packed.bin");
     let output = dir.path().join("unpacked.bin");
@@ -31,6 +32,11 @@ pub fn upx(data: &[u8], options: &Options) -> Result<Vec<u8>> {
         })?;
     let started = Instant::now();
     let status = loop {
+        if let Err(error) = options.check_cancelled() {
+            let _ = child.kill();
+            let _ = child.wait();
+            return Err(error);
+        }
         match child.try_wait() {
             Ok(Some(status)) => break status,
             Ok(None) => {}

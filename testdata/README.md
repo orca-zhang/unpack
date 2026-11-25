@@ -24,7 +24,7 @@ Toolchain or UPX version changes may change the generated binary bytes: review
 and commit the regenerated manifest and fixtures together. Tests fail rather than
 skip when a required fixture or backend is absent.
 
-Synthetic fixtures in `tests/core.rs` and `internal/testfixture/fixture.go` rename
+Synthetic fixtures in `tests/core.rs` rename
 a section of the benign PE fixture and add a simple tail jump or ASPack marker.
 They validate detection, recovery control flow, preservation of original code and
 error handling. They are **not** genuine outputs of FSG, WinUpack, commercial VM
@@ -34,11 +34,6 @@ protectors or other packers, and do not establish full unpacking support.
 not recorded by the original repository. It remains a regression sample for
 recognition and limited PE repair only. Tests do not run it or claim its compressed
 program is restored.
-
-Mixed-layer Go tests use a synthetic custom `WRAP` plugin around a real UPX file;
-this checks custom-plugin compatibility and recursive history. It is not evidence
-of a genuine commercial multi-packer chain. Official UPX rejects packing an
-already-UPX-packed file; we do not document that as a fixture-generation method.
 
 ## Native aPLib / AP32 vectors
 
@@ -85,3 +80,45 @@ The eight UPX variants include experimental x86-64 Mach-O produced using
 they do not establish macOS execution compatibility. ARM64 Mach-O was excluded
 after upstream UPX rejected decoding the generated candidate. Mach-O universal
 and byte-order tests are structural fixtures, not real packed universal programs.
+
+## PE version and boundary matrix
+
+`pe-versions/` contains **105 synthetic inputs**, generated with independent explicit
+layout specifications by `scripts/generate_version_fixtures.py`. **81 cases** cover
+ASPack 2.1, 2.12, OTHER (`0x41f`) and 2.42. The remaining cases cover FSG and
+WinUpack signature IDs, MPRESS PE32/64 section variants, and other PE families.
+They vary entry-point offsets, section order, import tables, OEP validity,
+truncation, ambiguous markers, block sources/destinations and overlapping matches.
+Positive cases have byte-for-byte expected repair outputs and SHA-256 manifests.
+Rust verifies PE structure; Go checks SDK values/errors and the same golden bytes.
+
+```sh
+python3 scripts/generate_version_fixtures.py
+```
+
+These fixtures are **not vendor packer output**. The limited legacy block test
+codec is not a complete ASPack decompressor. ASPack 2.1 has no supported block table:
+the old guessed offset overlaps the stub's RET byte. ASPack 2.42/OTHER currently
+have synthetic layout coverage only, not verified commercial unpacking.
+
+## Real legacy packer versions
+
+`retdec/` imports 16 regression inputs and one unpacked reference from
+[Avast RetDec regression tests](https://github.com/avast/retdec-regression-tests),
+commit `8d8087f906c3d38c0cce8fcfb15acf3228c5e532`. The upstream MIT notice is preserved
+in `retdec/LICENSE`. `retdec/manifest.json` records each source path, URL and SHA-256.
+Vendor versions come from upstream test names/expectations, not section suffixes.
+
+- ASPack 2.12: C sample; recognition and rejection of unverified recovery.
+- FSG 1.33: recursive factorial sample; recognition and rejection of unverified recovery.
+- MPRESS 1.05, 1.27, 2.05, 2.19: Hello World samples with code before/after/between data.
+- MPRESS 2.19 MSVC: LZMA and LZMAT variants.
+
+The upstream `mpress_105_code_after_data-unpacked` reference has entry point
+`0x3000`. A stub jump into the compressed `.MPRESS1` section targets `0x102f`,
+which proves that selecting a plausible branch is insufficient. Recovery must
+reject destinations in the stub or known packed storage. Tests require every
+imported packed sample to return `unsupported` in recovery mode; they do not
+claim native MPRESS/FSG/ASPack decompression. The legacy repository ASPack 2.1
+sample remains covered separately as limited PE repair. No imported executable
+is run during tests.

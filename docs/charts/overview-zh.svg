@@ -29,7 +29,7 @@
 <rect x="332" y="313" width="236.000" height="6" rx="3" fill="#edf3ef" />
 <rect x="332" y="313" width="137.307" height="6" rx="3" fill="#157d70" />
 <rect x="600" y="100" width="272.000" height="265" rx="12" fill="#ffffff" />
-<text x="618" y="127" font-size="11" fill="#526966" text-anchor="start">03 / SDK 分配量</text>
+<text x="618" y="127" font-size="11" fill="#526966" text-anchor="start">03 / 历史 RPC 数据</text>
 <text x="618" y="157" font-size="16" fill="#152e2b" text-anchor="start">4 MiB 响应解码</text>
 <text x="618" y="204" font-size="34" fill="#157d70" text-anchor="start">99.992%</text>
 <text x="618" y="226" font-size="12" fill="#526966" text-anchor="start">响应解码分配量减少</text>
@@ -43,4 +43,4 @@
 <rect x="618" y="313" width="90.061" height="6" rx="3" fill="#157d70" />
 <text x="28" y="395" font-size="12" fill="#526966" text-anchor="start">Apple M4 Pro / Rust release 与 Go 基准 / 5 批中位数 / 越低越好。</text>
 <text x="28" y="416" font-size="12" fill="#526966" text-anchor="start">柱长采用对数缩放，标注为实测数值；不含 I/O、进程启动与完整解包。</text>
-<text x="28" y="437" font-size="12" fill="#526966" text-anchor="start">SDK 指标仅计响应解码分配量，不含已有数据缓冲区。</text></g></svg>
+<text x="28" y="437" font-size="12" fill="#526966" text-anchor="start">RPC 分配量为历史数据；当前 cgo SDK 会将 Rust 输出复制到 Go 一次。</text></g></svg>
