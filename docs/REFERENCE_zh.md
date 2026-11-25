@@ -99,7 +99,7 @@ unpack unpack -o decoded.exe testdata/aplib/upx.ap32
 unpack unpack -o decoded.exe testdata/payloads/gzip-xz-upx.packed
 unpack unpack --format LZMA -o payload.bin testdata/payloads/text-lzma.packed
 unpack unpack --depth 5 --max-size 268435456 input.exe
-unpack unpack --recover -o recovered.exe aspack/testdata/aspack_test.exe
+unpack unpack --recover -o recovered.exe testdata/aspack/aspack_test.exe
 unpack formats
 ```
 
@@ -160,8 +160,10 @@ func main() {
 }
 ```
 
-导入 `drivers` 注册全部 22 种格式，也可以只导入 `_ "github.com/orca-zhang/unpack/upx"`，
-或导入 `github.com/orca-zhang/unpack/ap32` 单独注册原生 AP32 解码。
+导入 `drivers` 注册全部 22 种格式，也可以只导入 `_ "github.com/orca-zhang/unpack/drivers/upx"`，
+或导入 `github.com/orca-zhang/unpack/drivers/ap32` 单独注册原生 AP32 解码。
+各格式驱动现统一放在 `drivers/` 下，旧导入路径需在格式名前加上 `/drivers`。
+SDK 主包及聚合 `drivers` 的导入路径保持不变。
 `DetectFormat` 仅检查已注册格式，保留出错时返回未识别的旧签名。
 新增 `Inspect(path)` 能返回错误、识别依据和能力字段，不受驱动注册范围限制。
 `RegisterFormat` 只选择实现 `RustFormat()` 的 Rust SDK 适配器；旧 Go 检测/解包回调会返回 `unsupported`，不会执行。
@@ -254,6 +256,10 @@ CI 配置覆盖 Linux、macOS、Windows 的静态库链接与测试。`CGO_ENABL
 实际 SDK 操作需要 cgo 和 Rust 静态库。
 
 ## 重建图表
+
+构建 release CLI 后，用 `python3 scripts/generate_demo.py` 重建终端演示。
+需要 Pillow、官方 UPX，以及 `shasum` 或 `sha256sum`。
+脚本采集真实输出，并逐字节核对解包结果；播放节奏为便于阅读作了调整。
 
 7 张图表均提供中英文版本，采用统一的矢量样式，依据仓库测量数据、样本大小和实时格式元数据生成。
 [实现与性能报告](REPORT.md) 包含识别、CRC/AP32、SDK 分配和样本大小的详细图表。

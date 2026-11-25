@@ -30,7 +30,7 @@ They validate detection, recovery control flow, preservation of original code an
 error handling. They are **not** genuine outputs of FSG, WinUpack, commercial VM
 protectors or other packers, and do not establish full unpacking support.
 
-`aspack/testdata/aspack_test.exe` predates the Rust migration. Its provenance was
+`aspack/aspack_test.exe` predates the Rust migration. Its provenance was
 not recorded by the original repository. It remains a regression sample for
 recognition and limited PE repair only. Tests do not run it or claim its compressed
 program is restored.

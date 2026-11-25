@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/orca-zhang/unpack/internal/testfixture"
 )
 
 func TestASPackLayoutAdapters(t *testing.T) {
@@ -18,7 +20,7 @@ func TestASPackLayoutAdapters(t *testing.T) {
 	} {
 		t.Run(test.profile, func(t *testing.T) {
 			for _, variant := range []string{"basic", "shifted-entry", "reordered-sections", "preserve-imports", "no-imports"} {
-				base := filepath.Join("../testdata/pe-versions", "aspack-"+test.profile+"-"+variant)
+				base := filepath.Join(testfixture.Root(), "testdata/pe-versions", "aspack-"+test.profile+"-"+variant)
 				if got := packer.Detect(base + ".bin"); got != test.version {
 					t.Fatalf("%s version: got %d, want %d", variant, got, test.version)
 				}
@@ -40,7 +42,7 @@ func TestASPackLayoutAdapters(t *testing.T) {
 			}
 		})
 	}
-	if packer.Detect("testdata/aspack_test.exe") != ASPACK_VER_21 {
+	if packer.Detect(filepath.Join(testfixture.Root(), "testdata/aspack/aspack_test.exe")) != ASPACK_VER_21 {
 		t.Fatal("existing 2.1 fixture regressed")
 	}
 }

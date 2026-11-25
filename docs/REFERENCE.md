@@ -108,7 +108,7 @@ unpack unpack -o decoded.exe testdata/aplib/upx.ap32
 unpack unpack -o decoded.exe testdata/payloads/gzip-xz-upx.packed
 unpack unpack --format LZMA -o payload.bin testdata/payloads/text-lzma.packed
 unpack unpack --depth 5 --max-size 268435456 input.exe
-unpack unpack --recover -o recovered.exe aspack/testdata/aspack_test.exe
+unpack unpack --recover -o recovered.exe testdata/aspack/aspack_test.exe
 unpack formats
 ```
 
@@ -174,9 +174,12 @@ func main() {
 }
 ```
 
-Import individual drivers (for example `_ "github.com/orca-zhang/unpack/upx"`) to
+Import individual drivers (for example `_ "github.com/orca-zhang/unpack/drivers/upx"`) to
 register only those formats. Import `drivers` to register all 22, or import
-`github.com/orca-zhang/unpack/ap32` for native AP32 support. `Inspect(path)`
+`github.com/orca-zhang/unpack/drivers/ap32` for native AP32 support.
+Individual driver packages now live under `drivers/`; update earlier imports by
+adding `/drivers` before the format name. The root SDK and aggregate `drivers`
+import paths are unchanged. `Inspect(path)`
 reports detection evidence and errors for all built-ins regardless of registration;
 legacy `DetectFormat` keeps its no-match-on-error signature and uses registered
 formats. `RegisterFormat` selects Rust-backed adapters implementing `RustFormat()`;
@@ -282,6 +285,11 @@ CI builds and tests native SDK linkage on Linux, macOS and Windows. `CGO_ENABLED
 can compile the SDK's error stub, but all operations require cgo and the archive.
 
 ## Rebuild the charts
+
+Regenerate the terminal demo with `python3 scripts/generate_demo.py` after building
+the release CLI. It requires Pillow, official UPX and `shasum` or `sha256sum`.
+The script captures real output and verifies the decoded fixture byte for byte;
+playback timing is adjusted for readability.
 
 All seven charts have English and Chinese versions, share a vector style and are generated from checked-in measurements,
 fixture sizes and live format metadata. [The report](REPORT.md) includes the

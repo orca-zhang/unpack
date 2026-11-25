@@ -1,4 +1,4 @@
-package winupack
+package fsg
 
 import (
 	"bytes"
@@ -7,16 +7,18 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/orca-zhang/unpack/internal/testfixture"
 )
 
 func TestVersionAdapters(t *testing.T) {
-	packer := WinUpack{}
+	packer := FSG{}
 	for _, version := range []int{1, 2} {
 		for _, shift := range []int{0, 29} {
-			name := fmt.Sprintf("winupack-id%d-entry%d", version, shift)
+			name := fmt.Sprintf("fsg-id%d-entry%d", version, shift)
 			t.Run(name, func(t *testing.T) {
-				base := filepath.Join("../testdata/pe-versions", name)
-				if packer.Name() != "WinUpack" || packer.Detect(base+".bin") != version {
+				base := filepath.Join(testfixture.Root(), "testdata/pe-versions", name)
+				if packer.Name() != "FSG" || packer.Detect(base+".bin") != version {
 					t.Fatal("version detection failed")
 				}
 				reader, err := packer.Unpack(base + ".bin")

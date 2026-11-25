@@ -40,6 +40,12 @@ UPX unpacking also requires [official UPX](https://upx.github.io/). Analyzed exe
 
 See the [CLI reference](docs/REFERENCE.md#cli) for more options and configuration.
 
+### Demo
+
+Detect the format → decode GZIP / XZ / UPX layers → verify the result.
+
+![Real CLI demo: detection, three-layer unpacking and SHA-256 verification](docs/assets/demo.gif)
+
 <a id="formats"></a>
 
 ## Supported formats
@@ -130,6 +136,23 @@ For more examples, see the [Rust example](examples/basic.rs) and [Go example](ex
 - [Version details, CLI flags and SDK options](docs/REFERENCE.md)
 - [Benchmark report](docs/REPORT.md)
 - [Test fixtures and regeneration](testdata/README.md)
+
+## Repository layout
+
+| Path | Contents |
+| --- | --- |
+| [rust/](rust/) | Rust core and CLI |
+| [drivers/](drivers/) | All 22 Go format drivers and their registration entry point |
+| [native/](native/) | C header and generated Rust libraries for the Go SDK |
+| [internal/](internal/) | Shared Go test helpers |
+| [examples/](examples/) | Rust and Go usage examples |
+| [tests/](tests/) | Rust integration tests; Go tests live beside their packages |
+| [testdata/](testdata/) | Shared fixtures, manifests and provenance |
+| [scripts/](scripts/) | Build, fixture, benchmark and chart tools |
+| [docs/](docs/) | Reference docs, benchmark reports and images |
+
+Go SDK sources and Cargo/Go manifests stay at the root for standard build commands.
+Individual Go drivers use paths such as `github.com/orca-zhang/unpack/drivers/upx`.
 
 ## License
 

@@ -39,6 +39,12 @@ unpack unpack -o output.exe testdata/upx/pe32.packed
 
 更多参数和环境配置见[命令行说明](docs/REFERENCE_zh.md#cli)。
 
+### 演示
+
+识别格式 → 解开 GZIP / XZ / UPX 三层 → 校验结果。
+
+![真实样本的识别、三层解包与 SHA-256 校验演示](docs/assets/demo-zh.gif)
+
 <a id="formats"></a>
 
 ## 支持格式
@@ -127,6 +133,23 @@ Rust 库用法见 [Rust 示例](examples/basic.rs)，完整 Go 示例见 [exampl
 - [版本明细、命令行参数与 SDK 选项](docs/REFERENCE_zh.md)
 - [性能报告](docs/REPORT.md)
 - [测试样本与生成方法](testdata/README.md)
+
+## 目录结构
+
+| 路径 | 内容 |
+| --- | --- |
+| [rust/](rust/) | Rust 核心与命令行 |
+| [drivers/](drivers/) | 全部 22 种 Go 格式驱动及统一注册入口 |
+| [native/](native/) | Go SDK 使用的 C 头文件与生成的 Rust 静态库 |
+| [internal/](internal/) | Go 测试共用工具 |
+| [examples/](examples/) | Rust、Go 使用示例 |
+| [tests/](tests/) | Rust 集成测试；Go 测试与对应包放在一起 |
+| [testdata/](testdata/) | 统一存放测试样本、清单与来源说明 |
+| [scripts/](scripts/) | 构建、样本生成、基准测试和图表工具 |
+| [docs/](docs/) | 参考文档、性能报告与图片 |
+
+Go SDK 源码及 Cargo、Go 配置保留在根目录，方便使用标准构建命令。
+单独导入 Go 驱动时使用 `github.com/orca-zhang/unpack/drivers/upx` 这样的路径。
 
 ## 许可证
 

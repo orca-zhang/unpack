@@ -155,7 +155,7 @@ fn new_protectors_are_identified_without_claiming_unpacking() {
 
 #[test]
 fn existing_aspack_sample_remains_available_as_limited_recovery() {
-    let input = fs::read(root().join("aspack/testdata/aspack_test.exe")).unwrap();
+    let input = fs::read(root().join("testdata/aspack/aspack_test.exe")).unwrap();
     let found = detect(&input).unwrap().unwrap();
     assert_eq!(found.name, "ASPack");
     assert_eq!(found.version, 1);
