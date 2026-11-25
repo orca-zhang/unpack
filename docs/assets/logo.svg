@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Unpack logo</title>
+  <desc id="desc">A geometric package with three separated mint layers and a check mark on its lifted lid, representing inspected and decoded layers.</desc>
+  <rect width="128" height="128" rx="30" fill="#102b2b"/>
+  <path d="M24 70 64 47 104 70 64 93Z" fill="#254c47"/>
+  <path d="M24 70V90L64 113V93Z" fill="#538b78"/>
+  <path d="M104 70V90L64 113V93Z" fill="#79c7a3"/>
+  <path d="M24 49 64 26 104 49 64 72Z" fill="#5aa98b"/>
+  <path d="M24 49V63L64 86V72Z" fill="#326b5c"/>
+  <path d="M104 49V63L64 86V72Z" fill="#82d8b1"/>
+  <path d="M24 28 64 5 104 28 64 51Z" fill="#c1f6d7"/>
+  <path d="M24 28V39L64 62V51Z" fill="#78c7a2"/>
+  <path d="M104 28V39L64 62V51Z" fill="#9ce9bf"/>
+  <path d="m51 28 10 6 17-10" fill="none" stroke="#225d4c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

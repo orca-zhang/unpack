@@ -1,0 +1,111 @@
+{
+  "generator": "scripts/generate_fixtures.py",
+  "upx": "upx 5.1.0",
+  "samples": [
+    {
+      "name": "pe32",
+      "flags": [
+        "--best"
+      ],
+      "method": 2,
+      "filter": "0x16",
+      "packed": "pe32.packed",
+      "original": "pe32.original",
+      "unpacked": "pe32.unpacked",
+      "packed_sha256": "687e9a35e5ad8de4f410db9afcc05d6aba0423f4329e85efb87faa28df183fb3",
+      "unpacked_sha256": "b4358abcaad6ee6f61424561be2af58493dbcfe8f4429f9f6170d95336b87a91"
+    },
+    {
+      "name": "pe32-lzma",
+      "flags": [
+        "--lzma"
+      ],
+      "method": 14,
+      "filter": "0x16",
+      "packed": "pe32-lzma.packed",
+      "original": "pe32.original",
+      "unpacked": "pe32-lzma.unpacked",
+      "packed_sha256": "d60f7bb5bdb74d8bbc885b0491b196e9c07f94ee16b3a75e67d44d485f1a1506",
+      "unpacked_sha256": "b4358abcaad6ee6f61424561be2af58493dbcfe8f4429f9f6170d95336b87a91"
+    },
+    {
+      "name": "pe32-filter",
+      "flags": [
+        "--filter=0x16"
+      ],
+      "method": 2,
+      "filter": "0x16",
+      "packed": "pe32-filter.packed",
+      "original": "pe32.original",
+      "unpacked": "pe32-filter.unpacked",
+      "packed_sha256": "7f512afb7208b17b7e1e4a4b5b6d3453df969360f1412a0d4661bb41121ae06c",
+      "unpacked_sha256": "b4358abcaad6ee6f61424561be2af58493dbcfe8f4429f9f6170d95336b87a91"
+    },
+    {
+      "name": "pe64",
+      "flags": [
+        "--best"
+      ],
+      "method": 2,
+      "filter": "0x00",
+      "packed": "pe64.packed",
+      "original": "pe64.original",
+      "unpacked": "pe64.unpacked",
+      "packed_sha256": "5d751e9801a9096b2e3b5e83cfc7b355482293cff550223cb21ba590ea3c534a",
+      "unpacked_sha256": "214ed547e3b88a215ac54553f6a02b208d59209255ccd06709d626da2293fa3c"
+    },
+    {
+      "name": "elf64",
+      "flags": [
+        "--best"
+      ],
+      "method": 2,
+      "filter": "0x00",
+      "packed": "elf64.packed",
+      "original": "elf64.original",
+      "unpacked": "elf64.unpacked",
+      "packed_sha256": "b95667278d128225b73662a2bcf868be72a9c925bfe405633bbc2b2583cf9919",
+      "unpacked_sha256": "df15dfc1f9f64599db46e03c0726d4a3c3db18aac8119662df24f08d369b7e2f"
+    },
+    {
+      "name": "elf32",
+      "flags": [
+        "--best"
+      ],
+      "method": 2,
+      "filter": "0x00",
+      "packed": "elf32.packed",
+      "original": "elf32.original",
+      "unpacked": "elf32.unpacked",
+      "packed_sha256": "c7bf70a04fab3ea9e7a8fd7ed30a6a27b64044c146ebf108b300c2cd37834afa",
+      "unpacked_sha256": "5532a13c64caf9c1cb20dd164e6f021f8b6c0129bf3ea30fa21d82129a78a16b"
+    },
+    {
+      "name": "elf-arm64",
+      "flags": [
+        "--best"
+      ],
+      "method": 2,
+      "filter": "0x00",
+      "packed": "elf-arm64.packed",
+      "original": "elf-arm64.original",
+      "unpacked": "elf-arm64.unpacked",
+      "packed_sha256": "291b2888e2a34cb03bbabfc9f9f401b88a6e6006d647de9d7c64a1d13c3f7d69",
+      "unpacked_sha256": "c800046b1e17fb6b1080593bf8f4fb7274b160af6144ee0ea3e474b64920da96"
+    },
+    {
+      "name": "macho64",
+      "flags": [
+        "--best",
+        "--force-macos"
+      ],
+      "method": 2,
+      "filter": "0x49",
+      "packed": "macho64.packed",
+      "original": "macho64.original",
+      "unpacked": "macho64.unpacked",
+      "packed_sha256": "0c6a2d8a2def8c3731bfb807aeaa24ac98eb57e2a7e186617507a1f3531aed0f",
+      "unpacked_sha256": "281111dcb46a02b6d465cc73d4169b03dc832b2da012fbeb95fe639e572a3307"
+    }
+  ]
+}

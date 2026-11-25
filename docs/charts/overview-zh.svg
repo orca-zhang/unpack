@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="459" viewBox="0 0 900 459" role="img" aria-labelledby="title desc" lang="zh-CN">
+<title id="title">关键性能指标</title>
+<desc id="desc">历史基线与优化结果对比；原始数据见 docs/benchmarks/。</desc>
+<g font-family="Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, &quot;Noto Sans CJK SC&quot;, sans-serif">
+<rect x="0.5" y="0.5" width="899.000" height="458" rx="16" fill="#f5f9f7" /><rect x="0.5" y="0.5" width="899" height="458" rx="16" fill="none" stroke="#dce6e1" /><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70" /><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">关键性能指标</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">历史基线与优化结果对比；原始数据见 docs/benchmarks/。</text><path d="M28 80H872" stroke="#dce6e1" /><rect x="28" y="100" width="272.000" height="265" rx="12" fill="#ffffff" />
+<text x="46" y="127" font-size="11" fill="#526966" text-anchor="start">01 / 格式识别</text>
+<text x="46" y="157" font-size="16" fill="#152e2b" text-anchor="start">普通 PE 未命中扫描</text>
+<text x="46" y="204" font-size="34" fill="#157d70" text-anchor="start">84.6 倍</text>
+<text x="46" y="226" font-size="12" fill="#526966" text-anchor="start">优化前 / 优化后耗时</text>
+<text x="46" y="256" font-size="11" fill="#526966" text-anchor="start">优化前</text>
+<text x="282" y="256" font-size="12" fill="#152e2b" text-anchor="end">4,315.80 μs</text>
+<rect x="46" y="265" width="236.000" height="6" rx="3" fill="#edf3ef" />
+<rect x="46" y="265" width="236.000" height="6" rx="3" fill="#a9bab7" />
+<text x="46" y="304" font-size="11" fill="#526966" text-anchor="start">优化后</text>
+<text x="282" y="304" font-size="12" fill="#152e2b" text-anchor="end">51.00 μs</text>
+<rect x="46" y="313" width="236.000" height="6" rx="3" fill="#edf3ef" />
+<rect x="46" y="313" width="111.405" height="6" rx="3" fill="#157d70" />
+<rect x="314" y="100" width="272.000" height="265" rx="12" fill="#ffffff" />
+<text x="332" y="127" font-size="11" fill="#526966" text-anchor="start">02 / 原生解码</text>
+<text x="332" y="157" font-size="16" fill="#152e2b" text-anchor="start">AP32 / 65 KiB</text>
+<text x="332" y="204" font-size="34" fill="#157d70" text-anchor="start">17.3 倍</text>
+<text x="332" y="226" font-size="12" fill="#526966" text-anchor="start">优化前 / 优化后耗时</text>
+<text x="332" y="256" font-size="11" fill="#526966" text-anchor="start">优化前</text>
+<text x="568" y="256" font-size="12" fill="#152e2b" text-anchor="end">872.39 μs</text>
+<rect x="332" y="265" width="236.000" height="6" rx="3" fill="#edf3ef" />
+<rect x="332" y="265" width="236.000" height="6" rx="3" fill="#a9bab7" />
+<text x="332" y="304" font-size="11" fill="#526966" text-anchor="start">优化后</text>
+<text x="568" y="304" font-size="12" fill="#152e2b" text-anchor="end">50.43 μs</text>
+<rect x="332" y="313" width="236.000" height="6" rx="3" fill="#edf3ef" />
+<rect x="332" y="313" width="137.307" height="6" rx="3" fill="#157d70" />
+<rect x="600" y="100" width="272.000" height="265" rx="12" fill="#ffffff" />
+<text x="618" y="127" font-size="11" fill="#526966" text-anchor="start">03 / SDK 分配量</text>
+<text x="618" y="157" font-size="16" fill="#152e2b" text-anchor="start">4 MiB 响应解码</text>
+<text x="618" y="204" font-size="34" fill="#157d70" text-anchor="start">99.992%</text>
+<text x="618" y="226" font-size="12" fill="#526966" text-anchor="start">响应解码分配量减少</text>
+<text x="618" y="256" font-size="11" fill="#526966" text-anchor="start">优化前</text>
+<text x="854" y="256" font-size="12" fill="#152e2b" text-anchor="end">4,202,825 字节/次</text>
+<rect x="618" y="265" width="236.000" height="6" rx="3" fill="#edf3ef" />
+<rect x="618" y="265" width="236.000" height="6" rx="3" fill="#a9bab7" />
+<text x="618" y="304" font-size="11" fill="#526966" text-anchor="start">优化后</text>
+<text x="854" y="304" font-size="12" fill="#152e2b" text-anchor="end">336 字节/次</text>
+<rect x="618" y="313" width="236.000" height="6" rx="3" fill="#edf3ef" />
+<rect x="618" y="313" width="90.061" height="6" rx="3" fill="#157d70" />
+<text x="28" y="395" font-size="12" fill="#526966" text-anchor="start">Apple M4 Pro / Rust release 与 Go 基准 / 5 批中位数 / 越低越好。</text>
+<text x="28" y="416" font-size="12" fill="#526966" text-anchor="start">柱长采用对数缩放，标注为实测数值；不含 I/O、进程启动与完整解包。</text>
+<text x="28" y="437" font-size="12" fill="#526966" text-anchor="start">SDK 指标仅计响应解码分配量，不含已有数据缓冲区。</text></g></svg>

@@ -1,0 +1,250 @@
+{
+  "generator": "scripts/generate_payload_fixtures.py",
+  "zlib": "1.2.12",
+  "samples": [
+    {
+      "name": "text-gzip",
+      "format": "GZIP",
+      "packed": "text-gzip.packed",
+      "unpacked": "text-gzip.unpacked",
+      "history": [
+        "GZIP"
+      ],
+      "explicit": false,
+      "packed_sha256": "2aba25e2430842f46be582a16a5e19282f1ab605d302c1481cb544d88ae20b64",
+      "unpacked_sha256": "3b179ca5710bffaf712a8dd8440a4140c49a9730403cf564d13ce335f7ee0f68"
+    },
+    {
+      "name": "text-zlib",
+      "format": "ZLIB",
+      "packed": "text-zlib.packed",
+      "unpacked": "text-zlib.unpacked",
+      "history": [
+        "ZLIB"
+      ],
+      "explicit": false,
+      "packed_sha256": "8fb1b286e17230bcea33a5eddfdc48e49638abb5f810590540e685f569feccae",
+      "unpacked_sha256": "3b179ca5710bffaf712a8dd8440a4140c49a9730403cf564d13ce335f7ee0f68"
+    },
+    {
+      "name": "text-xz",
+      "format": "XZ",
+      "packed": "text-xz.packed",
+      "unpacked": "text-xz.unpacked",
+      "history": [
+        "XZ"
+      ],
+      "explicit": false,
+      "packed_sha256": "9b441c6f20098f25395af4502d2e34654b974556d36bbd396c467cf9b830a4ca",
+      "unpacked_sha256": "3b179ca5710bffaf712a8dd8440a4140c49a9730403cf564d13ce335f7ee0f68"
+    },
+    {
+      "name": "text-lzma",
+      "format": "LZMA",
+      "packed": "text-lzma.packed",
+      "unpacked": "text-lzma.unpacked",
+      "history": [
+        "LZMA"
+      ],
+      "explicit": true,
+      "packed_sha256": "996645694772201c25179da9b341dfc8ec3fb1fe65cedef4a2b184a6329ba624",
+      "unpacked_sha256": "3b179ca5710bffaf712a8dd8440a4140c49a9730403cf564d13ce335f7ee0f68"
+    },
+    {
+      "name": "pe32-gzip",
+      "format": "GZIP",
+      "packed": "pe32-gzip.packed",
+      "unpacked": "pe32-gzip.unpacked",
+      "history": [
+        "GZIP"
+      ],
+      "explicit": false,
+      "packed_sha256": "5dc2bfd5bfe2c49b61a3c52ccb12978f3cb5f95ccca883a731543cf2786a70a0",
+      "unpacked_sha256": "39d045165c470b86190992f3f012d11c10af7410fe0388fe93d8e2a532a7839c"
+    },
+    {
+      "name": "pe32-zlib",
+      "format": "ZLIB",
+      "packed": "pe32-zlib.packed",
+      "unpacked": "pe32-zlib.unpacked",
+      "history": [
+        "ZLIB"
+      ],
+      "explicit": false,
+      "packed_sha256": "0634b616180425147d4c83cd8edd78bf6e8aa38a10d952356ce9c5c356137dd3",
+      "unpacked_sha256": "39d045165c470b86190992f3f012d11c10af7410fe0388fe93d8e2a532a7839c"
+    },
+    {
+      "name": "pe32-xz",
+      "format": "XZ",
+      "packed": "pe32-xz.packed",
+      "unpacked": "pe32-xz.unpacked",
+      "history": [
+        "XZ"
+      ],
+      "explicit": false,
+      "packed_sha256": "638826809aea8ec7bf4ba200cc31f53611175e168c6062cd328f3d0ca95e2a54",
+      "unpacked_sha256": "39d045165c470b86190992f3f012d11c10af7410fe0388fe93d8e2a532a7839c"
+    },
+    {
+      "name": "pe32-lzma",
+      "format": "LZMA",
+      "packed": "pe32-lzma.packed",
+      "unpacked": "pe32-lzma.unpacked",
+      "history": [
+        "LZMA"
+      ],
+      "explicit": true,
+      "packed_sha256": "ca0e6feea82aa9fe91a3f3c7dbc7f0de2575fd195f12f4db6654a1121fba8ffe",
+      "unpacked_sha256": "39d045165c470b86190992f3f012d11c10af7410fe0388fe93d8e2a532a7839c"
+    },
+    {
+      "name": "gzip-xz-upx",
+      "format": "GZIP",
+      "packed": "gzip-xz-upx.packed",
+      "unpacked": "gzip-xz-upx.unpacked",
+      "history": [
+        "GZIP",
+        "XZ",
+        "UPX"
+      ],
+      "explicit": false,
+      "packed_sha256": "dae596acbde56d2a48df9601f35fe3ef083a0c8444c277cc6cc7e299a988ee30",
+      "unpacked_sha256": "b4358abcaad6ee6f61424561be2af58493dbcfe8f4429f9f6170d95336b87a91"
+    },
+    {
+      "name": "gzip-zlib-ap32",
+      "format": "GZIP",
+      "packed": "gzip-zlib-ap32.packed",
+      "unpacked": "gzip-zlib-ap32.unpacked",
+      "history": [
+        "GZIP",
+        "ZLIB",
+        "AP32"
+      ],
+      "explicit": false,
+      "packed_sha256": "980a140731b334db3b90f638d6676d830d86f8986f1a8204b3e1927fe3ee5eda",
+      "unpacked_sha256": "e627bf3faad127a3675caa129359eff0084bca66ab07e8b0cb076a10d4942eb7"
+    },
+    {
+      "name": "gzip-members",
+      "format": "GZIP",
+      "packed": "gzip-members.packed",
+      "unpacked": "gzip-members.unpacked",
+      "history": [
+        "GZIP"
+      ],
+      "explicit": false,
+      "packed_sha256": "ea329956d9f9908e0dab20a73dc4b329097f57e487c05dab1cef42cfdef3c155",
+      "unpacked_sha256": "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+    },
+    {
+      "name": "xz-streams",
+      "format": "XZ",
+      "packed": "xz-streams.packed",
+      "unpacked": "xz-streams.unpacked",
+      "history": [
+        "XZ"
+      ],
+      "explicit": false,
+      "packed_sha256": "551c3dd2fa26d62bec8e64d38e3cd8a15b7ec6242c71cf26fa94af75748e3fae",
+      "unpacked_sha256": "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+    },
+    {
+      "name": "empty-gzip",
+      "format": "GZIP",
+      "packed": "empty-gzip.packed",
+      "unpacked": "empty-gzip.unpacked",
+      "history": [
+        "GZIP"
+      ],
+      "explicit": false,
+      "packed_sha256": "f1b651238a58fe290baec6c5e32f3bdb1943dd2bd582f02569231f7a757c7837",
+      "unpacked_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "empty-zlib",
+      "format": "ZLIB",
+      "packed": "empty-zlib.packed",
+      "unpacked": "empty-zlib.unpacked",
+      "history": [
+        "ZLIB"
+      ],
+      "explicit": false,
+      "packed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+      "unpacked_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "empty-xz",
+      "format": "XZ",
+      "packed": "empty-xz.packed",
+      "unpacked": "empty-xz.unpacked",
+      "history": [
+        "XZ"
+      ],
+      "explicit": false,
+      "packed_sha256": "0040f94d11d0039505328a90b2ff48968db873e9e7967307631bf40ef5679275",
+      "unpacked_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "empty-lzma",
+      "format": "LZMA",
+      "packed": "empty-lzma.packed",
+      "unpacked": "empty-lzma.unpacked",
+      "history": [
+        "LZMA"
+      ],
+      "explicit": true,
+      "packed_sha256": "b8d8686989e9c36d659dddb4f0c7e800c778cf973adf59fc3e1022bfeaac4874",
+      "unpacked_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "pe32-xz-x86",
+      "format": "XZ",
+      "packed": "pe32-xz-x86.packed",
+      "unpacked": "pe32-xz-x86.unpacked",
+      "history": [
+        "XZ"
+      ],
+      "explicit": false,
+      "packed_sha256": "a12b19c6fbd0375c09c231ed7a2d90dad30b907434b2b974ba2f6c0ea30c43f0",
+      "unpacked_sha256": "39d045165c470b86190992f3f012d11c10af7410fe0388fe93d8e2a532a7839c"
+    },
+    {
+      "name": "delta-xz",
+      "format": "XZ",
+      "packed": "delta-xz.packed",
+      "unpacked": "delta-xz.unpacked",
+      "history": [
+        "XZ"
+      ],
+      "explicit": false,
+      "packed_sha256": "83e352a7d64a16cc1d09efd922f26e682b1663dbdfe1019a5652e7fbe2095eb7",
+      "unpacked_sha256": "3b179ca5710bffaf712a8dd8440a4140c49a9730403cf564d13ce335f7ee0f68"
+    },
+    {
+      "name": "sha256-xz",
+      "format": "XZ",
+      "packed": "sha256-xz.packed",
+      "unpacked": "sha256-xz.unpacked",
+      "history": [
+        "XZ"
+      ],
+      "explicit": false,
+      "packed_sha256": "bd30908a727ecbcdc0582740fce70a29304a484fa987faeac368c1a56e8d48a4",
+      "unpacked_sha256": "3b179ca5710bffaf712a8dd8440a4140c49a9730403cf564d13ce335f7ee0f68"
+    },
+    {
+      "name": "known-size-lzma",
+      "format": "LZMA",
+      "packed": "known-size-lzma.packed",
+      "unpacked": "known-size-lzma.unpacked",
+      "history": [
+        "LZMA"
+      ],
+      "explicit": true,
+      "packed_sha256": "52557986b37a7685de7f8f1436c722218617fd3a03bd3613ca388e9927124dd3",
+      "unpacked_sha256": "3b179ca5710bffaf712a8dd8440a4140c49a9730403cf564d13ce335f7ee0f68"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="465" viewBox="0 0 900 465" role="img" aria-labelledby="title desc" lang="zh-CN">
+<title id="title">原生识别：优化前后对比</title>
+<desc id="desc">分别展示签名未命中路径与节名直接命中的短路径。</desc>
+<g font-family="Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, &quot;Noto Sans CJK SC&quot;, sans-serif">
+<rect x="0.5" y="0.5" width="899.000" height="464" rx="16" fill="#f5f9f7" /><rect x="0.5" y="0.5" width="899" height="464" rx="16" fill="none" stroke="#dce6e1" /><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70" /><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">原生识别：优化前后对比</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">分别展示签名未命中路径与节名直接命中的短路径。</text><path d="M28 80H872" stroke="#dce6e1" /><text x="28" y="114" font-size="16" fill="#0f172a" text-anchor="start">普通 PE：未命中壳签名</text>
+<text x="28" y="150" font-size="12" fill="#526966" text-anchor="start">优化前</text>
+<rect x="100" y="134" width="565.000" height="24" rx="5" fill="#a9bab7" />
+<text x="687" y="151" font-size="13" fill="#526966" text-anchor="start">4,315.80 μs</text>
+<text x="28" y="186" font-size="12" fill="#526966" text-anchor="start">优化后</text>
+<rect x="100" y="170" width="266.710" height="24" rx="5" fill="#157d70" />
+<text x="687" y="187" font-size="13" fill="#526966" text-anchor="start">51.00 μs</text>
+<text x="870" y="114" font-size="19" fill="#152e2b" text-anchor="end">耗时比 84.63 倍</text>
+<text x="28" y="271" font-size="16" fill="#0f172a" text-anchor="start">UPX PE：节名直接命中</text>
+<text x="28" y="307" font-size="12" fill="#526966" text-anchor="start">优化前</text>
+<rect x="100" y="291" width="558.863" height="24" rx="5" fill="#a9bab7" />
+<text x="687" y="308" font-size="13" fill="#526966" text-anchor="start">159.54 ns</text>
+<text x="28" y="343" font-size="12" fill="#526966" text-anchor="start">优化后</text>
+<rect x="100" y="327" width="565.000" height="24" rx="5" fill="#157d70" />
+<text x="687" y="344" font-size="13" fill="#526966" text-anchor="start">168.75 ns</text>
+<text x="870" y="271" font-size="19" fill="#152e2b" text-anchor="end">耗时增加 5.8%</text>
+<text x="28" y="419" font-size="12" fill="#526966" text-anchor="start">柱长采用对数缩放，标注为实测数值；各面板独立缩放。</text>
+<text x="28" y="440" font-size="12" fill="#526966" text-anchor="start">同一组文件，每批 1,000 次，共 5 批；越低越好，不含 I/O 和进程启动。</text></g></svg>

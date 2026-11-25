@@ -1,64 +1,47 @@
 package winupack
 
 import (
+	"encoding/binary"
+	"github.com/orca-zhang/unpack/internal/testfixture"
 	"io"
 	"os"
+	"path/filepath"
 	"testing"
 )
 
-func TestWinUpack_Detect(t *testing.T) {
-	packer := WinUpack{}
-
-	version := packer.Detect("nonexistent.exe")
-	if version != WINUPACK_VER_NONE {
-		t.Errorf("Expected WINUPACK_VER_NONE for non-existent file, got %d", version)
-	}
-}
-
-func TestWinUpack_Name(t *testing.T) {
-	packer := WinUpack{}
-	if packer.Name() != "WinUpack" {
-		t.Errorf("Expected name 'WinUpack', got '%s'", packer.Name())
-	}
-}
-
-func TestWinUpack_Unpack(t *testing.T) {
-	testFile := "testdata/winupack_test.exe"
-
-	if _, err := os.Stat(testFile); os.IsNotExist(err) {
-		t.Skipf("Test file %s does not exist, skipping unpack test", testFile)
-		return
-	}
-
-	packer := WinUpack{}
-	version := packer.Detect(testFile)
-	if version == WINUPACK_VER_NONE {
-		t.Fatal("Failed to detect WinUpack in test file")
-	}
-	t.Logf("Detected WinUpack version: %d", version)
-
-	reader, err := packer.Unpack(testFile)
+func TestWinUpackSyntheticRecovery(t *testing.T) {
+	data, err := testfixture.PE(".upx0", "")
 	if err != nil {
-		t.Fatalf("WinUpack.Unpack() error = %v", err)
+		t.Fatal(err)
 	}
-	if reader == nil {
-		t.Fatal("WinUpack.Unpack() returned nil reader")
+	path := filepath.Join(t.TempDir(), "synthetic.exe")
+	if err := os.WriteFile(path, data, 0600); err != nil {
+		t.Fatal(err)
 	}
-
-	buf := make([]byte, 1024)
-	n, err := reader.ReadAt(buf, 0)
-	if err != nil && err != io.EOF {
-		t.Fatalf("Failed to read from unpacked data: %v", err)
+	packer := WinUpack{}
+	if packer.Name() != "WinUpack" || packer.Detect(path) != WINUPACK_VER_1 {
+		t.Fatal("WinUpack detection failed")
 	}
-	if n == 0 {
-		t.Error("Unpacked data is empty")
-	} else {
-		t.Logf("Successfully read %d bytes from unpacked data", n)
+	reader, err := packer.Unpack(path)
+	if err != nil {
+		t.Fatal(err)
 	}
-
-	if f, ok := reader.(*os.File); ok {
-		defer f.Close()
-		t.Logf("Unpacked file: %s", f.Name())
+	output, err := io.ReadAll(io.NewSectionReader(reader, 0, 1<<20))
+	if err != nil {
+		t.Fatal(err)
+	}
+	p := int(binary.LittleEndian.Uint32(data[60:]))
+	original, err := os.ReadFile(filepath.Join(testfixture.Root(), "testdata/upx/pe32.original"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if binary.LittleEndian.Uint32(output[p+40:]) != binary.LittleEndian.Uint32(original[p+40:]) {
+		t.Fatal("original entry point not restored")
 	}
 }
 
+func TestWinUpackMissing(t *testing.T) {
+	if (WinUpack{}).Detect("nonexistent.exe") != WINUPACK_VER_NONE {
+		t.Fatal("missing file detected")
+	}
+}

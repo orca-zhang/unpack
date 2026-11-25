@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" viewBox="0 0 1200 440" role="img" aria-labelledby="title desc" lang="zh-CN">
+  <title id="title">Unpack — 看清每一层</title>
+  <desc id="desc">Unpack 2.0 可执行文件壳分析工具，采用 Rust 核心与兼容 Go SDK。22 种内置格式，5 个原生解码器。分层图展示 GZIP、XZ、UPX 与解包结果。</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#a7dec1" stroke-opacity=".06" />
+    </pattern>
+    <linearGradient id="surface" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#193d36" /><stop offset="1" stop-color="#0c2227" />
+    </linearGradient>
+    <linearGradient id="lid" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#d5ffe0" /><stop offset="1" stop-color="#83d6ab" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="440" rx="20" fill="#0d2428" />
+  <rect x="650" width="550" height="440" rx="20" fill="url(#surface)" />
+  <rect width="1200" height="440" rx="20" fill="url(#grid)" />
+  <path d="M650 0V440" stroke="#24473f" />
+  <g font-family="Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, &quot;Noto Sans CJK SC&quot;, sans-serif">
+    <g transform="translate(52 42)">
+      <path d="M0 17 17 7 34 17 17 27Z" fill="#c1f6d7" />
+      <path d="M0 25V34L17 44V35Z" fill="#62aa8b" />
+      <path d="M34 25V34L17 44V35Z" fill="#94e3b8" />
+      <text x="49" y="33" fill="#e4f3e8" font-size="19" font-weight="700" letter-spacing="4">UNPACK</text>
+      <rect x="185" y="12" width="43" height="25" rx="12" fill="#284c40" />
+      <text x="206.5" y="29" text-anchor="middle" fill="#b6edcb" font-size="12">2.0</text>
+    </g>
+    <text x="52" y="166" fill="#f1f8f2" font-size="66" font-weight="700" letter-spacing="-2.5">看清</text>
+    <text x="52" y="238" fill="#b6edcb" font-size="66" font-weight="700" letter-spacing="-2.5">每一层。</text>
+    <text x="55" y="282" fill="#a3bfb7" font-size="18">可执行文件壳分析，基于 Rust 构建。</text>
+    <path d="M54 319H596" stroke="#33564c" />
+    <text x="54" y="356" fill="#f1f8f2" font-size="28" font-weight="700">22</text>
+    <text x="100" y="354" fill="#a3bfb7" font-size="13">种内置格式</text>
+    <path d="M229 337V377" stroke="#33564c" />
+    <text x="252" y="356" fill="#f1f8f2" font-size="28" font-weight="700">5</text>
+    <text x="280" y="354" fill="#a3bfb7" font-size="13">个原生解码器</text>
+    <path d="M414 337V377" stroke="#33564c" />
+    <text x="438" y="355" fill="#f1f8f2" font-size="21" font-weight="700">Rust + Go</text>
+    <text x="54" y="400" fill="#719589" font-size="11" letter-spacing="1.7">识别  /  解码  /  追踪</text>
+    <text x="693" y="48" fill="#87aa9b" font-size="11" letter-spacing="2">逐层展开，看清内容</text>
+    <g fill="none" stroke="#62937b" stroke-width="1" stroke-dasharray="4 6" opacity=".65">
+      <path d="M762 124V306M1002 124V306M882 194V376" />
+    </g>
+    <g stroke-linejoin="round">
+      <path d="M762 306 882 236 1002 306 882 376Z" fill="#2f5d4e" stroke="#518a70" />
+      <path d="M762 306V324L882 394V376Z" fill="#234a40" />
+      <path d="M1002 306V324L882 394V376Z" fill="#477f64" />
+      <path d="M762 250 882 180 1002 250 882 320Z" fill="#558e70" stroke="#74b38b" />
+      <path d="M762 250V266L882 336V320Z" fill="#365f4d" />
+      <path d="M1002 250V266L882 336V320Z" fill="#6bb58c" />
+      <path d="M762 192 882 122 1002 192 882 262Z" fill="#79bd94" stroke="#9bd7ae" />
+      <path d="M762 192V206L882 276V262Z" fill="#4f8a6c" />
+      <path d="M1002 192V206L882 276V262Z" fill="#91d9ab" />
+      <path d="M762 124 882 54 1002 124 882 194Z" fill="url(#lid)" stroke="#d4f8de" />
+      <path d="M762 124V138L882 208V194Z" fill="#6fb98c" />
+      <path d="M1002 124V138L882 208V194Z" fill="#a2e6b9" />
+      <path d="m847 123 28 16 49-28" fill="none" stroke="#326a50" stroke-width="7" stroke-linecap="round" />
+    </g>
+    <g fill="none" stroke="#719d83">
+      <path d="M1005 124H1031M1005 192H1031M1005 250H1031M1005 306H1031" />
+    </g>
+    <g font-size="12" letter-spacing="1">
+      <text x="1043" y="128" fill="#caefd4">GZIP</text>
+      <text x="1043" y="196" fill="#b2dbbd">XZ</text>
+      <text x="1043" y="254" fill="#94bda1">UPX</text>
+      <text x="1043" y="310" fill="#7aa38b">PE / ELF</text>
+    </g>
+    <circle cx="1084" cy="375" r="4" fill="#a9e7bc" />
+    <text x="1069" y="404" fill="#719589" font-size="10" letter-spacing="1">第 00 层</text>
+  </g>
+</svg>

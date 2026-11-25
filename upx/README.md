@@ -1,37 +1,10 @@
-# UPX Unpacker
+# UPX Go driver
 
-This package provides complete UPX unpacking support using pure Go source code implementation.
+This package preserves `UPX`, `UPX_VER_*`, `UPXHeader`, `Name`, `Detect` and `Unpack`.
+Its implementation now delegates to the Rust core, which uses official UPX for
+actual decompression rather than the old approximate NRV/filter implementation.
 
-## Implementation
-
-The UPX unpacker uses a complete pure Go implementation that:
-
-- Detects UPX-packed PE files by searching for the "UPX!" signature
-- Parses complete UPX header structure (version, method, filter, checksums, etc.)
-- Implements full NRV (Not Really Vanished) decompression algorithm
-- Applies UPX filters to decompressed data
-- Rebuilds complete PE file structure with proper headers and sections
-- Handles both PE32 and PE32+ formats
-
-## Features
-
-- **Pure Go**: No external dependencies, no CGO, no WASM
-- **Cross-platform**: Works on all platforms supported by Go
-- **Complete Decompression**: Full NRV algorithm implementation
-- **Filter Support**: Handles UPX filters (with extensible support for additional filter types)
-- **PE Reconstruction**: Complete PE file rebuilding with proper section alignment and headers
-- **Fallback Methods**: Multiple fallback strategies when primary decompression fails
-
-## Usage
-
-The UPX unpacker is automatically registered when importing the package:
-
-```go
-import _ "github.com/orcastor/unpack/upx"
-```
-
-Or import the drivers package to register all packers:
-
-```go
-import _ "github.com/orcastor/unpack/drivers"
-```
+See the [main README](../README.md) for engine installation, runtime requirements
+and the Go SDK. Real PE32, PE64, ELF64, LZMA and filter fixtures are in
+[../testdata/upx](../testdata/upx); their provenance is documented in
+[../testdata/README.md](../testdata/README.md).

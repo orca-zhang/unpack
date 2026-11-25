@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="465" viewBox="0 0 900 465" role="img" aria-labelledby="title desc" lang="zh-CN">
+<title id="title">AP32 原生解码与校验性能</title>
+<desc id="desc">CRC32 校验改用 crc32fast；校验规则与结果保持一致。</desc>
+<g font-family="Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, &quot;Noto Sans CJK SC&quot;, sans-serif">
+<rect x="0.5" y="0.5" width="899.000" height="464" rx="16" fill="#f5f9f7" /><rect x="0.5" y="0.5" width="899" height="464" rx="16" fill="none" stroke="#dce6e1" /><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70" /><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">AP32 原生解码与校验性能</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">CRC32 校验改用 crc32fast；校验规则与结果保持一致。</text><path d="M28 80H872" stroke="#dce6e1" /><text x="28" y="114" font-size="16" fill="#0f172a" text-anchor="start">CRC32 校验：65 KiB 输入</text>
+<text x="28" y="150" font-size="12" fill="#526966" text-anchor="start">优化前</text>
+<rect x="100" y="134" width="565.000" height="24" rx="5" fill="#a9bab7" />
+<text x="687" y="151" font-size="13" fill="#526966" text-anchor="start">393.21 μs</text>
+<text x="28" y="186" font-size="12" fill="#526966" text-anchor="start">优化后</text>
+<rect x="100" y="170" width="63.262" height="24" rx="5" fill="#157d70" />
+<text x="687" y="187" font-size="13" fill="#526966" text-anchor="start">0.95 μs</text>
+<text x="870" y="114" font-size="19" fill="#152e2b" text-anchor="end">耗时比 412.73 倍</text>
+<text x="28" y="271" font-size="16" fill="#0f172a" text-anchor="start">AP32：双 CRC 校验 + 解码 65 KiB</text>
+<text x="28" y="307" font-size="12" fill="#526966" text-anchor="start">优化前</text>
+<rect x="100" y="291" width="565.000" height="24" rx="5" fill="#a9bab7" />
+<text x="687" y="308" font-size="13" fill="#526966" text-anchor="start">872.39 μs</text>
+<text x="28" y="343" font-size="12" fill="#526966" text-anchor="start">优化后</text>
+<rect x="100" y="327" width="328.723" height="24" rx="5" fill="#157d70" />
+<text x="687" y="344" font-size="13" fill="#526966" text-anchor="start">50.43 μs</text>
+<text x="870" y="271" font-size="19" fill="#152e2b" text-anchor="end">耗时比 17.30 倍</text>
+<text x="28" y="419" font-size="12" fill="#526966" text-anchor="start">每批 200 次，共 5 批，取批平均耗时中位数；越低越好，不含 I/O 和进程启动。</text>
+<text x="28" y="440" font-size="12" fill="#526966" text-anchor="start">柱长采用对数缩放，标注为实测数值；各面板独立缩放。</text></g></svg>

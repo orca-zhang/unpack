@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="465" viewBox="0 0 900 465" role="img" aria-labelledby="title desc">
+<title id="title">Native AP32: faster checksums and decoding</title>
+<desc id="desc">crc32fast replaces the byte-by-byte bit loop; CRC polynomial and results remain unchanged.</desc>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="0.5" y="0.5" width="899.000" height="464" rx="16" fill="#f5f9f7"/><rect x="0.5" y="0.5" width="899" height="464" rx="16" fill="none" stroke="#dce6e1"/><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70"/><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">Native AP32: faster checksums and decoding</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">crc32fast replaces the byte-by-byte bit loop; CRC polynomial and results remain unchanged.</text><path d="M28 80H872" stroke="#dce6e1"/><text x="28" y="114" font-size="16" fill="#0f172a" text-anchor="start">CRC32: 65 KiB input</text>
+<text x="28" y="150" font-size="12" fill="#526966" text-anchor="start">Before</text>
+<rect x="100" y="134" width="565.000" height="24" rx="5" fill="#a9bab7"/>
+<text x="687" y="151" font-size="13" fill="#526966" text-anchor="start">393.21 us</text>
+<text x="28" y="186" font-size="12" fill="#526966" text-anchor="start">After</text>
+<rect x="100" y="170" width="63.262" height="24" rx="5" fill="#157d70"/>
+<text x="687" y="187" font-size="13" fill="#526966" text-anchor="start">0.95 us</text>
+<text x="870" y="114" font-size="19" fill="#152e2b" text-anchor="end">412.73x ratio</text>
+<text x="28" y="271" font-size="16" fill="#0f172a" text-anchor="start">AP32: verify both CRCs and decode 65 KiB</text>
+<text x="28" y="307" font-size="12" fill="#526966" text-anchor="start">Before</text>
+<rect x="100" y="291" width="565.000" height="24" rx="5" fill="#a9bab7"/>
+<text x="687" y="308" font-size="13" fill="#526966" text-anchor="start">872.39 us</text>
+<text x="28" y="343" font-size="12" fill="#526966" text-anchor="start">After</text>
+<rect x="100" y="327" width="328.723" height="24" rx="5" fill="#157d70"/>
+<text x="687" y="344" font-size="13" fill="#526966" text-anchor="start">50.43 us</text>
+<text x="870" y="271" font-size="19" fill="#152e2b" text-anchor="end">17.30x ratio</text>
+<text x="28" y="419" font-size="12" fill="#526966" text-anchor="start">Five batches of 200 calls. Median batch-average latency; lower is better. Excludes I/O and startup.</text>
+<text x="28" y="440" font-size="12" fill="#526966" text-anchor="start">Logarithmic bar lengths; labels show measured values. Each panel uses its own scale.</text></g></svg>

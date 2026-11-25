@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="514" viewBox="0 0 900 514" role="img" aria-labelledby="title desc">
+<title id="title">How Unpack processes each layer</title>
+<desc id="desc">Native Rust API and CLI; the compatible Go SDK delegates built-ins over RPC protocol 2.</desc>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="0.5" y="0.5" width="899.000" height="513" rx="16" fill="#f5f9f7"/><rect x="0.5" y="0.5" width="899" height="513" rx="16" fill="none" stroke="#dce6e1"/><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70"/><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">How Unpack processes each layer</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">Native Rust API and CLI; the compatible Go SDK delegates built-ins over RPC protocol 2.</text><path d="M28 80H872" stroke="#dce6e1"/><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="none" stroke="#809891" stroke-width="1.5"/></marker></defs>
+<rect x="28" y="170" width="150.000" height="118" rx="12" fill="#e5efea"/>
+<text x="46" y="197" font-size="11" fill="#526966" text-anchor="start">ENTRY POINTS</text>
+<text x="46" y="225" font-size="17" fill="#152e2b" text-anchor="start">Rust API / CLI</text>
+<text x="46" y="250" font-size="17" fill="#152e2b" text-anchor="start">Go SDK</text>
+<text x="46" y="272" font-size="11" fill="#526966" text-anchor="start">JSON + binary RPC</text>
+<rect x="220" y="170" width="166.000" height="118" rx="12" fill="#152e2b"/>
+<text x="238" y="198" font-size="11" fill="#9ccdc0" text-anchor="start">RUST CORE</text>
+<text x="238" y="229" font-size="18" fill="#ffffff" text-anchor="start">Detect + iterate</text>
+<text x="238" y="255" font-size="12" fill="#d2e5dc" text-anchor="start">Limits / layer history</text>
+<text x="238" y="275" font-size="12" fill="#d2e5dc" text-anchor="start">Validate each result</text>
+<path d="M178 229H216M386 229H410M410 142V394" fill="none" stroke="#809891" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="730" y="170" width="142.000" height="118" rx="12" fill="#e5efea"/>
+<text x="746" y="198" font-size="11" fill="#526966" text-anchor="start">RESULT</text>
+<text x="746" y="225" font-size="16" fill="#152e2b" text-anchor="start">Bytes + history</text>
+<text x="746" y="251" font-size="11" fill="#526966" text-anchor="start">Evidence / warnings</text>
+<text x="746" y="272" font-size="11" fill="#526966" text-anchor="start">Typed errors</text>
+<path d="M702 142V394M702 229H726" fill="none" stroke="#809891" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M410 142H434M684 142H702" fill="none" stroke="#809891" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="438" y="110" width="246.000" height="64" rx="10" fill="#e1f1e8"/>
+<text x="454" y="135" font-size="15" fill="#152e2b" text-anchor="start">01  Native decoding</text>
+<text x="454" y="156" font-size="11" fill="#526966" text-anchor="start">AP32 / GZIP / ZLIB / XZ / LZMA</text>
+<path d="M410 226H434M684 226H702" fill="none" stroke="#809891" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="438" y="194" width="246.000" height="64" rx="10" fill="#e6edf3"/>
+<text x="454" y="219" font-size="15" fill="#152e2b" text-anchor="start">02  Official UPX backend</text>
+<text x="454" y="240" font-size="11" fill="#526966" text-anchor="start">PE / ELF / Mach-O fixtures</text>
+<path d="M410 310H434M684 310H702" fill="none" stroke="#809891" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="438" y="278" width="246.000" height="64" rx="10" fill="#fcf0df"/>
+<text x="454" y="303" font-size="15" fill="#152e2b" text-anchor="start">03  Static PE recovery</text>
+<text x="454" y="324" font-size="11" fill="#526966" text-anchor="start">10 families / explicit opt-in</text>
+<path d="M410 394H434M684 394H702" fill="none" stroke="#809891" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="438" y="362" width="246.000" height="64" rx="10" fill="#ecf0f2"/>
+<text x="454" y="387" font-size="15" fill="#152e2b" text-anchor="start">04  Detection only</text>
+<text x="454" y="408" font-size="11" fill="#526966" text-anchor="start">6 families / unsupported on unpack</text>
+<text x="28" y="468" font-size="12" fill="#526966" text-anchor="start">Automatic mode repeats native / UPX layers; recovery stops after repair. Analyzed programs are never run.</text>
+<text x="28" y="490" font-size="12" fill="#526966" text-anchor="start">LZMA-Alone needs explicit selection. UPX needs an installed executable; recovery does not promise runnable output.</text></g></svg>

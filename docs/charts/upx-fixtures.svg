@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="729" viewBox="0 0 900 729" role="img" aria-labelledby="title desc">
+<title id="title">Real UPX fixture sizes</title>
+<desc id="desc">8 checked-in variants; golden output is produced by the official decoder.</desc>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="0.5" y="0.5" width="899.000" height="728" rx="16" fill="#f5f9f7"/><rect x="0.5" y="0.5" width="899" height="728" rx="16" fill="none" stroke="#dce6e1"/><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70"/><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">Real UPX fixture sizes</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">8 checked-in variants; golden output is produced by the official decoder.</text><path d="M28 80H872" stroke="#dce6e1"/><text x="28" y="92" font-size="12" fill="#526966" text-anchor="start">Sample</text>
+<text x="700" y="92" font-size="12" fill="#526966" text-anchor="start">Packed / unpacked bytes</text>
+<text x="872" y="92" font-size="12" fill="#526966" text-anchor="end">Ratio</text>
+<text x="28" y="135" font-size="14" fill="#526966" text-anchor="start">pe32</text>
+<rect x="155" y="117" width="481.173" height="19" rx="5" fill="#d4e0db"/>
+<rect x="155" y="139" width="14.805" height="12" rx="5" fill="#157d70"/>
+<text x="700" y="134" font-size="12" fill="#526966" text-anchor="start">2,048 / 66,560</text>
+<text x="872" y="134" font-size="13" fill="#526966" text-anchor="end">3.1%</text>
+<text x="28" y="200" font-size="14" fill="#526966" text-anchor="start">pe32-lzma</text>
+<rect x="155" y="182" width="481.173" height="19" rx="5" fill="#d4e0db"/>
+<rect x="155" y="204" width="33.312" height="12" rx="5" fill="#157d70"/>
+<text x="700" y="199" font-size="12" fill="#526966" text-anchor="start">4,608 / 66,560</text>
+<text x="872" y="199" font-size="13" fill="#526966" text-anchor="end">6.9%</text>
+<text x="28" y="265" font-size="14" fill="#526966" text-anchor="start">pe32-filter</text>
+<rect x="155" y="247" width="481.173" height="19" rx="5" fill="#d4e0db"/>
+<rect x="155" y="269" width="14.805" height="12" rx="5" fill="#157d70"/>
+<text x="700" y="264" font-size="12" fill="#526966" text-anchor="start">2,048 / 66,560</text>
+<text x="872" y="264" font-size="13" fill="#526966" text-anchor="end">3.1%</text>
+<text x="28" y="330" font-size="14" fill="#526966" text-anchor="start">pe64</text>
+<rect x="155" y="312" width="481.173" height="19" rx="5" fill="#d4e0db"/>
+<rect x="155" y="334" width="14.805" height="12" rx="5" fill="#157d70"/>
+<text x="700" y="329" font-size="12" fill="#526966" text-anchor="start">2,048 / 66,560</text>
+<text x="872" y="329" font-size="13" fill="#526966" text-anchor="end">3.1%</text>
+<text x="28" y="395" font-size="14" fill="#526966" text-anchor="start">elf64</text>
+<rect x="155" y="377" width="482.040" height="19" rx="5" fill="#d4e0db"/>
+<rect x="155" y="399" width="29.929" height="12" rx="5" fill="#157d70"/>
+<text x="700" y="394" font-size="12" fill="#526966" text-anchor="start">4,140 / 66,680</text>
+<text x="872" y="394" font-size="13" fill="#526966" text-anchor="end">6.2%</text>
+<text x="28" y="460" font-size="14" fill="#526966" text-anchor="start">elf32</text>
+<rect x="155" y="442" width="480.450" height="19" rx="5" fill="#d4e0db"/>
+<rect x="155" y="464" width="34.122" height="12" rx="5" fill="#157d70"/>
+<text x="700" y="459" font-size="12" fill="#526966" text-anchor="start">4,720 / 66,460</text>
+<text x="872" y="459" font-size="13" fill="#526966" text-anchor="end">7.1%</text>
+<text x="28" y="525" font-size="14" fill="#526966" text-anchor="start">elf-arm64</text>
+<rect x="155" y="507" width="482.503" height="19" rx="5" fill="#d4e0db"/>
+<rect x="155" y="529" width="33.225" height="12" rx="5" fill="#157d70"/>
+<text x="700" y="524" font-size="12" fill="#526966" text-anchor="start">4,596 / 66,744</text>
+<text x="872" y="524" font-size="13" fill="#526966" text-anchor="end">6.9%</text>
+<text x="28" y="590" font-size="14" fill="#526966" text-anchor="start">macho64</text>
+<rect x="155" y="572" width="505.000" height="19" rx="5" fill="#d4e0db"/>
+<rect x="155" y="594" width="59.337" height="12" rx="5" fill="#157d70"/>
+<text x="700" y="589" font-size="12" fill="#526966" text-anchor="start">8,208 / 69,856</text>
+<text x="872" y="589" font-size="13" fill="#526966" text-anchor="end">11.7%</text>
+<rect x="155" y="660" width="14.000" height="12" rx="5" fill="#d4e0db"/>
+<text x="176" y="671" font-size="14" fill="#526966" text-anchor="start">Unpacked</text>
+<rect x="310" y="660" width="14.000" height="12" rx="5" fill="#157d70"/>
+<text x="332" y="671" font-size="14" fill="#526966" text-anchor="start">Packed</text>
+<text x="28" y="705" font-size="12" fill="#526966" text-anchor="start">Benign tiny C fixtures; sizes are test data, not representative malware or compression benchmarks.</text></g></svg>

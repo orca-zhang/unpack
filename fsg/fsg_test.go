@@ -1,65 +1,53 @@
 package fsg
 
 import (
+	"encoding/binary"
+	"github.com/orca-zhang/unpack/internal/testfixture"
 	"io"
 	"os"
+	"path/filepath"
 	"testing"
 )
 
-func TestFSG_Detect(t *testing.T) {
-	packer := FSG{}
-
-	// Test with non-existent file
-	version := packer.Detect("nonexistent.exe")
-	if version != FSG_VER_NONE {
-		t.Errorf("Expected FSG_VER_NONE for non-existent file, got %d", version)
-	}
-}
-
-func TestFSG_Name(t *testing.T) {
-	packer := FSG{}
-	if packer.Name() != "FSG" {
-		t.Errorf("Expected name 'FSG', got '%s'", packer.Name())
-	}
-}
-
-func TestFSG_Unpack(t *testing.T) {
-	testFile := "testdata/fsg_test.exe"
-
-	if _, err := os.Stat(testFile); os.IsNotExist(err) {
-		t.Skipf("Test file %s does not exist, skipping unpack test", testFile)
-		return
-	}
-
-	packer := FSG{}
-	version := packer.Detect(testFile)
-	if version == FSG_VER_NONE {
-		t.Fatal("Failed to detect FSG in test file")
-	}
-	t.Logf("Detected FSG version: %d", version)
-
-	reader, err := packer.Unpack(testFile)
+func TestFSGSyntheticRecovery(t *testing.T) {
+	data, err := testfixture.PE(".packed", "FSG!")
 	if err != nil {
-		t.Fatalf("FSG.Unpack() error = %v", err)
+		t.Fatal(err)
 	}
-	if reader == nil {
-		t.Fatal("FSG.Unpack() returned nil reader")
+	path := filepath.Join(t.TempDir(), "synthetic.exe")
+	if err := os.WriteFile(path, data, 0600); err != nil {
+		t.Fatal(err)
 	}
-
-	buf := make([]byte, 1024)
-	n, err := reader.ReadAt(buf, 0)
-	if err != nil && err != io.EOF {
-		t.Fatalf("Failed to read from unpacked data: %v", err)
+	packer := FSG{}
+	if packer.Name() != "FSG" || packer.Detect(path) != FSG_VER_1 {
+		t.Fatal("FSG detection failed")
 	}
-	if n == 0 {
-		t.Error("Unpacked data is empty")
-	} else {
-		t.Logf("Successfully read %d bytes from unpacked data", n)
+	reader, err := packer.Unpack(path)
+	if err != nil {
+		t.Fatal(err)
 	}
-
-	if f, ok := reader.(*os.File); ok {
-		defer f.Close()
-		t.Logf("Unpacked file: %s", f.Name())
+	output, err := io.ReadAll(io.NewSectionReader(reader, 0, 1<<20))
+	if err != nil {
+		t.Fatal(err)
+	}
+	p := int(binary.LittleEndian.Uint32(data[60:]))
+	before := binary.LittleEndian.Uint32(data[p+40:])
+	after := binary.LittleEndian.Uint32(output[p+40:])
+	original, err := os.ReadFile(filepath.Join(testfixture.Root(), "testdata/upx/pe32.original"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := binary.LittleEndian.Uint32(original[p+40:])
+	if before == after || after != want {
+		t.Fatalf("entry point: %x -> %x", before, after)
 	}
 }
 
+func TestFSGMissing(t *testing.T) {
+	if (FSG{}).Detect("nonexistent.exe") != FSG_VER_NONE {
+		t.Fatal("missing file detected")
+	}
+	if _, err := (FSG{}).Unpack("nonexistent.exe"); err == nil {
+		t.Fatal("missing file accepted")
+	}
+}

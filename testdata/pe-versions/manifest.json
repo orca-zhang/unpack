@@ -1,0 +1,2052 @@
+{
+  "generator": "scripts/generate_version_fixtures.py",
+  "notice": "All generated cases are synthetic layout/boundary fixtures. Version IDs are compatibility/layout IDs, not proof of actual vendor packer output.",
+  "layouts": [
+    {
+      "label": "2.1",
+      "id": 1,
+      "signature_offset": 1277,
+      "oep_offset": 1268,
+      "block_table_offset": null
+    },
+    {
+      "label": "2.12",
+      "id": 2,
+      "signature_offset": 953,
+      "oep_offset": 1864,
+      "block_table_offset": 1404
+    },
+    {
+      "label": "other-0x41f",
+      "id": 3,
+      "signature_offset": 1055,
+      "oep_offset": 1956,
+      "block_table_offset": 1496
+    },
+    {
+      "label": "2.42",
+      "id": 4,
+      "signature_offset": 1067,
+      "oep_offset": 1968,
+      "block_table_offset": 1508
+    }
+  ],
+  "cases": [
+    {
+      "name": "aspack-2.1-basic",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "basic"
+      ],
+      "input": "aspack-2.1-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "956de66f26b78373f473f8d5728c132cc7f218d7ed09cf115429af03cc667221",
+      "output": "aspack-2.1-basic.recovered",
+      "output_sha256": "e75c9d6f68afaffdfab66076dfb2df182e604717a5c1215511d18bf5d8c0a949"
+    },
+    {
+      "name": "aspack-2.1-shifted-entry",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "shifted-entry"
+      ],
+      "input": "aspack-2.1-shifted-entry.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1553,
+      "input_sha256": "2607edd0c88d43a87375f7f3f5646c6686a2f3c0a966d0cbd361e616898ddf3e",
+      "output": "aspack-2.1-shifted-entry.recovered",
+      "output_sha256": "5b715216932185e218b0b803be19e22571e5388a5642986661a99319d7837d7d"
+    },
+    {
+      "name": "aspack-2.1-reordered-sections",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "reordered-sections"
+      ],
+      "input": "aspack-2.1-reordered-sections.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 543,
+      "input_sha256": "1fef4eb2a7e73cdd88176485a761be4f3d4ba0ff4a73971753e02fa2619f9387",
+      "output": "aspack-2.1-reordered-sections.recovered",
+      "output_sha256": "a4b5a90324f27b31961867217cee66028828f590b21aa221ae6443b94e148b1d"
+    },
+    {
+      "name": "aspack-2.1-preserve-imports",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "preserve-imports"
+      ],
+      "input": "aspack-2.1-preserve-imports.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "01f77900cedd6a3cef14ab8e2d20176d87c96e987fbdf585199299c887ae319f",
+      "output": "aspack-2.1-preserve-imports.recovered",
+      "output_sha256": "e75c9d6f68afaffdfab66076dfb2df182e604717a5c1215511d18bf5d8c0a949"
+    },
+    {
+      "name": "aspack-2.1-no-imports",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "no-imports"
+      ],
+      "input": "aspack-2.1-no-imports.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "2617dd532cc3a30d86deca0c2a8fe4c37dca4faacd23274c4c823a200a5326dd",
+      "output": "aspack-2.1-no-imports.recovered",
+      "output_sha256": "861c29dbac3bf3287bf06aae9180bb9f221e3b3acf8f34e63bb2b151517880ff"
+    },
+    {
+      "name": "aspack-2.1-zero-oep",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "zero-oep"
+      ],
+      "input": "aspack-2.1-zero-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "6d63900c6893d506507c88d7aee3b5704adf8573d3510635ddd674803490cf24"
+    },
+    {
+      "name": "aspack-2.1-header-oep",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "header-oep"
+      ],
+      "input": "aspack-2.1-header-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "645a8d509c5e7c6dcd2fe8cf759fc7529f961b1cf947190402bcdafa7aadcd24"
+    },
+    {
+      "name": "aspack-2.1-unbacked-oep",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "unbacked-oep"
+      ],
+      "input": "aspack-2.1-unbacked-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "02f3adfc7a003abac63eb250cd9a29a3ec25e62057f56f349b829d12a9cc07e1"
+    },
+    {
+      "name": "aspack-2.1-outside-oep",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "outside-oep"
+      ],
+      "input": "aspack-2.1-outside-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "3113777fa3fc710ad00d162057bb87f415460866757bed56ab68dabcece537b8"
+    },
+    {
+      "name": "aspack-2.1-ambiguous",
+      "family": "ASPack",
+      "version": 0,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "ambiguous-markers"
+      ],
+      "input": "aspack-2.1-ambiguous.bin",
+      "detected": true,
+      "detect_error": "invalid_input",
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "c735bab9e5d973b636ba20f820ee482b4a9ebd09330987a30b535eedd550cd35"
+    },
+    {
+      "name": "aspack-2.1-truncated-marker",
+      "family": "ASPack",
+      "version": 0,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-marker"
+      ],
+      "input": "aspack-2.1-truncated-marker.bin",
+      "detected": false,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "cc1ba56a5882a8c23a0c8449f4a4bb272b53fedc790d99be3ece846bc17e02c9"
+    },
+    {
+      "name": "aspack-2.1-overlapping-ret",
+      "family": "ASPack",
+      "version": 1,
+      "profile": "2.1",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "ret-is-not-block-count"
+      ],
+      "input": "aspack-2.1-overlapping-ret.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "956de66f26b78373f473f8d5728c132cc7f218d7ed09cf115429af03cc667221",
+      "output": "aspack-2.1-overlapping-ret.recovered",
+      "output_sha256": "e75c9d6f68afaffdfab66076dfb2df182e604717a5c1215511d18bf5d8c0a949"
+    },
+    {
+      "name": "aspack-2.12-basic",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "basic"
+      ],
+      "input": "aspack-2.12-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "d0f23bae4f20db906bf492d4dc187962d0ebb82dbea553e68955deb2712bde1c",
+      "output": "aspack-2.12-basic.recovered",
+      "output_sha256": "715310c1ed9a58dc632cc12fce4ed9fdc776da608b16fd45a308e40116435668"
+    },
+    {
+      "name": "aspack-2.12-shifted-entry",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "shifted-entry"
+      ],
+      "input": "aspack-2.12-shifted-entry.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1553,
+      "input_sha256": "4e46b0715e89f31ee2c7d8e27313186d9c22d35443ad1bb2b4b67041c9b01f73",
+      "output": "aspack-2.12-shifted-entry.recovered",
+      "output_sha256": "fd692507a968734b511bf5b32a97a8b93a4f54b18cbfc90f2aa946822d21bfde"
+    },
+    {
+      "name": "aspack-2.12-reordered-sections",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "reordered-sections"
+      ],
+      "input": "aspack-2.12-reordered-sections.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 543,
+      "input_sha256": "7a450990768b90bbcaaa429b37abea991b96540b9d94361794deefbeb46c6cfe",
+      "output": "aspack-2.12-reordered-sections.recovered",
+      "output_sha256": "c3dcab15aea3b3a6f3621ca5c60e2f1f9482ec97d0c6a8977d2cc32795193c9a"
+    },
+    {
+      "name": "aspack-2.12-preserve-imports",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "preserve-imports"
+      ],
+      "input": "aspack-2.12-preserve-imports.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "fed87ba0cd7200a994864138227f33f3893a116704be8c1e3e0d1d46b846b8c4",
+      "output": "aspack-2.12-preserve-imports.recovered",
+      "output_sha256": "715310c1ed9a58dc632cc12fce4ed9fdc776da608b16fd45a308e40116435668"
+    },
+    {
+      "name": "aspack-2.12-no-imports",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "no-imports"
+      ],
+      "input": "aspack-2.12-no-imports.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "0beccd75011886b6ca41aea5ca170c93a72f6c7d6db7781566327f40b176aa8f",
+      "output": "aspack-2.12-no-imports.recovered",
+      "output_sha256": "1e50e03f155742bd33fdf5f49570221480260fde3c60bea755b850a1a15a1571"
+    },
+    {
+      "name": "aspack-2.12-zero-oep",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "zero-oep"
+      ],
+      "input": "aspack-2.12-zero-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "b5f0a8781c919f0d4be54442e956c6db5d6d5186c317ff9142e6de38acd8e14a"
+    },
+    {
+      "name": "aspack-2.12-header-oep",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "header-oep"
+      ],
+      "input": "aspack-2.12-header-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "edb30169751dd32ffd6fb13c489a8635f7a76a935c7f759db20fa468a1593518"
+    },
+    {
+      "name": "aspack-2.12-unbacked-oep",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "unbacked-oep"
+      ],
+      "input": "aspack-2.12-unbacked-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "75f1d72c4113dfbdad5684eb75357f94286859040c2511d523b4b7db1d0d8310"
+    },
+    {
+      "name": "aspack-2.12-outside-oep",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "outside-oep"
+      ],
+      "input": "aspack-2.12-outside-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "70a7ebe156b1ac010fb9061712a39a5059675326d2a327e79381c84ad26a81ec"
+    },
+    {
+      "name": "aspack-2.12-ambiguous",
+      "family": "ASPack",
+      "version": 0,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "ambiguous-markers"
+      ],
+      "input": "aspack-2.12-ambiguous.bin",
+      "detected": true,
+      "detect_error": "invalid_input",
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "be267316b4604117971903ae111a31fb93c68c39f9a0b201ac02a7ced656bed0"
+    },
+    {
+      "name": "aspack-2.12-truncated-marker",
+      "family": "ASPack",
+      "version": 0,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-marker"
+      ],
+      "input": "aspack-2.12-truncated-marker.bin",
+      "detected": false,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "947a7376a837ab95dd4bf14c71cf4ed3c161397850b5a450c55c7e65735c5098"
+    },
+    {
+      "name": "aspack-2.12-literal-block",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "literal-block",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-2.12-literal-block.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "283cb689e9feb04297ae762291772b6504bce92f7721f0e7a71a594b60a2c25f",
+      "output": "aspack-2.12-literal-block.recovered",
+      "output_sha256": "fa82bcb765395f3a9c89c9210b17735528212e85c21c6727851c6fef612ecb15"
+    },
+    {
+      "name": "aspack-2.12-relative-source",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "relative-source",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-2.12-relative-source.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "42f3552d2d4c20ce4bd8fcd88a9f2dc08b3f7466ac4bcc04825164782d8a4295",
+      "output": "aspack-2.12-relative-source.recovered",
+      "output_sha256": "4ca41d3b08c5fe8fefddb54f0f381de57f5d7efc3559ed3c1b74bf8269b74796"
+    },
+    {
+      "name": "aspack-2.12-overlap-match",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "overlap-match",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-2.12-overlap-match.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "99521fcf4c40a9a3dcc13fc5690733680f93b4701c62d03889fa4b7b2654630f",
+      "output": "aspack-2.12-overlap-match.recovered",
+      "output_sha256": "a91349eadf7af4f6db72a04da7933c7597aa06e0490aa30f0eeb557cfb8baa7b"
+    },
+    {
+      "name": "aspack-2.12-two-blocks",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "two-blocks",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-2.12-two-blocks.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "bdd852ba9ad11205fe606d60b563dded34b76e81faa2a6c05261a539c47149ed",
+      "output": "aspack-2.12-two-blocks.recovered",
+      "output_sha256": "efc9c85198423e9e3d34e2d39bbb1e56c6d8581e5980f62c8497261910beff37"
+    },
+    {
+      "name": "aspack-2.12-source-outside",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "source-outside"
+      ],
+      "input": "aspack-2.12-source-outside.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "9957b4569d163f51e983c69a229a292e13feb111645bba3ca3d8852d870986f2"
+    },
+    {
+      "name": "aspack-2.12-destination-headers",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "destination-headers"
+      ],
+      "input": "aspack-2.12-destination-headers.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "98da2925095c920e41917565145dcaf5074ce7bebcd0da80cb3f380827df62d7"
+    },
+    {
+      "name": "aspack-2.12-destination-crosses-section",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "destination-crosses-section"
+      ],
+      "input": "aspack-2.12-destination-crosses-section.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "7d2b6ce108e0dc2b20f54a7fc00c2a2050e56f33361b015d0fd832091f3c0520"
+    },
+    {
+      "name": "aspack-2.12-oversized-output",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "oversized-output"
+      ],
+      "input": "aspack-2.12-oversized-output.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "limit",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "a3524b8777094f25079633d9cf76c16db5cfe7e5f32bc735089699054b20f837"
+    },
+    {
+      "name": "aspack-2.12-short-stream",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "short-stream"
+      ],
+      "input": "aspack-2.12-short-stream.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "efd56acb7ffaa796035e0f6bafc71768c0466a01d40c9732e6a6caf66c724a8b"
+    },
+    {
+      "name": "aspack-2.12-unsupported-count",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "unsupported-count"
+      ],
+      "input": "aspack-2.12-unsupported-count.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "c40bafcb159c829b16cc13b2bb23b53d89df5c611316e5bb273af2e592cedb12"
+    },
+    {
+      "name": "aspack-2.12-truncated-table",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-table"
+      ],
+      "input": "aspack-2.12-truncated-table.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "a4b4b52d74d27e8624441f770116fbf52c7e384cace84dfedb467033e01746f8"
+    },
+    {
+      "name": "aspack-2.12-truncated-oep",
+      "family": "ASPack",
+      "version": 2,
+      "profile": "2.12",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-oep"
+      ],
+      "input": "aspack-2.12-truncated-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "da01f5d628d9f40c9e1c8505c1a7ba38118f3ef7127c9122ee8f49aa672e7b89"
+    },
+    {
+      "name": "aspack-other-0x41f-basic",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "basic"
+      ],
+      "input": "aspack-other-0x41f-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "45a64c13737f1ba8e94d667eb3653e7d4f63e9be046dc3f2118db30d60e0b16d",
+      "output": "aspack-other-0x41f-basic.recovered",
+      "output_sha256": "6ede0ae08cfc90a4f9480f1fc546669075e2c92e92b8a23fb33036f5032986e9"
+    },
+    {
+      "name": "aspack-other-0x41f-shifted-entry",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "shifted-entry"
+      ],
+      "input": "aspack-other-0x41f-shifted-entry.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1553,
+      "input_sha256": "f3fb9010dbc4b45ba90e6e0844b776461d3b742305e77d801be4fca4f970e674",
+      "output": "aspack-other-0x41f-shifted-entry.recovered",
+      "output_sha256": "fa315be81a23a8aa787bb05dc71093d7c283ef283ab80a5036fcf039e8984357"
+    },
+    {
+      "name": "aspack-other-0x41f-reordered-sections",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "reordered-sections"
+      ],
+      "input": "aspack-other-0x41f-reordered-sections.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 543,
+      "input_sha256": "a7a2997b98b5fed399a5738cbc428c78b3deb6920189773ea254ce183cde04c2",
+      "output": "aspack-other-0x41f-reordered-sections.recovered",
+      "output_sha256": "075d11c4abeb3942e43d22a4d81c98152a4afbe94f5f78dc4d2c7205c8883d89"
+    },
+    {
+      "name": "aspack-other-0x41f-preserve-imports",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "preserve-imports"
+      ],
+      "input": "aspack-other-0x41f-preserve-imports.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "413dd4b7dad7cb02af227b00c0948c4caf6b015f66b03d6323531f9b6461117b",
+      "output": "aspack-other-0x41f-preserve-imports.recovered",
+      "output_sha256": "6ede0ae08cfc90a4f9480f1fc546669075e2c92e92b8a23fb33036f5032986e9"
+    },
+    {
+      "name": "aspack-other-0x41f-no-imports",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "no-imports"
+      ],
+      "input": "aspack-other-0x41f-no-imports.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "429aa82d3fac409e30d6e44076a4468ae962701c29f025c76e469887c3f5b919",
+      "output": "aspack-other-0x41f-no-imports.recovered",
+      "output_sha256": "9461d92ac007938e59167209d58e2356546933de2c64dfb9f9278287cec7a2e6"
+    },
+    {
+      "name": "aspack-other-0x41f-zero-oep",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "zero-oep"
+      ],
+      "input": "aspack-other-0x41f-zero-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "2199f95cd7292577d4ae1010731d271aab4bc2069dd3a93ed13a7dc87b3283af"
+    },
+    {
+      "name": "aspack-other-0x41f-header-oep",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "header-oep"
+      ],
+      "input": "aspack-other-0x41f-header-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "3977e9bc6df79644e8fadd79cbc814e076acdb521b45f121e83502b044a3aa54"
+    },
+    {
+      "name": "aspack-other-0x41f-unbacked-oep",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "unbacked-oep"
+      ],
+      "input": "aspack-other-0x41f-unbacked-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "8a5a82052f1ec890a1544f9b4f6ac9d7ac88f7c6ddf70ed44dd78d22071b792b"
+    },
+    {
+      "name": "aspack-other-0x41f-outside-oep",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "outside-oep"
+      ],
+      "input": "aspack-other-0x41f-outside-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "da02a41db5a400d94d96da6ea235781efc2b35ed4fab9055020098bbd1f2d963"
+    },
+    {
+      "name": "aspack-other-0x41f-ambiguous",
+      "family": "ASPack",
+      "version": 0,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "ambiguous-markers"
+      ],
+      "input": "aspack-other-0x41f-ambiguous.bin",
+      "detected": true,
+      "detect_error": "invalid_input",
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "f0a0013e3370368dc3a187adc233518b52808ed380943c6d909c850a3cd81668"
+    },
+    {
+      "name": "aspack-other-0x41f-truncated-marker",
+      "family": "ASPack",
+      "version": 0,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-marker"
+      ],
+      "input": "aspack-other-0x41f-truncated-marker.bin",
+      "detected": false,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "4e1bb797f71413de5391f37303cc5901538f12af950e07e0727647ee2eb094e7"
+    },
+    {
+      "name": "aspack-other-0x41f-literal-block",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "literal-block",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-other-0x41f-literal-block.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "016ec449214a20ca0ba9bbccfc6493a3fdfe9f0d0709664247f727c57634bbae",
+      "output": "aspack-other-0x41f-literal-block.recovered",
+      "output_sha256": "44bd74abdd237c940f9e6f2e92507ab6e3b6c294ae7bc2bc873381f988afb7bf"
+    },
+    {
+      "name": "aspack-other-0x41f-relative-source",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "relative-source",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-other-0x41f-relative-source.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "dd66559ba3371043c6b86d0d874ad2f7d4bf3eacf4674de90e3e2bd641d67c1f",
+      "output": "aspack-other-0x41f-relative-source.recovered",
+      "output_sha256": "d01bcc2262de185e860e2e1c52fabac00b0f406b29f0a437b5e829c577a09546"
+    },
+    {
+      "name": "aspack-other-0x41f-overlap-match",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "overlap-match",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-other-0x41f-overlap-match.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "e379343bc1f3af2edb663b16d41e88f9a417260d4de59c192b75c5aa402eb936",
+      "output": "aspack-other-0x41f-overlap-match.recovered",
+      "output_sha256": "810a26213dcba55ec8c9851c3aceb75da2a5c367abcadef75bdd8b05f15d154f"
+    },
+    {
+      "name": "aspack-other-0x41f-two-blocks",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "two-blocks",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-other-0x41f-two-blocks.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "9d8a6de6d371b36caa05c31acb3d7224dafb25ee874b626f0c307400f9ad2c01",
+      "output": "aspack-other-0x41f-two-blocks.recovered",
+      "output_sha256": "1a40c0a32ee7a89e53d64be4ae37f42be9bfd832bf139e34362ec51cbfe5c6f1"
+    },
+    {
+      "name": "aspack-other-0x41f-source-outside",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "source-outside"
+      ],
+      "input": "aspack-other-0x41f-source-outside.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "11b1dec10c64c0c36bffd33bf7c044a42b192934d9c599e339e29c168b419839"
+    },
+    {
+      "name": "aspack-other-0x41f-destination-headers",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "destination-headers"
+      ],
+      "input": "aspack-other-0x41f-destination-headers.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "7580b5961c39ae57cdc7ef6a84ba2b269e268ebee42232bc32b483b0d163ad51"
+    },
+    {
+      "name": "aspack-other-0x41f-destination-crosses-section",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "destination-crosses-section"
+      ],
+      "input": "aspack-other-0x41f-destination-crosses-section.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "ef4cbbfd4bdcd26f04b93c912a4f10e5e593c0dc96a01e63a81308dedfcfb1f9"
+    },
+    {
+      "name": "aspack-other-0x41f-oversized-output",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "oversized-output"
+      ],
+      "input": "aspack-other-0x41f-oversized-output.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "limit",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "1d08e5f0111ac425cd9f2c2db1c6e97d40516abf505b6ab91cfac43d791e4e23"
+    },
+    {
+      "name": "aspack-other-0x41f-short-stream",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "short-stream"
+      ],
+      "input": "aspack-other-0x41f-short-stream.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "0e77ae480143f20fe128c5875a0faba082a0c039118e44889662fc4a708383f6"
+    },
+    {
+      "name": "aspack-other-0x41f-unsupported-count",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "unsupported-count"
+      ],
+      "input": "aspack-other-0x41f-unsupported-count.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "6fb24eb2526b19a4b9e219a8c564290f67f58982856fdf0f75aade61fcfb348c"
+    },
+    {
+      "name": "aspack-other-0x41f-truncated-table",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-table"
+      ],
+      "input": "aspack-other-0x41f-truncated-table.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "c1926b1bdb925057e79a33da799f3e400106b10d0e55f0f631bf094d48704544"
+    },
+    {
+      "name": "aspack-other-0x41f-truncated-oep",
+      "family": "ASPack",
+      "version": 3,
+      "profile": "other-0x41f",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-oep"
+      ],
+      "input": "aspack-other-0x41f-truncated-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "57b31250e87153dcb20f46498e0412478078547ee7106028a38d59ad6e953085"
+    },
+    {
+      "name": "aspack-2.42-basic",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "basic"
+      ],
+      "input": "aspack-2.42-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "d4dad954ac33160556029a03b9c0e442d4dc5af406e616981102f6873eec65ef",
+      "output": "aspack-2.42-basic.recovered",
+      "output_sha256": "d5b0c9c16b68cbbd5738e9a2fd7a46e239d820cf511fadb65623b53d346d6768"
+    },
+    {
+      "name": "aspack-2.42-shifted-entry",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "shifted-entry"
+      ],
+      "input": "aspack-2.42-shifted-entry.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1553,
+      "input_sha256": "a82d90df4f10804ef141141854a506ce0ef331657dfae65675c4ab2faba8dee4",
+      "output": "aspack-2.42-shifted-entry.recovered",
+      "output_sha256": "5df32d70619e8229c8e595c4a11abca12de9173c50a250c52e77b8a849418f40"
+    },
+    {
+      "name": "aspack-2.42-reordered-sections",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "reordered-sections"
+      ],
+      "input": "aspack-2.42-reordered-sections.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 543,
+      "input_sha256": "c23a24222f8cebd8bbb2b90f38bd8b8745558e5897d4b6b48f07ee55d0bf93f2",
+      "output": "aspack-2.42-reordered-sections.recovered",
+      "output_sha256": "bbe2185cbc17890712b12a8bdeb2c7d5078a022c5afdd2894ced616eec3cd145"
+    },
+    {
+      "name": "aspack-2.42-preserve-imports",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "preserve-imports"
+      ],
+      "input": "aspack-2.42-preserve-imports.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "566a4217f9dd64a27f539109c7beecfb6c5d08a546660c6289edc7f91bc91980",
+      "output": "aspack-2.42-preserve-imports.recovered",
+      "output_sha256": "d5b0c9c16b68cbbd5738e9a2fd7a46e239d820cf511fadb65623b53d346d6768"
+    },
+    {
+      "name": "aspack-2.42-no-imports",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "no-imports"
+      ],
+      "input": "aspack-2.42-no-imports.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "6b1568c2e3ab7ce781d2c30ddb0ca59bf00d29c7ac4daecb37efc9f748a895c5",
+      "output": "aspack-2.42-no-imports.recovered",
+      "output_sha256": "cca46e8af33fabd17dfe316bee14aaa8115b364ce13ddb412211a209d6b5f4c3"
+    },
+    {
+      "name": "aspack-2.42-zero-oep",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "zero-oep"
+      ],
+      "input": "aspack-2.42-zero-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "095965b6b91f9f641c904502cc4a78f10fe5c043ea498951ba64a75a365dee17"
+    },
+    {
+      "name": "aspack-2.42-header-oep",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "header-oep"
+      ],
+      "input": "aspack-2.42-header-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "6be07238ade0a180f87215b821f37547931985f29aeb960778b3b931d7e51040"
+    },
+    {
+      "name": "aspack-2.42-unbacked-oep",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "unbacked-oep"
+      ],
+      "input": "aspack-2.42-unbacked-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "5c840cfe5a0543036e8ecc4c2c422da36d55e7d56ac6ecb036c70e9c01475083"
+    },
+    {
+      "name": "aspack-2.42-outside-oep",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "outside-oep"
+      ],
+      "input": "aspack-2.42-outside-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "ec6b58c983c90b7eeaa01d3842800b75a59901530f4ca00281ccb53e511bdf12"
+    },
+    {
+      "name": "aspack-2.42-ambiguous",
+      "family": "ASPack",
+      "version": 0,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "ambiguous-markers"
+      ],
+      "input": "aspack-2.42-ambiguous.bin",
+      "detected": true,
+      "detect_error": "invalid_input",
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "e6806042f5e4aea951027fc6a45ad4b646a20385e7be9292076f83c2e61af74a"
+    },
+    {
+      "name": "aspack-2.42-truncated-marker",
+      "family": "ASPack",
+      "version": 0,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-marker"
+      ],
+      "input": "aspack-2.42-truncated-marker.bin",
+      "detected": false,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "6ea401e0c0230715a39ca32ed59550c8346df2cfeeb7a0cbda302c75dfa77531"
+    },
+    {
+      "name": "aspack-2.42-literal-block",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "literal-block",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-2.42-literal-block.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "77723e91f62a59f3329add56e55d040e405ddc7c013403450fb734db03285c6f",
+      "output": "aspack-2.42-literal-block.recovered",
+      "output_sha256": "c0ab03b9a7b140dc8008b150671362cbea0bc763ce1c4c9e89dc5701b3fac4b3"
+    },
+    {
+      "name": "aspack-2.42-relative-source",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "relative-source",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-2.42-relative-source.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "9ae76ee49a94bc1673a40e5297b80f77ebb8eea80a9ae2af8e85c1a88e546c50",
+      "output": "aspack-2.42-relative-source.recovered",
+      "output_sha256": "ab08e727c89488b38c1e6d0d340809d905c3a6eac14b7f51f1e8098ef5e98104"
+    },
+    {
+      "name": "aspack-2.42-overlap-match",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "overlap-match",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-2.42-overlap-match.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "b02652cf5ae3b91190158c2c654d62fbf5ac0e0da9b7766d4e6e3d050b07654d",
+      "output": "aspack-2.42-overlap-match.recovered",
+      "output_sha256": "e5109e44cf5d188cf986a32fce185f7498c5ecc2179c734ebf9ce5f6510120e8"
+    },
+    {
+      "name": "aspack-2.42-two-blocks",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "two-blocks",
+        "legacy-test-codec"
+      ],
+      "input": "aspack-2.42-two-blocks.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 535,
+      "input_sha256": "01cd923dfb50102ac608d5621c04c6ee07d05632f6efdb1732a0e855fdad7d78",
+      "output": "aspack-2.42-two-blocks.recovered",
+      "output_sha256": "13983752a2891cfeab3b233000dce121f8ad6822a8f6d7a30d8aa543896e51d1"
+    },
+    {
+      "name": "aspack-2.42-source-outside",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "source-outside"
+      ],
+      "input": "aspack-2.42-source-outside.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "587a79e5c667b8e5a0bb1d2b7654045d8fb74c001cef78b0bf2f873672b513cd"
+    },
+    {
+      "name": "aspack-2.42-destination-headers",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "destination-headers"
+      ],
+      "input": "aspack-2.42-destination-headers.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "4a66c472cb310c325ee379ad6ac74eab9d85ae1edf8d650a0436ceb2ea3fd409"
+    },
+    {
+      "name": "aspack-2.42-destination-crosses-section",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "destination-crosses-section"
+      ],
+      "input": "aspack-2.42-destination-crosses-section.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "cbfca75addbfa7195473013fe826ef00f581444591b3e257256b7a3a0315eb2a"
+    },
+    {
+      "name": "aspack-2.42-oversized-output",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "oversized-output"
+      ],
+      "input": "aspack-2.42-oversized-output.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "limit",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "5bf92327d81d656158f6ccf53e0ff6d10675d32442cd5eb03e8652c1a37d074e"
+    },
+    {
+      "name": "aspack-2.42-short-stream",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "short-stream"
+      ],
+      "input": "aspack-2.42-short-stream.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "7d718a55cc1bf74df28856f8e7dc784f0b65840d5c930efe3b770d7efdab2828"
+    },
+    {
+      "name": "aspack-2.42-unsupported-count",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "unsupported-count"
+      ],
+      "input": "aspack-2.42-unsupported-count.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "2956151f99d161029f7bbfbf10740ff35470d373d412162ce6da7491241ad2b5"
+    },
+    {
+      "name": "aspack-2.42-truncated-table",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-table"
+      ],
+      "input": "aspack-2.42-truncated-table.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "invalid_input",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "738ee15a0ebe40a149c1f721f48e649a879dbb0d35ac707a7cc0a45fbe49c7f1"
+    },
+    {
+      "name": "aspack-2.42-truncated-oep",
+      "family": "ASPack",
+      "version": 4,
+      "profile": "2.42",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "truncated-oep"
+      ],
+      "input": "aspack-2.42-truncated-oep.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "53eb76a9a45be1d312cc49c0694808ac0d0f85cc29dc81f67893fc272493d02a"
+    },
+    {
+      "name": "fsg-id1-entry0",
+      "family": "FSG",
+      "version": 1,
+      "profile": "FSG",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "signature-layout-id",
+        "relative-jump"
+      ],
+      "input": "fsg-id1-entry0.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "7d37c19586fb1e24afc9b4bd45feb31710552e2af2b621bb4941f04e9e034842",
+      "output": "fsg-id1-entry0.recovered",
+      "output_sha256": "08877ff25acbecd852413898d9de9691f66c0284fc3085a40d60e13d5a498230"
+    },
+    {
+      "name": "fsg-id1-entry29",
+      "family": "FSG",
+      "version": 1,
+      "profile": "FSG",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "signature-layout-id",
+        "relative-jump"
+      ],
+      "input": "fsg-id1-entry29.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1565,
+      "input_sha256": "7fac4e1695661df1e049991a3f9dd526574fe0b4f5013a62c190ff7d4e2119a1",
+      "output": "fsg-id1-entry29.recovered",
+      "output_sha256": "4b38e0e2ed25171b8b1f9a87358168707075e8580dddfb476fe42738330b35da"
+    },
+    {
+      "name": "fsg-id2-entry0",
+      "family": "FSG",
+      "version": 2,
+      "profile": "FSG",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "signature-layout-id",
+        "relative-jump"
+      ],
+      "input": "fsg-id2-entry0.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "6d8d7556856aaebef01119e7e0df94083ade5bbbaba82b88a7c96246dcdda7e7",
+      "output": "fsg-id2-entry0.recovered",
+      "output_sha256": "f82e1e32a8219a232670ad6c6708699ca43a82fef3b1c8b9cc9e1948ecc24d18"
+    },
+    {
+      "name": "fsg-id2-entry29",
+      "family": "FSG",
+      "version": 2,
+      "profile": "FSG",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "signature-layout-id",
+        "relative-jump"
+      ],
+      "input": "fsg-id2-entry29.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1565,
+      "input_sha256": "c506f90b8062c5c542ae6ef94808ce5f6adec48f8f5b849deecbc94307021a32",
+      "output": "fsg-id2-entry29.recovered",
+      "output_sha256": "c4c95369250c1aca2e49e7424ba9371cccb6a2b6f8a28d5909f4e0883ec73c2a"
+    },
+    {
+      "name": "winupack-id1-entry0",
+      "family": "WinUpack",
+      "version": 1,
+      "profile": "WinUpack",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "signature-layout-id",
+        "relative-jump"
+      ],
+      "input": "winupack-id1-entry0.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "5e453a867c8d2910c7b0d632694407c765ef422da99158734bae6b9f8dc19aa8",
+      "output": "winupack-id1-entry0.recovered",
+      "output_sha256": "a76106291b81102f6e81d80a18084d963e492cdf9d2ea110d772f8fb227fa479"
+    },
+    {
+      "name": "winupack-id1-entry29",
+      "family": "WinUpack",
+      "version": 1,
+      "profile": "WinUpack",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "signature-layout-id",
+        "relative-jump"
+      ],
+      "input": "winupack-id1-entry29.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1565,
+      "input_sha256": "b08537a9970d3409bc13e4f042bc09d1f00c6ff4b24640533ff8326bd7419dad",
+      "output": "winupack-id1-entry29.recovered",
+      "output_sha256": "04f503bef650908b5e8f8ef222840523146a092691ff0b4f33da6343faaad166"
+    },
+    {
+      "name": "winupack-id2-entry0",
+      "family": "WinUpack",
+      "version": 2,
+      "profile": "WinUpack",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "signature-layout-id",
+        "relative-jump"
+      ],
+      "input": "winupack-id2-entry0.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1536,
+      "input_sha256": "318336f548ece02718fe25a089282e0060e7f94d93422477cfab1a1b9996780e",
+      "output": "winupack-id2-entry0.recovered",
+      "output_sha256": "82f71e25c81c31379cf8ed7da248b742bf72094de04e6c459dc49bf9792b58a2"
+    },
+    {
+      "name": "winupack-id2-entry29",
+      "family": "WinUpack",
+      "version": 2,
+      "profile": "WinUpack",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "signature-layout-id",
+        "relative-jump"
+      ],
+      "input": "winupack-id2-entry29.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1565,
+      "input_sha256": "10e2c940ff36ba72dc11927378556b330f47bdefa4ff63446076291df7fb3f50",
+      "output": "winupack-id2-entry29.recovered",
+      "output_sha256": "2d13f84914fff4c8498eda25884b17e8a4ba8958aa201fe7085ae7e6d7e10169"
+    },
+    {
+      "name": "mpress-32-mpress1",
+      "family": "MPRESS",
+      "version": 1,
+      "profile": "MPRESS",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "section-suffix-is-not-version",
+        "pe32"
+      ],
+      "input": "mpress-32-mpress1.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1555,
+      "input_sha256": "a37a4d90d80acfff6ba904c43e91c3fc1afac1882fddf7fb0639e362338ccb74",
+      "output": "mpress-32-mpress1.recovered",
+      "output_sha256": "a945887036175e852b42fd39b93a80adbc910a848ed30e81389ef6d00619a177"
+    },
+    {
+      "name": "mpress-32-mpress2",
+      "family": "MPRESS",
+      "version": 1,
+      "profile": "MPRESS",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "section-suffix-is-not-version",
+        "pe32"
+      ],
+      "input": "mpress-32-mpress2.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1555,
+      "input_sha256": "b4a5dbdab6acbf8aa75af86cad1fef98738f75c43846c7a959a94d65fa0bbd9c",
+      "output": "mpress-32-mpress2.recovered",
+      "output_sha256": "0dca7e2c955028c7a23118feb35b22ed80813ca54ac015282184f70fb80671d8"
+    },
+    {
+      "name": "mpress-64-mpress1",
+      "family": "MPRESS",
+      "version": 1,
+      "profile": "MPRESS",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "section-suffix-is-not-version",
+        "pe64"
+      ],
+      "input": "mpress-64-mpress1.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": true,
+      "entry_offset": 1555,
+      "input_sha256": "c6a8c6902082965b9f106d7031509444246a3faa738ee0540095241c743efc20",
+      "output": "mpress-64-mpress1.recovered",
+      "output_sha256": "f89e809cd8aa52ad7e5e4eef6b0555c2da818e3e37a701dca516ce16af34b61d"
+    },
+    {
+      "name": "mpress-64-mpress2",
+      "family": "MPRESS",
+      "version": 1,
+      "profile": "MPRESS",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "section-suffix-is-not-version",
+        "pe64"
+      ],
+      "input": "mpress-64-mpress2.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": true,
+      "entry_offset": 1555,
+      "input_sha256": "86920306addd59b471ee40a1ceea92a59b9e166417884cae6c7a9d160cb90ae6",
+      "output": "mpress-64-mpress2.recovered",
+      "output_sha256": "a02a0cb3f46611ba07ea6f15bacafdfa30046bdbc9fd79a368ca3bc556987325"
+    },
+    {
+      "name": "petite-basic",
+      "family": "Petite",
+      "version": 1,
+      "profile": "Petite",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "recovery"
+      ],
+      "input": "petite-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "be65c19b7798d52bb81c52807bb87cf1a2fcd4e1b09c296557b2662a18bd881e",
+      "output": "petite-basic.recovered",
+      "output_sha256": "b9f901f34f3a655d04ea73c79eec04299440b2111f712165d18c61ebdfc6868c"
+    },
+    {
+      "name": "pespin-basic",
+      "family": "PESpin",
+      "version": 1,
+      "profile": "PESpin",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "recovery"
+      ],
+      "input": "pespin-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "b1342fb30edaa0f4f28349ba6304601a5abb57ed2de50fb40eb12eaa45c7e1d0",
+      "output": "pespin-basic.recovered",
+      "output_sha256": "3b3636e4030aec82203e5502e7be1238b50eb6ff802ff9c61b16498140ec7eb4"
+    },
+    {
+      "name": "armadillo-basic",
+      "family": "Armadillo",
+      "version": 1,
+      "profile": "Armadillo",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "recovery"
+      ],
+      "input": "armadillo-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "2e07bb96945c1531ac3e5097137a5a5c0f5fc9260b5e01088f47e63cd640d204",
+      "output": "armadillo-basic.recovered",
+      "output_sha256": "4bb53c89e61ddf24793bbe03dfb887946597d2be15c4b7cb26be787625046eda"
+    },
+    {
+      "name": "themida-basic",
+      "family": "Themida",
+      "version": 1,
+      "profile": "Themida",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "recovery"
+      ],
+      "input": "themida-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "7271191cc314fbb6597c0c25270bb211f911704e5ceaecb05b6a31c514214da4",
+      "output": "themida-basic.recovered",
+      "output_sha256": "de4d60b49a57a8ea527699486682532c4bc8956d8e12234d0edac08422a97cfc"
+    },
+    {
+      "name": "pecompact-basic",
+      "family": "PECompact",
+      "version": 1,
+      "profile": "PECompact",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "recovery"
+      ],
+      "input": "pecompact-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "a088d64861dd0a4b7c3402be8c1739f2c6b7c78eb587eb149c6d6ddaf841614b",
+      "output": "pecompact-basic.recovered",
+      "output_sha256": "e668a50bb136dd5bd6462f7d868c8126aa1e608fea0fd57c045ab4a7fbdfaa9f"
+    },
+    {
+      "name": "nspack-basic",
+      "family": "NSPack",
+      "version": 1,
+      "profile": "NSPack",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "recovery"
+      ],
+      "input": "nspack-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": null,
+      "expected_oep": 4112,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "b2919da8ef7dcda28158569227b5dc25dfa4f3a82c5fec7cbdbf57ec9b8edd85",
+      "output": "nspack-basic.recovered",
+      "output_sha256": "0589ae651c145ed342707261f5fb5c47a9475408aed3c5c8cadc9bc85bfbf4ef"
+    },
+    {
+      "name": "vmprotect-basic",
+      "family": "VMProtect",
+      "version": 1,
+      "profile": "VMProtect",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "detect_only"
+      ],
+      "input": "vmprotect-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "574b77bcfe1969c0306693749d94cfd03f4ab17e3e5f72e064ef5210ae940fcc"
+    },
+    {
+      "name": "enigma-basic",
+      "family": "Enigma",
+      "version": 1,
+      "profile": "Enigma",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "detect_only"
+      ],
+      "input": "enigma-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "0f86b57bf6ad75adb26c339e31dfb3d879bfd9607f884e34a56d33415745726a"
+    },
+    {
+      "name": "mew-basic",
+      "family": "MEW",
+      "version": 1,
+      "profile": "MEW",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "detect_only"
+      ],
+      "input": "mew-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "338d65f2fe3d8da89fc638ddc7aeab01801a0ef9c3991a33079b07bfce4b3310"
+    },
+    {
+      "name": "pelock-basic",
+      "family": "PELock",
+      "version": 1,
+      "profile": "PELock",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "detect_only"
+      ],
+      "input": "pelock-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "168b59a4802b8dfe5c6cde6aed6176968e83bd6a3329c967a69c0f9a328e1c9d"
+    },
+    {
+      "name": "pebundle-basic",
+      "family": "PEBundle",
+      "version": 1,
+      "profile": "PEBundle",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "detect_only"
+      ],
+      "input": "pebundle-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "e464096fa52a6299b5068fc75a209dd6989b1bfe14efc68a605aa318b2c07746"
+    },
+    {
+      "name": "yoda-basic",
+      "family": "Yoda",
+      "version": 1,
+      "profile": "Yoda",
+      "provenance": "synthetic PE layout, not actual packer output",
+      "tags": [
+        "detect_only"
+      ],
+      "input": "yoda-basic.bin",
+      "detected": true,
+      "detect_error": null,
+      "recovery_error": "unsupported",
+      "expected_oep": null,
+      "pe64": false,
+      "entry_offset": 1549,
+      "input_sha256": "288c10e6abb772383588ee8b0ef77201790ddad8edfc6083ac6d3a7223b1b8d9"
+    }
+  ]
+}

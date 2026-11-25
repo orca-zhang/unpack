@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="459" viewBox="0 0 900 459" role="img" aria-labelledby="title desc">
+<title id="title">Performance at a glance</title>
+<desc id="desc">Historical baseline vs recorded optimization results. Sources: docs/benchmarks/.</desc>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="0.5" y="0.5" width="899.000" height="458" rx="16" fill="#f5f9f7"/><rect x="0.5" y="0.5" width="899" height="458" rx="16" fill="none" stroke="#dce6e1"/><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70"/><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">Performance at a glance</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">Historical baseline vs recorded optimization results. Sources: docs/benchmarks/.</text><path d="M28 80H872" stroke="#dce6e1"/><rect x="28" y="100" width="272.000" height="265" rx="12" fill="#ffffff"/>
+<text x="46" y="127" font-size="11" fill="#526966" text-anchor="start">01 / DETECTION</text>
+<text x="46" y="157" font-size="16" fill="#152e2b" text-anchor="start">No-match PE scan</text>
+<text x="46" y="204" font-size="34" fill="#157d70" text-anchor="start">84.6x</text>
+<text x="46" y="226" font-size="12" fill="#526966" text-anchor="start">baseline / optimized latency</text>
+<text x="46" y="256" font-size="11" fill="#526966" text-anchor="start">Before</text>
+<text x="282" y="256" font-size="12" fill="#152e2b" text-anchor="end">4,315.80 us</text>
+<rect x="46" y="265" width="236.000" height="6" rx="3" fill="#edf3ef"/>
+<rect x="46" y="265" width="236.000" height="6" rx="3" fill="#a9bab7"/>
+<text x="46" y="304" font-size="11" fill="#526966" text-anchor="start">After</text>
+<text x="282" y="304" font-size="12" fill="#152e2b" text-anchor="end">51.00 us</text>
+<rect x="46" y="313" width="236.000" height="6" rx="3" fill="#edf3ef"/>
+<rect x="46" y="313" width="111.405" height="6" rx="3" fill="#157d70"/>
+<rect x="314" y="100" width="272.000" height="265" rx="12" fill="#ffffff"/>
+<text x="332" y="127" font-size="11" fill="#526966" text-anchor="start">02 / NATIVE DECODE</text>
+<text x="332" y="157" font-size="16" fill="#152e2b" text-anchor="start">AP32 / 65 KiB</text>
+<text x="332" y="204" font-size="34" fill="#157d70" text-anchor="start">17.3x</text>
+<text x="332" y="226" font-size="12" fill="#526966" text-anchor="start">baseline / optimized latency</text>
+<text x="332" y="256" font-size="11" fill="#526966" text-anchor="start">Before</text>
+<text x="568" y="256" font-size="12" fill="#152e2b" text-anchor="end">872.39 us</text>
+<rect x="332" y="265" width="236.000" height="6" rx="3" fill="#edf3ef"/>
+<rect x="332" y="265" width="236.000" height="6" rx="3" fill="#a9bab7"/>
+<text x="332" y="304" font-size="11" fill="#526966" text-anchor="start">After</text>
+<text x="568" y="304" font-size="12" fill="#152e2b" text-anchor="end">50.43 us</text>
+<rect x="332" y="313" width="236.000" height="6" rx="3" fill="#edf3ef"/>
+<rect x="332" y="313" width="137.307" height="6" rx="3" fill="#157d70"/>
+<rect x="600" y="100" width="272.000" height="265" rx="12" fill="#ffffff"/>
+<text x="618" y="127" font-size="11" fill="#526966" text-anchor="start">03 / SDK ALLOCATION</text>
+<text x="618" y="157" font-size="16" fill="#152e2b" text-anchor="start">4 MiB response decode</text>
+<text x="618" y="204" font-size="34" fill="#157d70" text-anchor="start">99.992%</text>
+<text x="618" y="226" font-size="12" fill="#526966" text-anchor="start">less allocated</text>
+<text x="618" y="256" font-size="11" fill="#526966" text-anchor="start">Before</text>
+<text x="854" y="256" font-size="12" fill="#152e2b" text-anchor="end">4,202,825 B/op</text>
+<rect x="618" y="265" width="236.000" height="6" rx="3" fill="#edf3ef"/>
+<rect x="618" y="265" width="236.000" height="6" rx="3" fill="#a9bab7"/>
+<text x="618" y="304" font-size="11" fill="#526966" text-anchor="start">After</text>
+<text x="854" y="304" font-size="12" fill="#152e2b" text-anchor="end">336 B/op</text>
+<rect x="618" y="313" width="236.000" height="6" rx="3" fill="#edf3ef"/>
+<rect x="618" y="313" width="90.061" height="6" rx="3" fill="#157d70"/>
+<text x="28" y="395" font-size="12" fill="#526966" text-anchor="start">Apple M4 Pro / release Rust + Go benchmarks / median of five batches / lower is better.</text>
+<text x="28" y="416" font-size="12" fill="#526966" text-anchor="start">Logarithmic bar lengths; labels show measured values. Excludes I/O, startup and end-to-end unpacking.</text>
+<text x="28" y="437" font-size="12" fill="#526966" text-anchor="start">SDK values measure response-decode allocations only; the existing payload buffer is excluded.</text></g></svg>

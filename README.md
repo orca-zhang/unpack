@@ -1,236 +1,125 @@
-# Unpack: A PE Unpacking Tool & Library
+![Unpack — see through every layer](docs/assets/hero.svg)
 
-[English](README.md) | [中文](README_zh.md)
+<p align="center">
+  <strong>Executable packer analysis · Rust core · Go SDK</strong><br/>
+  <a href="README.md">English</a> · <a href="README_zh.md">中文</a>
+</p>
 
-## Introduction
-Unpack is a powerful and versatile library written in Go (Golang), designed to analyze and decompress executable files, particularly those packed with various PE (Portable Executable) packers. Packed executables are often used to obfuscate the true nature of the code, making it harder for security researchers and anti-virus software to analyze and understand the behavior of the program.
+<p align="center">
+  <a href="#features">Features</a> · <a href="#quick-start">Quick start</a> ·
+  <a href="#formats">Formats</a> · <a href="#performance">Performance</a> ·
+  <a href="#go-sdk">Go SDK</a> · <a href="docs/REFERENCE.md">Documentation</a>
+</p>
 
-The primary goal of Unpack is to detect the presence of a packer, identify the type of packer used, and if possible, decompress the executable to its original form, allowing for easier analysis and understanding of the program's functionality.
+Unpack detects executable packers, decodes compressed payloads and records each layer.
+Use it through the CLI, Rust library or compatible Go SDK.
 
-## Background
-Executable packers have been a staple in the cybersecurity landscape for years. They are used for both legitimate purposes, such as protecting intellectual property, and malicious purposes, such as hiding malware. The ability to unpack these executables is crucial for security professionals who need to analyze and understand the behavior of potentially harmful software.
+<a id="features"></a>
 
-## Supported Packers
-Unpack currently supports the detection and unpacking of the following common PE packers:
-- [x] UPX (basic support)
-- [x] ASPack
-- [x] FSG
-- [x] Themida (basic support)
-- [x] WinUpack
-- [x] Petite
-- [x] PESpin
-- [x] Armadillo
-- [x] PECompact
-- [x] NSPack
-- [x] MPRESS
+## Features
 
-Please note that the list above is not exhaustive, and Unpack is continuously updated to support new and emerging packers.
+| Inspect | Decode | Trace | Integrate |
+| --- | --- | --- | --- |
+| 22 built-in formats | 5 native decoders + UPX | Recursive layers and detection evidence | Rust / Go / CLI |
 
-## Multi-Layer Packing Support
+![Feature flow](docs/charts/workflow.svg)
 
-Unpack supports detecting and unpacking executables with multiple layers of packing. This means if a file is packed with multiple packers in layers (e.g., ASPack -> UPX), Unpack can:
+<a id="quick-start"></a>
 
-1. **Automatically detect all layers**: Recursively detect the packer type at each layer
-2. **Unpack layer by layer**: Unpack from outer to inner layers sequentially
-3. **Record unpacking history**: Track packer information and version for each layer
+## Quick start
 
-### Usage Example
+Requires Rust 1.85+. Run from the repository directory:
+
+```sh
+cargo install --path . --locked
+unpack-rs detect --json testdata/upx/pe32.packed
+unpack-rs unpack -o output.exe testdata/upx/pe32.packed
+```
+
+UPX unpacking also requires [official UPX](https://upx.github.io/). Analyzed executables are never run.
+
+See the [CLI reference](docs/REFERENCE.md#cli) for more options and configuration.
+
+<a id="formats"></a>
+
+## Supported formats
+
+![Format support distribution](docs/charts/support.svg)
+
+**Native decode** restores compressed content. **Static recovery** repairs PE entry points
+and structure without guaranteeing runnable output. **Detect only** does not unpack.
+
+| Format | Capability | Versions / main variants |
+| --- | --- | --- |
+| GZIP | Native decode | Single / concatenated members |
+| ZLIB | Native decode | DEFLATE streams; no preset dictionaries |
+| XZ | Native decode | Single / concatenated streams, x86 BCJ, delta |
+| LZMA-Alone | Native decode | Known / unknown size; requires `--format LZMA` |
+| AP32 | Native aPLib decode | AP32 containers, nested containers |
+| UPX | Official backend | Verified **5.1.0**: PE32/64, ELF32/64/ARM64, x86-64 Mach-O, LZMA, x86 filter |
+| ASPack | Static recovery | **2.1, 2.12, 2.42, OTHER** layouts |
+| FSG | Static recovery | `FSG!` / `FSG2` signatures |
+| WinUpack | Static recovery | `WinUpack` / `UPack` signatures |
+| Petite | Static recovery | — |
+| PESpin | Static recovery | — |
+| Armadillo | Static recovery | — |
+| Themida | Static recovery | — |
+| PECompact | Static recovery | `PECompact` / `PEC2` / `PEC1` signatures |
+| NSPack | Static recovery | — |
+| MPRESS | Static recovery | PE32/64; `.MPRESS1` / `.MPRESS2` section layouts |
+| VMProtect | Detect only | — |
+| Enigma | Detect only | — |
+| MEW | Detect only | `MEW11` / `MEW 11` signatures |
+| PELock | Detect only | — |
+| PEBundle | Detect only | — |
+| Yoda | Detect only | Protector / Crypter |
+
+“—” means the exact vendor release is unverified. Signatures and section names are
+not vendor versions. [Full version details →](docs/REFERENCE.md#versions)
+
+<a id="performance"></a>
+
+## Performance
+
+![Detection latency, AP32 decoding and Go SDK allocations](docs/charts/overview.svg)
+
+Local Apple M4 Pro microbenchmarks; excludes file I/O, process startup and end-to-end unpacking.
+[Methodology, detailed charts and raw data →](docs/REPORT.md)
+
+## Go SDK
+
+Requires Go 1.21.5+ and `unpack-rs` on PATH, or set its path with `UNPACK_RUST_BIN`.
 
 ```go
 package main
 
 import (
     "fmt"
-    "github.com/orcastor/unpack"
-    
-    // Import drivers package to register all supported packers
-    _ "github.com/orcastor/unpack/drivers"
+    "github.com/orca-zhang/unpack"
+    _ "github.com/orca-zhang/unpack/drivers"
 )
 
 func main() {
-    // Recursively unpack all layers (default max depth 10)
     result, err := unpack.UnpackAll("packed.exe")
-    if err != nil {
-        fmt.Printf("Error: %v\n", err)
-        return
-    }
-    
-    // Print unpacking history
-    fmt.Println("Unpacking history:")
+    if err != nil { panic(err) }
     for _, layer := range result.History {
-        fmt.Printf("  Layer %d: %s (version %d)\n", 
-            layer.Layer, layer.PackerName, layer.Version)
+        fmt.Println(layer.PackerName, layer.Support)
     }
-    
-    // Use unpacked data
-    // result.ReaderAt contains the final unpacked file data
+    for _, warning := range result.Warnings { fmt.Println(warning) }
 }
 ```
 
-### Registering Packers
+Legacy Go calls allow static recovery by default; the CLI does not. See the
+[SDK reference](docs/REFERENCE.md#go-sdk) for strict mode, custom drivers and other options.
 
-To use Unpack, you need to register the packers you want to support. There are two ways to do this:
+For more examples, see the [Rust example](examples/basic.rs) and [Go example](examples/go/main.go).
 
-**Option 1: Import all packers at once (Recommended)**
-```go
-import _ "github.com/orcastor/unpack/drivers"
-```
-This will automatically register all supported packers.
+## Documentation
 
-**Option 2: Import specific packers**
-```go
-import (
-    _ "github.com/orcastor/unpack/upx"
-    _ "github.com/orcastor/unpack/aspack"
-    // ... import other packers as needed
-)
-```
-This allows you to only include the packers you need, reducing binary size.
-
-### API Reference
-
-#### `Unpack(path string, maxDepth int) (*UnpackResult, error)`
-Recursively unpacks, supporting multiple layers of packing.
-- `path`: Path to the file to unpack
-- `maxDepth`: Maximum unpacking depth to prevent infinite recursion, 0 means unlimited
-- Returns: `UnpackResult` containing unpacked data and history information
-
-#### `UnpackAll(path string) (*UnpackResult, error)`
-Recursively unpacks all layers, default maximum depth is 10 layers.
-
-#### `UnpackResult` Structure
-```go
-type UnpackResult struct {
-    ReaderAt io.ReaderAt // Unpacked data
-    History  []LayerInfo // Unpacking history, records information for each layer
-}
-
-type LayerInfo struct {
-    PackerName string // Packer name
-    Version    int    // Version number
-    Layer      int    // Layer number (from outer to inner, starting from 1)
-}
-```
-
-## Command Line Usage
-Unpack can be used as a command-line tool to detect the type of packer, check for composite packing, and attempt to unpack the executable. Here's how you can use it:
-
-### Building the CLI Tool
-To build the command-line tool, run:
-
-```sh
-go build -o unpack.exe ./cmd/unpack
-```
-
-Or on Linux/macOS:
-
-```sh
-go build -o unpack ./cmd/unpack
-```
-
-### Installation
-To install Unpack as a library, you can use the following command:
-```sh
-go get github.com/orcastor/unpack
-```
-
-### Commands
-
-#### Detect Packer
-Detect the packer used in an executable file:
-
-```sh
-unpack detect <path-to-executable>
-```
-
-**Example:**
-```sh
-unpack detect packed.exe
-```
-
-**Output:**
-```
-Packer detected: UPX (version 3)
-File: packed.exe
-```
-
-If no packer is detected:
-```
-No packer detected in: packed.exe
-```
-
-#### Unpack Executable
-Unpack an executable file. The tool will automatically detect and unpack all layers of packing.
-
-**Basic usage:**
-```sh
-unpack unpack <path-to-executable>
-```
-
-**With custom output file:**
-```sh
-unpack unpack -o output.exe <path-to-executable>
-```
-
-**With custom maximum depth:**
-```sh
-unpack unpack -depth 5 <path-to-executable>
-```
-
-**Flags:**
-- `-o string`: Output file path (default: `<input>_unpacked.exe`)
-- `-depth int`: Maximum unpacking depth (0 = unlimited, default: 10)
-
-**Examples:**
-```sh
-# Unpack with default settings (output: packed_unpacked.exe)
-unpack unpack packed.exe
-
-# Unpack to specific output file
-unpack unpack -o unpacked.exe packed.exe
-
-# Unpack with unlimited depth
-unpack unpack -depth 0 packed.exe
-
-# Unpack with limited depth of 3 layers
-unpack unpack -depth 3 packed.exe
-```
-
-**Output example:**
-```
-Unpacking: packed.exe
-Output: packed_unpacked.exe
-
-Unpacking history:
-  Layer 1: ASPack (version 2)
-  Layer 2: UPX (version 3)
-
-Successfully unpacked to: packed_unpacked.exe
-```
-
-#### Version
-Display version information:
-
-```sh
-unpack version
-```
-
-#### Help
-Display help information:
-
-```sh
-unpack help
-```
-
-Or:
-
-```sh
-unpack -h
-unpack --help
-```
-
-## Contributing
-Contributions to Unpack are welcome! If you have identified a new packer that is not yet supported or have improvements to the existing code, please submit a pull request or create an issue on the GitHub repository.
+- [Version details, CLI flags and SDK options](docs/REFERENCE.md)
+- [Benchmark report](docs/REPORT.md)
+- [Test fixtures and regeneration](testdata/README.md)
 
 ## License
-Unpack is released under the MIT License. Feel free to use, modify, and distribute this software as you see fit.
+
+[MIT](LICENSE). Official UPX is a separate executable with its own license.

@@ -1,0 +1,26 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/orca-zhang/unpack
+cpu: Apple M4 Pro
+BenchmarkRPCDecode/base64_64KiB-12         	     453	    235396 ns/op	   74056 B/op	       6 allocs/op
+BenchmarkRPCDecode/base64_64KiB-12         	     513	    236215 ns/op	   74056 B/op	       6 allocs/op
+BenchmarkRPCDecode/base64_64KiB-12         	     513	    234632 ns/op	   74056 B/op	       6 allocs/op
+BenchmarkRPCDecode/base64_64KiB-12         	     512	    237688 ns/op	   74056 B/op	       6 allocs/op
+BenchmarkRPCDecode/base64_64KiB-12         	     507	    242211 ns/op	   74056 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_64KiB-12         	  401241	       291.7 ns/op	     336 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_64KiB-12         	  421366	       290.0 ns/op	     336 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_64KiB-12         	  432373	       291.8 ns/op	     336 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_64KiB-12         	  428277	       290.1 ns/op	     336 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_64KiB-12         	  410040	       291.0 ns/op	     336 B/op	       6 allocs/op
+BenchmarkRPCDecode/base64_4096KiB-12       	       7	  15264143 ns/op	 4202825 B/op	       6 allocs/op
+BenchmarkRPCDecode/base64_4096KiB-12       	       7	  15180726 ns/op	 4202825 B/op	       6 allocs/op
+BenchmarkRPCDecode/base64_4096KiB-12       	       7	  15358155 ns/op	 4202825 B/op	       6 allocs/op
+BenchmarkRPCDecode/base64_4096KiB-12       	       7	  15785071 ns/op	 4202825 B/op	       6 allocs/op
+BenchmarkRPCDecode/base64_4096KiB-12       	       7	  15115577 ns/op	 4202825 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_4096KiB-12       	  403784	       298.5 ns/op	     336 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_4096KiB-12       	  418573	       298.9 ns/op	     336 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_4096KiB-12       	  420651	       294.5 ns/op	     336 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_4096KiB-12       	  408910	       296.4 ns/op	     336 B/op	       6 allocs/op
+BenchmarkRPCDecode/binary_4096KiB-12       	  403926	       296.2 ns/op	     336 B/op	       6 allocs/op
+PASS
+ok  	github.com/orca-zhang/unpack	3.078s

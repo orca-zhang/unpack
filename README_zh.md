@@ -1,250 +1,121 @@
-# Unpack: PE 解包工具与库
+![Unpack — 看清每一层](docs/assets/hero-zh.svg)
 
-[English](README.md) | [中文](README_zh.md)
+<p align="center">
+  <strong>可执行文件壳分析 · Rust 核心 · Go SDK</strong><br/>
+  <a href="README.md">English</a> · <a href="README_zh.md">中文</a>
+</p>
 
-## 简介
+<p align="center">
+  <a href="#features">功能</a> · <a href="#quick-start">快速开始</a> ·
+  <a href="#formats">支持格式</a> · <a href="#performance">性能</a> ·
+  <a href="#go-sdk">Go SDK</a> · <a href="docs/REFERENCE_zh.md">详细文档</a>
+</p>
 
-Unpack 是一个用 Go (Golang) 编写的强大且多功能的库，旨在分析和解压缩可执行文件，特别是那些使用各种 PE (Portable Executable) 加壳器打包的文件。打包的可执行文件通常用于混淆代码的真实性质，使安全研究人员和防病毒软件更难分析和理解程序的行为。
+Unpack 用于识别可执行文件的壳、解码压缩载荷，并逐层记录处理结果。提供命令行、Rust 库和兼容原接口的 Go SDK。
 
-Unpack 的主要目标是检测加壳器的存在，识别使用的加壳器类型，并在可能的情况下将可执行文件解压缩到其原始形式，从而更容易分析和理解程序的功能。
+<a id="features"></a>
 
-## 背景
+## 功能
 
-可执行文件加壳器多年来一直是网络安全领域的主要内容。它们既用于合法目的，如保护知识产权，也用于恶意目的，如隐藏恶意软件。对于需要分析和理解潜在有害软件行为的安全专业人员来说，解包这些可执行文件的能力至关重要。
+| 识别 | 解码 | 追踪 | 集成 |
+| --- | --- | --- | --- |
+| 22 种内置格式 | 5 个原生解码器 + UPX | 多层处理与识别依据 | Rust / Go / CLI |
 
-## 支持的加壳器
+![功能流程](docs/charts/workflow-zh.svg)
 
-Unpack 目前支持以下常见 PE 加壳器的检测和解包：
-- [x] UPX (基础支持)
-- [x] ASPack
-- [x] FSG
-- [x] Themida (基础支持)
-- [x] WinUpack
-- [x] Petite
-- [x] PESpin
-- [x] Armadillo
-- [x] PECompact
-- [x] NSPack
-- [x] MPRESS
+<a id="quick-start"></a>
 
-请注意，上述列表并非详尽无遗，Unpack 会持续更新以支持新的和新兴的加壳器。
+## 快速开始
 
-## 多层加壳支持
+需要 Rust 1.85+，在仓库目录内执行：
 
-Unpack 支持检测和解包多层加壳的可执行文件。这意味着如果一个文件被多个加壳器层层打包（例如：ASPack -> UPX），Unpack 可以：
+```sh
+cargo install --path . --locked
+unpack-rs detect --json testdata/upx/pe32.packed
+unpack-rs unpack -o output.exe testdata/upx/pe32.packed
+```
 
-1. **自动检测所有层**：递归检测每一层的加壳器类型
-2. **逐层解包**：从外层到内层逐层解包
-3. **记录解包历史**：跟踪每一层的加壳器信息和版本
+解包 UPX 文件还需安装[官方 UPX](https://upx.github.io/)。处理过程中不会执行待分析的程序。
 
-### 使用示例
+更多参数和环境配置见[命令行说明](docs/REFERENCE_zh.md#cli)。
+
+<a id="formats"></a>
+
+## 支持格式
+
+![格式支持分布](docs/charts/support-zh.svg)
+
+**原生解码**直接还原压缩内容；**静态恢复**仅修补 PE 入口和结构，不保证程序可运行；**仅识别**不提供解包。
+
+| 格式 | 能力 | 版本 / 主要变体 |
+| --- | --- | --- |
+| GZIP | 原生解码 | 单成员、多成员 |
+| ZLIB | 原生解码 | DEFLATE 流；不支持预置字典 |
+| XZ | 原生解码 | 单流、多流、x86 BCJ、delta |
+| LZMA-Alone | 原生解码 | 已知 / 未知长度；需 `--format LZMA` |
+| AP32 | 原生 aPLib 解码 | AP32 容器、嵌套容器 |
+| UPX | 官方后端解包 | 已验证 **5.1.0**：PE32/64、ELF32/64/ARM64、x86-64 Mach-O、LZMA、x86 filter |
+| ASPack | 静态恢复 | **2.1、2.12、2.42、OTHER** 布局 |
+| FSG | 静态恢复 | `FSG!` / `FSG2` 签名 |
+| WinUpack | 静态恢复 | `WinUpack` / `UPack` 签名 |
+| Petite | 静态恢复 | — |
+| PESpin | 静态恢复 | — |
+| Armadillo | 静态恢复 | — |
+| Themida | 静态恢复 | — |
+| PECompact | 静态恢复 | `PECompact` / `PEC2` / `PEC1` 签名 |
+| NSPack | 静态恢复 | — |
+| MPRESS | 静态恢复 | PE32/64；`.MPRESS1` / `.MPRESS2` 节布局 |
+| VMProtect | 仅识别 | — |
+| Enigma | 仅识别 | — |
+| MEW | 仅识别 | `MEW11` / `MEW 11` 签名 |
+| PELock | 仅识别 | — |
+| PEBundle | 仅识别 | — |
+| Yoda | 仅识别 | Protector / Crypter |
+
+“—”表示未验证具体发行版；签名和节名不代表厂商版本。[完整版本明细 →](docs/REFERENCE_zh.md#versions)
+
+<a id="performance"></a>
+
+## 性能
+
+![识别耗时、AP32 解码与 Go SDK 分配量](docs/charts/overview-zh.svg)
+
+数据来自 Apple M4 Pro 上的本机微基准，不含文件 I/O、进程启动和完整解包。
+[测量方法、详细图表与原始数据 →](docs/REPORT.md)
+
+## Go SDK
+
+需要 Go 1.21.5+，并确保 `unpack-rs` 在 PATH 中，或用 `UNPACK_RUST_BIN` 指定路径。
 
 ```go
 package main
 
 import (
     "fmt"
-    "github.com/orcastor/unpack"
-    
-    // 导入 drivers 包以注册所有支持的加壳器
-    _ "github.com/orcastor/unpack/drivers"
+    "github.com/orca-zhang/unpack"
+    _ "github.com/orca-zhang/unpack/drivers"
 )
 
 func main() {
-    // 递归解包所有层（默认最大深度10层）
     result, err := unpack.UnpackAll("packed.exe")
-    if err != nil {
-        fmt.Printf("Error: %v\n", err)
-        return
-    }
-    
-    // 打印解包历史
-    fmt.Println("Unpacking history:")
+    if err != nil { panic(err) }
     for _, layer := range result.History {
-        fmt.Printf("  Layer %d: %s (version %d)\n", 
-            layer.Layer, layer.PackerName, layer.Version)
+        fmt.Println(layer.PackerName, layer.Support)
     }
-    
-    // 使用解包后的数据
-    // result.ReaderAt 包含最终解包后的文件数据
+    for _, warning := range result.Warnings { fmt.Println(warning) }
 }
 ```
 
-### 注册加壳器
+旧 Go 接口默认允许静态恢复，CLI 默认关闭。严格模式、自定义驱动和其他选项见 [SDK 文档](docs/REFERENCE_zh.md#go-sdk)。
 
-要使用 Unpack，您需要注册要支持的加壳器。有两种方式：
+Rust 库用法见 [Rust 示例](examples/basic.rs)，完整 Go 示例见 [examples/go](examples/go/main.go)。
 
-**方式 1：一次性导入所有加壳器（推荐）**
-```go
-import _ "github.com/orcastor/unpack/drivers"
-```
-这将自动注册所有支持的加壳器。
+## 更多文档
 
-**方式 2：导入特定的加壳器**
-```go
-import (
-    _ "github.com/orcastor/unpack/upx"
-    _ "github.com/orcastor/unpack/aspack"
-    // ... 根据需要导入其他加壳器
-)
-```
-这允许您只包含需要的加壳器，减小二进制文件大小。
-
-### API 说明
-
-#### `Unpack(path string, maxDepth int) (*UnpackResult, error)`
-递归解包，支持多层加壳。
-- `path`: 要解包的文件路径
-- `maxDepth`: 最大解包深度，防止无限递归，0 表示无限制
-- 返回: `UnpackResult` 包含解包后的数据和历史信息
-
-#### `UnpackAll(path string) (*UnpackResult, error)`
-递归解包所有层，默认最大深度为 10 层。
-
-#### `UnpackResult` 结构
-```go
-type UnpackResult struct {
-    ReaderAt io.ReaderAt // 解包后的数据
-    History  []LayerInfo // 解包历史，记录每一层的信息
-}
-
-type LayerInfo struct {
-    PackerName string // 加壳器名称
-    Version    int    // 版本号
-    Layer      int    // 层数（从外到内，从1开始）
-}
-```
-
-## 命令行使用
-
-Unpack 可以用作命令行工具来检测加壳器类型、检查复合加壳，并尝试解包可执行文件。使用方法如下：
-
-### 构建 CLI 工具
-
-要构建命令行工具，请运行：
-
-```sh
-go build -o unpack.exe ./cmd/unpack
-```
-
-或在 Linux/macOS 上：
-
-```sh
-go build -o unpack ./cmd/unpack
-```
-
-### 安装
-
-要将 Unpack 作为库安装，可以使用以下命令：
-
-```sh
-go get github.com/orcastor/unpack
-```
-
-### 命令
-
-#### 检测加壳器
-
-检测可执行文件中使用的加壳器：
-
-```sh
-unpack detect <path-to-executable>
-```
-
-**示例：**
-```sh
-unpack detect packed.exe
-```
-
-**输出：**
-```
-Packer detected: UPX (version 3)
-File: packed.exe
-```
-
-如果未检测到加壳器：
-```
-No packer detected in: packed.exe
-```
-
-#### 解包可执行文件
-
-解包可执行文件。工具会自动检测并解包所有加壳层。
-
-**基本用法：**
-```sh
-unpack unpack <path-to-executable>
-```
-
-**指定输出文件：**
-```sh
-unpack unpack -o output.exe <path-to-executable>
-```
-
-**指定最大深度：**
-```sh
-unpack unpack -depth 5 <path-to-executable>
-```
-
-**参数：**
-- `-o string`: 输出文件路径（默认：`<input>_unpacked.exe`）
-- `-depth int`: 最大解包深度（0 = 无限制，默认：10）
-
-**示例：**
-```sh
-# 使用默认设置解包（输出：packed_unpacked.exe）
-unpack unpack packed.exe
-
-# 解包到指定输出文件
-unpack unpack -o unpacked.exe packed.exe
-
-# 无限制深度解包
-unpack unpack -depth 0 packed.exe
-
-# 限制深度为 3 层
-unpack unpack -depth 3 packed.exe
-```
-
-**输出示例：**
-```
-Unpacking: packed.exe
-Output: packed_unpacked.exe
-
-Unpacking history:
-  Layer 1: ASPack (version 2)
-  Layer 2: UPX (version 3)
-
-Successfully unpacked to: packed_unpacked.exe
-```
-
-#### 版本信息
-
-显示版本信息：
-
-```sh
-unpack version
-```
-
-#### 帮助信息
-
-显示帮助信息：
-
-```sh
-unpack help
-```
-
-或：
-
-```sh
-unpack -h
-unpack --help
-```
-
-## 贡献
-
-欢迎对 Unpack 做出贡献！如果您发现了一个尚未支持的新加壳器，或者对现有代码有改进，请在 GitHub 仓库上提交 pull request 或创建 issue。
+- [版本明细、命令行参数与 SDK 选项](docs/REFERENCE_zh.md)
+- [性能报告](docs/REPORT.md)
+- [测试样本与生成方法](testdata/README.md)
 
 ## 许可证
 
-Unpack 在 MIT 许可证下发布。您可以自由使用、修改和分发此软件。
-
+[MIT](LICENSE)。官方 UPX 作为独立程序使用，适用其自己的许可证。

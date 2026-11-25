@@ -1,0 +1,48 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          cache: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install UPX (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          curl --fail --location --retry 3 -o "$RUNNER_TEMP/upx.tar.xz" https://github.com/upx/upx/releases/download/v5.1.0/upx-5.1.0-amd64_linux.tar.xz
+          tar -xJf "$RUNNER_TEMP/upx.tar.xz" -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/upx-5.1.0-amd64_linux" >> "$GITHUB_PATH"
+      - name: Install UPX (macOS)
+        if: runner.os == 'macOS'
+        run: brew install upx
+      - name: Install UPX (Windows)
+        if: runner.os == 'Windows'
+        run: choco install upx -y --no-progress
+      - run: upx --version
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo build --locked
+      - run: python scripts/generate_charts.py --check --engine target/debug/unpack-rs
+      - run: cargo test --locked --all-targets
+      - run: go test -race ./...
+      - run: go vet ./...
+      - name: Build Go without cgo
+        env:
+          CGO_ENABLED: '0'
+        run: go build -o bin/unpack ./cmd/unpack

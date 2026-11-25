@@ -1,0 +1,46 @@
+{
+  "generator": "scripts/generate_aplib_fixtures.py",
+  "encoder": "test token/literal encoder (not a compression ratio benchmark)",
+  "samples": [
+    {
+      "name": "tokens",
+      "packed": "tokens.ap32",
+      "raw": "tokens.aplib",
+      "unpacked": "tokens.unpacked",
+      "packed_sha256": "d5d818cdb7743ef08ae4f0f3eafb50c30467132e63d62a8c442615411986752f",
+      "unpacked_sha256": "e627bf3faad127a3675caa129359eff0084bca66ab07e8b0cb076a10d4942eb7"
+    },
+    {
+      "name": "offsets",
+      "packed": "offsets.ap32",
+      "raw": "offsets.aplib",
+      "unpacked": "offsets.unpacked",
+      "packed_sha256": "768821bf98d6dc706e22b3c296984131f8effea526e30c54ed757b3adf16624d",
+      "unpacked_sha256": "d5f139aded38857198e622de540a18736eb4230b4d9b01544e2cd661a533cb4c"
+    },
+    {
+      "name": "pe32",
+      "packed": "pe32.ap32",
+      "raw": "pe32.aplib",
+      "unpacked": "pe32.unpacked",
+      "packed_sha256": "7511e07033270879c0ca6d8567ccdf0822520e543078a6385e13698630867161",
+      "unpacked_sha256": "39d045165c470b86190992f3f012d11c10af7410fe0388fe93d8e2a532a7839c"
+    },
+    {
+      "name": "upx",
+      "packed": "upx.ap32",
+      "raw": "upx.aplib",
+      "unpacked": "upx.unpacked",
+      "packed_sha256": "977123b9b36d63c89322ae2285e1738489910aeef2b30068963ea7f3c66fd48f",
+      "unpacked_sha256": "687e9a35e5ad8de4f410db9afcc05d6aba0423f4329e85efb87faa28df183fb3"
+    },
+    {
+      "name": "nested",
+      "packed": "nested.ap32",
+      "raw": "nested.aplib",
+      "unpacked": "nested.unpacked",
+      "packed_sha256": "0c0810d912bae443f4e60c8cfebf80da66232b73491070c6282579b90230df1c",
+      "unpacked_sha256": "d5d818cdb7743ef08ae4f0f3eafb50c30467132e63d62a8c442615411986752f"
+    }
+  ]
+}

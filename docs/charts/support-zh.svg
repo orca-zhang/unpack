@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="394" viewBox="0 0 900 394" role="img" aria-labelledby="title desc" lang="zh-CN">
+<title id="title">格式支持：22 种内置格式</title>
+<desc id="desc">按实际能力分类：解码、有限静态恢复、仅识别。</desc>
+<g font-family="Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, &quot;Noto Sans CJK SC&quot;, sans-serif">
+<rect x="0.5" y="0.5" width="899.000" height="393" rx="16" fill="#f5f9f7" /><rect x="0.5" y="0.5" width="899" height="393" rx="16" fill="none" stroke="#dce6e1" /><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70" /><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">格式支持：22 种内置格式</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">按实际能力分类：解码、有限静态恢复、仅识别。</text><path d="M28 80H872" stroke="#dce6e1" /><rect x="28" y="100" width="230.182" height="38" rx="0" fill="#157d70" />
+<text x="143.0909090909091" y="125" font-size="18" fill="#ffffff" text-anchor="middle">6</text>
+<rect x="258.1818181818182" y="100" width="383.636" height="38" rx="0" fill="#b87930" />
+<text x="450.0" y="125" font-size="18" fill="#ffffff" text-anchor="middle">10</text>
+<rect x="641.8181818181818" y="100" width="230.182" height="38" rx="0" fill="#657b89" />
+<text x="756.9090909090909" y="125" font-size="18" fill="#ffffff" text-anchor="middle">6</text>
+<rect x="28" y="165" width="14.000" height="14" rx="5" fill="#157d70" />
+<text x="52" y="178" font-size="16" fill="#0f172a" text-anchor="start">解码路径：6 种</text>
+<text x="52" y="200" font-size="12" fill="#526966" text-anchor="start">GZIP, ZLIB, XZ, LZMA, AP32, UPX</text>
+<rect x="28" y="228" width="14.000" height="14" rx="5" fill="#b87930" />
+<text x="52" y="241" font-size="16" fill="#0f172a" text-anchor="start">静态 PE 恢复：10 种</text>
+<text x="52" y="263" font-size="12" fill="#526966" text-anchor="start">ASPack, FSG, WinUpack, Petite, PESpin, Armadillo, Themida, PECompact, NSPack, MPRESS</text>
+<rect x="28" y="291" width="14.000" height="14" rx="5" fill="#657b89" />
+<text x="52" y="304" font-size="16" fill="#0f172a" text-anchor="start">仅识别：6 种</text>
+<text x="52" y="326" font-size="12" fill="#526966" text-anchor="start">VMProtect, Enigma, MEW, PELock, PEBundle, Yoda</text>
+<text x="28" y="370" font-size="12" fill="#526966" text-anchor="start">5 个原生解码器 + 官方 UPX 后端；LZMA-Alone 需显式指定。</text></g></svg>

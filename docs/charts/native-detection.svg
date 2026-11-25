@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="465" viewBox="0 0 900 465" role="img" aria-labelledby="title desc">
+<title id="title">Native detection: before and after search optimization</title>
+<desc id="desc">The no-match signature scan improves; the section-match fast path is shown separately.</desc>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="0.5" y="0.5" width="899.000" height="464" rx="16" fill="#f5f9f7"/><rect x="0.5" y="0.5" width="899" height="464" rx="16" fill="none" stroke="#dce6e1"/><rect x="28" y="22" width="4.000" height="22" rx="2" fill="#157d70"/><text x="44" y="39" font-size="22" fill="#152e2b" text-anchor="start">Native detection: before and after search optimization</text><text x="28" y="65" font-size="12" fill="#526966" text-anchor="start">The no-match signature scan improves; the section-match fast path is shown separately.</text><path d="M28 80H872" stroke="#dce6e1"/><text x="28" y="114" font-size="16" fill="#0f172a" text-anchor="start">Plain PE: no packer match</text>
+<text x="28" y="150" font-size="12" fill="#526966" text-anchor="start">Before</text>
+<rect x="100" y="134" width="565.000" height="24" rx="5" fill="#a9bab7"/>
+<text x="687" y="151" font-size="13" fill="#526966" text-anchor="start">4,315.80 us</text>
+<text x="28" y="186" font-size="12" fill="#526966" text-anchor="start">After</text>
+<rect x="100" y="170" width="266.710" height="24" rx="5" fill="#157d70"/>
+<text x="687" y="187" font-size="13" fill="#526966" text-anchor="start">51.00 us</text>
+<text x="870" y="114" font-size="19" fill="#152e2b" text-anchor="end">84.63x faster</text>
+<text x="28" y="271" font-size="16" fill="#0f172a" text-anchor="start">UPX PE: section match</text>
+<text x="28" y="307" font-size="12" fill="#526966" text-anchor="start">Before</text>
+<rect x="100" y="291" width="558.863" height="24" rx="5" fill="#a9bab7"/>
+<text x="687" y="308" font-size="13" fill="#526966" text-anchor="start">159.54 ns</text>
+<text x="28" y="343" font-size="12" fill="#526966" text-anchor="start">After</text>
+<rect x="100" y="327" width="565.000" height="24" rx="5" fill="#157d70"/>
+<text x="687" y="344" font-size="13" fill="#526966" text-anchor="start">168.75 ns</text>
+<text x="870" y="271" font-size="19" fill="#152e2b" text-anchor="end">+5.8% latency</text>
+<text x="28" y="419" font-size="12" fill="#526966" text-anchor="start">Logarithmic bar lengths; labels show measured values. Each panel uses its own scale.</text>
+<text x="28" y="440" font-size="12" fill="#526966" text-anchor="start">Same two files, five batches of 1,000 calls. Lower is better; excludes I/O and process startup.</text></g></svg>

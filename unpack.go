@@ -1,184 +1,116 @@
+// Package unpack is a Go SDK for the Rust unpacking engine.
 package unpack
 
 import (
-	"io"
-	"os"
-	"sync"
+ "bytes"
+ "context"
+ "errors"
+ "io"
+ "sort"
+ "sync"
 )
 
 type Unpacker interface {
-	Name() string
-	Detect(path string) int
-	Unpack(path string) (io.ReaderAt, error)
+ Name() string
+ Detect(path string) int
+ Unpack(path string) (io.ReaderAt, error)
 }
 
-// UnpackResult contains unpacked data and unpacking history
 type UnpackResult struct {
-	ReaderAt io.ReaderAt // Unpacked data
-	History  []LayerInfo // Unpacking history, records information for each layer
+ ReaderAt io.ReaderAt
+ History []LayerInfo
+ Warnings []string
 }
 
-// LayerInfo records information about each packing layer
 type LayerInfo struct {
-	PackerName string // Packer name
-	Version    int    // Version number
-	Layer      int    // Layer number (from outer to inner, starting from 1)
+ PackerName string `json:"packer_name"`
+ Version int `json:"version"`
+ Layer int `json:"layer"`
+ Support string `json:"support"`
 }
 
-var ups = sync.Map{}
-
-func RegisterFormat(name string, unpack Unpacker) {
-	ups.Store(name, unpack)
+type Detection struct {
+ Name string `json:"name"`
+ Version int `json:"version"`
+ Support string `json:"support"`
+ Evidence string `json:"evidence"`
 }
 
-func DetectFormat(path string) (up Unpacker, version int) {
-	ups.Range(func(k, v interface{}) bool {
-		if ver := v.(Unpacker).Detect(path); ver > 0 {
-			up = v.(Unpacker)
-			version = ver
-			return false
-		}
-		return true
-	})
-	return
+// Options is forwarded to Rust. Zero MaxSize uses 256 MiB; zero MaxDepth is unlimited.
+type Options struct {
+ MaxDepth int
+ MaxSize int64
+ AllowRecovery bool
+ Format string // Explicit built-in format; processes exactly one layer without registration.
 }
 
-// Unpack recursively unpacks, supporting multiple layers of packing
-// maxDepth: Maximum unpacking depth to prevent infinite recursion, 0 means unlimited
-func Unpack(path string, maxDepth int) (*UnpackResult, error) {
-	return unpackRecursive(path, maxDepth, 0, nil)
+var ups sync.Map
+
+// RegisterFormat selects a Rust-backed SDK adapter. Go unpacker implementations are unsupported.
+// Invalid adapters are reported when calling the SDK, rather than executing their Go methods.
+func RegisterFormat(name string, up Unpacker) { ups.Store(name, up) }
+
+func registeredNames() []string {
+ names:=[]string{}
+ ups.Range(func(k,v interface{})bool{names=append(names,k.(string));return true})
+ sort.Strings(names)
+ return names
 }
 
-// UnpackAll recursively unpacks all layers, default maximum depth is 10 layers
-func UnpackAll(path string) (*UnpackResult, error) {
-	return Unpack(path, 10)
+func registeredFormats() ([]string,map[string]Unpacker,error) {
+ formats:=[]string{}
+ adapters:=map[string]Unpacker{}
+ for _,name:=range registeredNames(){
+  value,ok:=ups.Load(name);if !ok{continue}
+  up,ok:=value.(Unpacker);if !ok{return nil,nil,errors.New("invalid SDK adapter")}
+  rust,ok:=up.(interface{RustFormat()string})
+  if !ok{return nil,nil,&Error{Code:"unsupported",Message:"Go unpacker implementations were removed; register a Rust-backed SDK adapter"}}
+  format:=rust.RustFormat()
+  formats=append(formats,format)
+  if _,ok:=adapters[format];!ok{adapters[format]=up}
+ }
+ return formats,adapters,nil
 }
 
-// unpackRecursive is the internal implementation of recursive unpacking
-func unpackRecursive(path string, maxDepth, currentDepth int, history []LayerInfo) (*UnpackResult, error) {
-	// Check recursion depth
-	if maxDepth > 0 && currentDepth >= maxDepth {
-		// Reached maximum depth, return current file
-		f, err := os.Open(path)
-		if err != nil {
-			return nil, err
-		}
-		return &UnpackResult{
-			ReaderAt: f,
-			History:  history,
-		}, nil
-	}
-
-	// Detect if current file is packed
-	up, version := DetectFormat(path)
-	if up == nil {
-		// No packing detected, return current file
-		f, err := os.Open(path)
-		if err != nil {
-			return nil, err
-		}
-		return &UnpackResult{
-			ReaderAt: f,
-			History:  history,
-		}, nil
-	}
-
-	// Record packing information of current layer
-	layerInfo := LayerInfo{
-		PackerName: up.Name(),
-		Version:    version,
-		Layer:      currentDepth + 1,
-	}
-	newHistory := append(history, layerInfo)
-
-	// Perform unpacking
-	unpackedData, err := up.Unpack(path)
-	if err != nil {
-		return nil, err
-	}
-
-	// Save unpacked data to temporary file for next layer detection
-	tmpFile, err := os.CreateTemp("", "unpack_layer_*.exe")
-	if err != nil {
-		return nil, err
-	}
-	tmpPath := tmpFile.Name()
-
-	// Copy ReaderAt data to temporary file
-	if err := copyReaderAtToFile(unpackedData, tmpFile); err != nil {
-		tmpFile.Close()
-		os.Remove(tmpPath)
-		return nil, err
-	}
-	tmpFile.Close()
-
-	// Recursively detect if unpacked file still has packing
-	result, err := unpackRecursive(tmpPath, maxDepth, currentDepth+1, newHistory)
-	if err != nil {
-		os.Remove(tmpPath)
-		return nil, err
-	}
-
-	// Check if there are deeper layers of packing
-	// If returned History length equals newHistory length, no packing in next layer
-	// If returned History length is greater than newHistory length, there are deeper layers
-	if len(result.History) == len(newHistory) {
-		// No packing in next layer, return current unpacking result
-		// Close and remove temporary file since result already has ReaderAt
-		if f, ok := result.ReaderAt.(*os.File); ok {
-			f.Close()
-		}
-		os.Remove(tmpPath)
-		return &UnpackResult{
-			ReaderAt: unpackedData,
-			History:  newHistory,
-		}, nil
-	}
-
-	// There are deeper layers of packing, return recursive result
-	// Clean up current layer's temporary file (result already has deeper layer's file)
-	os.Remove(tmpPath)
-	return result, nil
+// Inspect asks Rust to detect all built-in formats, regardless of SDK registration.
+func Inspect(path string) (*Detection,error) {
+ result,err:=callRust(context.Background(),request{Action:"detect",Path:path})
+ if err!=nil{return nil,err};return result.Detection,nil
 }
 
-// copyReaderAtToFile copies the contents of ReaderAt to a file
-func copyReaderAtToFile(reader io.ReaderAt, file *os.File) error {
-	// Try to get ReaderAt size (if supported)
-	var size int64 = -1
-	if s, ok := reader.(interface{ Size() int64 }); ok {
-		size = s.Size()
-	}
+// DetectFormat preserves the legacy no-match-on-error API. All detection runs in Rust.
+func DetectFormat(path string)(Unpacker,int){
+ formats,adapters,err:=registeredFormats();if err!=nil||len(formats)==0{return nil,0}
+ result,err:=callRust(context.Background(),request{Action:"detect",Path:path,Formats:&formats})
+ if err!=nil||result.Detection==nil{return nil,0}
+ return adapters[result.Detection.Name],result.Detection.Version
+}
 
-	// Read and write using buffer
-	buf := make([]byte, 64*1024) // 64KB buffer
-	offset := int64(0)
+// Unpack keeps legacy recovery opt-in. Rust performs all file reading and recursive unpacking.
+func Unpack(path string,maxDepth int)(*UnpackResult,error){
+ return UnpackWithOptions(context.Background(),path,Options{MaxDepth:maxDepth,AllowRecovery:true})
+}
+func UnpackAll(path string)(*UnpackResult,error){return Unpack(path,10)}
 
-	for {
-		// If size is known, check if we've finished reading
-		if size >= 0 && offset >= size {
-			break
-		}
+func UnpackWithOptions(ctx context.Context,path string,options Options)(*UnpackResult,error){
+ if options.MaxDepth<0||options.MaxSize<0||options.MaxSize>1024*1024*1024{return nil,errors.New("invalid depth or size (maximum size is 1 GiB)")}
+ req:=request{Action:"unpack",Path:path,Format:options.Format,MaxDepth:&options.MaxDepth,MaxSize:options.MaxSize,AllowRecovery:options.AllowRecovery}
+ if options.Format==""{
+  formats,_,err:=registeredFormats();if err!=nil{return nil,err};req.Formats=&formats
+ }
+ result,err:=callRust(ctx,req);if err!=nil{return nil,err}
+ return &UnpackResult{ReaderAt:bytes.NewReader(result.Data),History:result.History,Warnings:result.Warnings},nil
+}
 
-		n, err := reader.ReadAt(buf, offset)
-		if n > 0 {
-			if _, writeErr := file.Write(buf[:n]); writeErr != nil {
-				return writeErr
-			}
-			offset += int64(n)
-		}
-
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return err
-		}
-
-		// If size is unknown and bytes read is less than buffer size, might be finished
-		if size < 0 && n < len(buf) {
-			break
-		}
-	}
-
-	return nil
+// RustUnpacker adapts one built-in Rust format to the original SDK driver interface.
+type RustUnpacker struct{Format string}
+func(u RustUnpacker)Name()string{return u.Format}
+func(u RustUnpacker)RustFormat()string{return u.Format}
+func(u RustUnpacker)Detect(path string)int{
+ result,err:=callRust(context.Background(),request{Action:"detect",Path:path,Format:u.Format})
+ if err!=nil||result.Detection==nil{return 0};return result.Detection.Version
+}
+func(u RustUnpacker)Unpack(path string)(io.ReaderAt,error){
+ result,err:=callRust(context.Background(),request{Action:"unpack",Path:path,Format:u.Format,AllowRecovery:true})
+ if err!=nil{return nil,err};return bytes.NewReader(result.Data),nil
 }

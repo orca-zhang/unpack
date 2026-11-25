@@ -37,7 +37,7 @@ func TestASPack_Unpack(t *testing.T) {
 
 	// Check if test file exists
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
-		t.Skipf("Test file %s does not exist, skipping unpack test", testFile)
+		t.Fatalf("Required regression sample is missing: %s", testFile)
 		return
 	}
 

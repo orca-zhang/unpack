@@ -1,0 +1,26 @@
+[
+  {
+    "iterations": 1000,
+    "median_ns": 50998.5,
+    "name": "detect_plain_pe",
+    "samples_ns": [
+      50134.917,
+      50836.333,
+      50998.5,
+      51071.25,
+      74817.5
+    ]
+  },
+  {
+    "iterations": 1000,
+    "median_ns": 168.75,
+    "name": "detect_upx_pe",
+    "samples_ns": [
+      167.292,
+      168.625,
+      168.75,
+      176.291,
+      179.083
+    ]
+  }
+]

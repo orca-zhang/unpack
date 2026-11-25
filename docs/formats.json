@@ -1,0 +1,250 @@
+[
+  {
+    "name": "GZIP",
+    "support": "unpack",
+    "sections": [],
+    "signatures": []
+  },
+  {
+    "name": "ZLIB",
+    "support": "unpack",
+    "sections": [],
+    "signatures": []
+  },
+  {
+    "name": "XZ",
+    "support": "unpack",
+    "sections": [],
+    "signatures": []
+  },
+  {
+    "name": "LZMA",
+    "support": "unpack",
+    "sections": [],
+    "signatures": []
+  },
+  {
+    "name": "AP32",
+    "support": "unpack",
+    "sections": [],
+    "signatures": [
+      "AP32"
+    ]
+  },
+  {
+    "name": "UPX",
+    "support": "unpack",
+    "sections": [
+      "UPX0",
+      "UPX1"
+    ],
+    "signatures": [
+      "UPX!"
+    ]
+  },
+  {
+    "name": "ASPack",
+    "support": "recovery",
+    "sections": [
+      ".aspack"
+    ],
+    "signatures": []
+  },
+  {
+    "name": "FSG",
+    "support": "recovery",
+    "sections": [],
+    "signatures": [
+      "FSG!",
+      "FSG2"
+    ]
+  },
+  {
+    "name": "WinUpack",
+    "support": "recovery",
+    "sections": [
+      ".upx0",
+      ".upx1"
+    ],
+    "signatures": [
+      "WinUpack",
+      "UPack",
+      "WinUpack!"
+    ]
+  },
+  {
+    "name": "Petite",
+    "support": "recovery",
+    "sections": [
+      ".petite",
+      "petite",
+      "PETITE"
+    ],
+    "signatures": [
+      "Petite",
+      "petite",
+      "PETITE"
+    ]
+  },
+  {
+    "name": "PESpin",
+    "support": "recovery",
+    "sections": [
+      ".pespin",
+      "pespin",
+      "PESpin",
+      "PESPIN"
+    ],
+    "signatures": [
+      "PESpin",
+      "PESPIN"
+    ]
+  },
+  {
+    "name": "Armadillo",
+    "support": "recovery",
+    "sections": [
+      ".armadil",
+      ".EPACK",
+      "EPACK"
+    ],
+    "signatures": [
+      "Armadillo",
+      "ARMADILLO",
+      "armadillo"
+    ]
+  },
+  {
+    "name": "Themida",
+    "support": "recovery",
+    "sections": [
+      ".themida",
+      "Themida",
+      "THEMIDA"
+    ],
+    "signatures": [
+      "Themida",
+      "THEMIDA",
+      "themida"
+    ]
+  },
+  {
+    "name": "PECompact",
+    "support": "recovery",
+    "sections": [
+      ".pec",
+      ".PEC",
+      "PEC",
+      ".pec2",
+      ".PEC2"
+    ],
+    "signatures": [
+      "PECompact",
+      "PEC2",
+      "PEC1"
+    ]
+  },
+  {
+    "name": "NSPack",
+    "support": "recovery",
+    "sections": [
+      ".nsp0",
+      ".nsp1",
+      ".NSP0",
+      ".NSP1",
+      "NSP0",
+      "NSP1"
+    ],
+    "signatures": [
+      "NSPack",
+      "NSPACK",
+      "nspack"
+    ]
+  },
+  {
+    "name": "MPRESS",
+    "support": "recovery",
+    "sections": [
+      ".MPRESS",
+      ".mpress",
+      "MPRESS",
+      ".MPRESS1",
+      ".MPRESS2"
+    ],
+    "signatures": [
+      "MPRESS",
+      "MPRESS1",
+      "MPRESS2"
+    ]
+  },
+  {
+    "name": "VMProtect",
+    "support": "detect_only",
+    "sections": [
+      ".vmp0",
+      ".vmp1",
+      ".vmp2",
+      ".vmp"
+    ],
+    "signatures": [
+      "VMProtect"
+    ]
+  },
+  {
+    "name": "Enigma",
+    "support": "detect_only",
+    "sections": [
+      ".enigma1",
+      ".enigma2"
+    ],
+    "signatures": [
+      "Enigma Protector",
+      "The Enigma Protector"
+    ]
+  },
+  {
+    "name": "MEW",
+    "support": "detect_only",
+    "sections": [
+      "MEW"
+    ],
+    "signatures": [
+      "MEW11",
+      "MEW 11"
+    ]
+  },
+  {
+    "name": "PELock",
+    "support": "detect_only",
+    "sections": [
+      ".pelock",
+      "PELOCKnt"
+    ],
+    "signatures": [
+      "PELock",
+      "PELOCK"
+    ]
+  },
+  {
+    "name": "PEBundle",
+    "support": "detect_only",
+    "sections": [
+      ".pebundl"
+    ],
+    "signatures": [
+      "PEBundle"
+    ]
+  },
+  {
+    "name": "Yoda",
+    "support": "detect_only",
+    "sections": [
+      ".yP",
+      ".yC"
+    ],
+    "signatures": [
+      "yoda's Protector",
+      "yoda's Crypter"
+    ]
+  }
+]
